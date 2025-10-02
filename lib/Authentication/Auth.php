@@ -6,16 +6,22 @@ use App\Models\User;
 
 class Auth
 {
-    public static function login($user): void
+    public static ?User $user;
+
+    public static function login(User $user): void
     {
         $_SESSION['user']['id'] = $user->id;
+        self::$user = $user;
     }
 
     public static function user(): ?User
     {
-        if (isset($_SESSION['user']['id'])) {
+        if (isset(User::$user)) {
+            return self::$user;
+        } elseif (isset($_SESSION['user']['id'])) {
             $id = $_SESSION['user']['id'];
-            return User::findById($id);
+            self::$user = User::findById($id);
+            return self::$user;
         }
 
         return null;
