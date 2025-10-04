@@ -1,3 +1,20 @@
 .card.login {
   width: 24rem;
 }
+
+body {
+  background-color: #1e1e2f; /* Fundo escuro */
+}
+.login-card {
+  max-width: 850px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.login-left {
+  background-color: #2563eb; /* azul bootstrap */
+  color: white;
+}
+.login-left img {
+  width: 150px;
+  height: 150px;
+}
