@@ -1,4 +1,5 @@
 <?php
+
 // Defina aqui variáveis que o login.phtml normalmente receberia
 $username = '';
 $error = '';

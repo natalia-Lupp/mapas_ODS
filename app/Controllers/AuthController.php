@@ -15,7 +15,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             $this->redirectTo('/');
         }
-        
+
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
     }
@@ -34,7 +34,7 @@ class AuthController extends Controller
 
         // Busca usuário por email
         $user = User::findByEmail($email);
-        
+
         if (!$user) {
             FlashMessage::danger('Credenciais inválidas. Tem certeza de que este é o email correto?');
             $this->redirectTo('/login');
@@ -50,7 +50,7 @@ class AuthController extends Controller
 
         // Login bem-sucedido
         Auth::login($user);
-        
+
         $user->last_login = date('Y-m-d H:i:s');
         $user->save();
 
