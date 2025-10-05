@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class PreviewController
 {
-    public function login()
+    public function login(): void
     {
         // Variáveis que a view espera
         $username = '';
