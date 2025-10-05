@@ -22,8 +22,8 @@ class UserRule extends Model
         Validations::uniqueness('rule_type', $this);
         Validations::match('rule_type', '/^[0-9a-zA-Z]{1,12}$/', $this);
     }
-    public static function findByRuleType(string $ruleType): User | null
+    public static function findByRuleType(string $ruleType): UserRule | null
     {
-        return User::findBy(['rule_type' => $ruleType]);
+        return UserRule::findBy(['rule_type' => $ruleType]);
     }
 }
