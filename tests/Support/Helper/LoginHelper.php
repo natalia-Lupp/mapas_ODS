@@ -13,9 +13,9 @@ class LoginHelper extends Module
         /** @var \Tests\Support\AcceptanceTester $page */
         $page = $this->getModule('WebDriver');
         $page->amOnPage('/login');
-        $page->fillField('user[email]', $username);
-        $page->fillField('user[password]', $password);
-        $page->click('Entrar');
+        $page->fillField('#usuario', $username);
+        $page->fillField('#senha', $password);
+        $page->click('button[type="submit"]');
     }
 
     public function logout(): void
