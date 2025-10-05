@@ -12,10 +12,7 @@ class AuthController extends Controller
 {
     public function index(): void
     {
-        if (Auth::check()) {
-            $this->redirectTo('/');
-        }
-
+        $this->isAuthenticated();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
     }
@@ -53,9 +50,22 @@ class AuthController extends Controller
 
         $user->last_login = date('Y-m-d H:i:s');
         $user->save();
+        $isAdmin = $user->hasRule('admin');
+        $isClient = $user->hasRule('client');
 
-        FlashMessage::success('Login realizado com sucesso!');
-        $this->redirectTo('/');
+        if ($isAdmin) {
+            FlashMessage::success('Login realizado com sucesso! Bem-vindo, Admin!');
+            $this->redirectTo(route('dashboard.admin'));
+            return;
+        } elseif ($isClient) {
+            FlashMessage::success('Login realizado com sucesso!');
+            $this->redirectTo(route('dashboard.client'));
+            return;
+        }
+
+        // Usuário sem regra atribuída - escape -> needs work
+        FlashMessage::success('OOPS, algo de errado não está certo!!! Contate os mantenedores do sistema.');
+        $this->redirectTo(route('home'));
     }
 
     public function logout(): void
@@ -63,5 +73,21 @@ class AuthController extends Controller
         Auth::logout();
         FlashMessage::success('Logout realizado com sucesso!');
         $this->redirectTo('/login');
+    }
+
+    public function isAuthenticated(): void
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->hasRule('admin')) {
+                $this->redirectTo(route('dashboard.admin'));
+                return;
+            }
+
+            if ($user->hasRule('client')) {
+                $this->redirectTo(route('dashboard.client'));
+                return;
+            }
+        }
     }
 }
