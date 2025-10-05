@@ -12,6 +12,7 @@ abstract class RuleMiddleware implements Middleware
     protected static string $rule = '';
     protected static string $message = '';
     protected static string $redirect = 'root';
+
     public function handle(Request $request): void
     {
         $user = Auth::user();
