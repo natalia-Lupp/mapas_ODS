@@ -104,7 +104,7 @@ class User extends Model
                 UserRule::class,
                 'account_rules',
                 'user_id',
-                'rule_id'
+                'user_rule_id'
             );
           /** @var UserRule[] $rules */
             $rules = $btm->get();
