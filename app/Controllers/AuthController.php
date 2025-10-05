@@ -57,7 +57,7 @@ class AuthController extends Controller
             FlashMessage::success('Login realizado com sucesso! Bem-vindo, Admin!');
             $this->redirectTo(route('dashboard.admin'));
             return;
-        } else if ($isClient) {
+        } elseif ($isClient) {
             FlashMessage::success('Login realizado com sucesso!');
             $this->redirectTo(route('dashboard.client'));
             return;
@@ -66,7 +66,6 @@ class AuthController extends Controller
         // Usuário sem regra atribuída - escape -> needs work
         FlashMessage::success('OOPS, algo de errado não está certo!!! Contate os mantenedores do sistema.');
         $this->redirectTo(route('home'));
-
     }
 
     public function logout(): void
