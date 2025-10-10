@@ -3,17 +3,21 @@
 namespace Tests\Unit\Models\Users;
 
 use App\Models\User;
+use App\Models\UserRule;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
     private User $user;
     private User $user2;
+    const string TEST_RULE = 'client';
 
     public function setUp(): void
     {
         parent::setUp();
 
+        $client = new UserRule(['rule_type' => 'client']);
+        $client->save();
         $this->user = new User([
             'name' => 'User 1',
             'email' => 'fulano@example.com',
@@ -138,5 +142,16 @@ class UserTest extends TestCase
 
         $this->assertTrue($this->user->authenticate('123456aA'));
         $this->assertFalse($this->user->authenticate('654321'));
+    }
+
+    public function test_should_grant_permicion(): void
+    {
+        $this->user->grant(self::TEST_RULE);
+        $this->assertTrue($this->user->hasRule(self::TEST_RULE));
+    }
+
+    public function test_should_not_grant_permicion(): void
+    {
+        $this->assertFalse($this->user->hasRule(self::TEST_RULE));
     }
 }
