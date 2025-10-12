@@ -188,6 +188,10 @@ class Validations
     public static function isIdFrom(string $field, Model $obj, string $related): bool
     {
         $entity = $related::findById($obj->$field);
-        return isset($entity) && $entity->id === $obj->$field;
+        if (isset($entity) && $entity->id === $obj->$field) {
+          return true;
+        }
+        $obj->addError($field, "$field deve fazer referência a um registro valido.");
+        return false;
     }
 }
