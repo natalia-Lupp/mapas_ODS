@@ -42,9 +42,7 @@ $ ./run up -d
 
 #### Create database and tables
 
-```
-$ ./run db:reset
-```
+ 
 
 #### Populate database
 
