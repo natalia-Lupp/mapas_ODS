@@ -22,9 +22,9 @@ class Bathroom extends Model
 {
     protected static string $table = 'bathrooms';
     protected static array $columns = [
-      `image_url`,
-      `floor`,
-      `building_id`
+      'image_url',
+      'floor',
+      'building_id'
     ];
     public ?string $image_name;
     public ?string $image_type;
@@ -34,13 +34,17 @@ class Bathroom extends Model
 
     public function validates(): void
     {
-        Validations::notEmpty('floor', $this);
-        Validations::isInt('floor', $this);
-        Validations::inRange('floor', 1, PHP_INT_MAX, $this);
-
         Validations::notEmpty('building_id', $this);
         Validations::isInt('building_id', $this);
         Validations::inRange('building_id', 1, PHP_INT_MAX, $this);
+        Validations::isIdFrom('building_id', $this, Building::class);
+
+        Validations::notEmpty('floor', $this);
+        Validations::isInt('floor', $this);
+        $building = Building::findById($this->building_id);
+        $building_n_floors = isset($building) ? $building->n_floors : -1;
+        Validations::inRange('floor', 0, $building_n_floors - 1, $this);
+
 
         if (isset($this->image_url)) {
             Validations::inRangeLength('image_url', 10, 255, $this);
@@ -81,13 +85,24 @@ class Bathroom extends Model
         return parent::save();
     }
 
-    public function getPaginateByBuildingId(int $building_id, int $page, int $per_page, ?string $route): Paginator
-    {
+    public function getPaginateByBuildingId(
+        int $building_id,
+        int $page,
+        int $per_page,
+        ?string $route
+    ): Paginator {
         return Bathroom::paginate(
             $page,
             $per_page,
             $route,
             ['building_id' => $building_id]
         );
+    }
+    public function update(array $data): bool
+    {
+        foreach ($data as $key => $val) {
+            $this->$key = $val;
+        }
+        return $this->save();
     }
 }
