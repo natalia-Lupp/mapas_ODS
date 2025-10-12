@@ -10,7 +10,7 @@ use Lib\Paginator;
 
 /**
  * @property int $id
- * @property string $image_url
+ * @property ?string $image_url
  * @property int $floor
  * @property int $building_id
  * @property string | null $image_name;
@@ -23,7 +23,7 @@ class Bathroom extends Model
     protected static string $table = 'bathrooms';
     protected static array $columns = [
       `image_url`,
-        `floor`,
+      `floor`,
       `building_id`
     ];
     public ?string $image_name;
