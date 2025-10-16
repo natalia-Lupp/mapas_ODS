@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use Core\Http\Controllers\Controller;
+use App\Controllers\AuthController;
+use Lib\Authentication\Auth;
 
 class HomeController extends Controller
 {
     public function index(): void
     {
-        $title = 'Home Page';
-        $this->render('home/index', compact('title'));
+        $this->isAuthenticated();
+
     }
 
     public function dashboardAdmin(): void
@@ -22,5 +24,17 @@ class HomeController extends Controller
     {
         $title = 'Dashboard Client - Mapas ODS';
         $this->render('home/dashboard.client', compact('title'));
+    }
+
+    public function isAuthenticated(): void
+    {
+        if (Auth::check()) {
+            $authController = new AuthController();
+            $authController->redirectByRole();
+            return;
+        } else {
+            $this->redirectTo(route('login'));
+            return;
+        }
     }
 }
