@@ -8,7 +8,7 @@ use Tests\TestCase;
 class UserRuleTest extends TestCase
 {
     private UserRule $user_rule;
-    const string TEST_RULE = 'client';
+    private const string TEST_RULE = 'client';
 
     public function setUp(): void
     {

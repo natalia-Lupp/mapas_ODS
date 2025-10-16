@@ -10,7 +10,7 @@ class UserTest extends TestCase
 {
     private User $user;
     private User $user2;
-    const string TEST_RULE = 'client';
+    private const string TEST_RULE = 'client';
 
     public function setUp(): void
     {
