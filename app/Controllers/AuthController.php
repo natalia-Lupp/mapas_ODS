@@ -15,6 +15,7 @@ class AuthController extends Controller
         $this->redirectByRole();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
+
     }
 
     public function processLogin(Request $request): void
