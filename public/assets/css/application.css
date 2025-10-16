@@ -1,29 +1,50 @@
+/* Remove margens padrão */
 body {
-  margin-top: 60px;
+  margin: 0;
+  padding: 0;
 }
 
-#main-content {
-  padding-top: 5px;
-  margin-left: 250px;
-}
-
+/* Navbar fixa no topo */
 nav.navbar {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: white;
 }
 
+/* Sidebar fixa ao lado esquerdo */
 .sidebar {
-  width: 250px;
+  width: 260px;
   position: fixed;
+  /* TOP DEVE SER A ALTURA DA NAVBAR */
   top: 55px;
   bottom: 0;
   left: 0;
-  z-index: 100;
-  padding: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  /* z-index deve ser menor que o da navbar */
+  z-index: 1020; /* Certifique-se que é menor que o z-index da navbar (1030) */
 }
 
-.avatar {
-  width: 315px;
-  height: 315px;
+/* Conteúdo principal */
+#main-content {
+  margin-left: 260px; /* largura da sidebar */
+  padding-top: 15px;
+  padding-right: 40px !important;
+  padding-left: 40px !important;
+}
+
+/* Linhas ímpares - azul claro */
+#main-content table tbody tr:nth-child(even) td {
+  background-color: #c9e2ff !important; /* azul claro */
+}
+
+/* Linhas pares - branco */
+#main-content table tbody tr:nth-child(odd) td {
+  background-color: #ffffff !important; /* branco */
+}
+
+/* Hover permanece funcionando (aplicado às células) */
+#main-content table tbody tr:hover td {
+  background-color: #e9edf0 !important; /* azul mais forte ao passar o mouse */
 }
