@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function index(): void
     {
-        $this->isAuthenticated();
+        $this->redirectByRole();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
     }
@@ -75,7 +75,7 @@ class AuthController extends Controller
         $this->redirectTo(route('login'));
     }
 
-    public function isAuthenticated(): void
+    public function redirectByRole(): void
     {
         if (Auth::check()) {
             $user = Auth::user();
