@@ -54,3 +54,5 @@ Route::get('/admin/dashboard.admin', [TemporariaController::class, 'dashboardADM
 Route::get('/admin/new.building', [TemporariaController::class, 'newBuilding']);
 Route::get('/admin/new.floor', [TemporariaController::class, 'newFloor']);
 Route::get('/admin/new.itens', [TemporariaController::class, 'newitens']);
+Route::get('/admin/edit', [TemporariaController::class, 'edit']);
+Route::get('/admin/relatorio/pdf', [TemporariaController::class, 'gerarPDF']);
