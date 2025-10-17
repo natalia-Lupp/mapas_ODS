@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function index(): void
     {
-        $this->isAuthenticated();
+        $this->redirectByRole();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
     }
@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if (empty($email) || empty($password)) {
             FlashMessage::danger('Email e senha são obrigatórios.');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
@@ -34,14 +34,14 @@ class AuthController extends Controller
 
         if (!$user) {
             FlashMessage::danger('Credenciais inválidas. Tem certeza de que este é o email correto?');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
         // Verifica senha
         if (!$user->authenticate($password)) {
             FlashMessage::danger('Credenciais inválidas. Tem certeza de que digitou a senha corretamente?');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
@@ -72,10 +72,10 @@ class AuthController extends Controller
     {
         Auth::logout();
         FlashMessage::success('Logout realizado com sucesso!');
-        $this->redirectTo('/login');
+        $this->redirectTo(route('login'));
     }
 
-    public function isAuthenticated(): void
+    public function redirectByRole(): void
     {
         if (Auth::check()) {
             $user = Auth::user();
