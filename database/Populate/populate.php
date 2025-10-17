@@ -2,7 +2,6 @@
 
 require __DIR__ . '/../../config/bootstrap.php';
 
-use App\Models\Bathroom;
 use Core\Database\Database;
 use Database\Populate\UserPopulate;
 use Database\Populate\UserRulePopulate;
