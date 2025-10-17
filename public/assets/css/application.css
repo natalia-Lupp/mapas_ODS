@@ -1,10 +1,8 @@
-/* Remove margens padrão */
 body {
   margin: 0;
   padding: 0;
 }
 
-/* Navbar fixa no topo */
 nav.navbar {
   top: 0;
   left: 0;
@@ -13,8 +11,6 @@ nav.navbar {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: white;
 }
-
-/* Sidebar fixa ao lado esquerdo */
 .sidebar {
   width: 260px;
   position: fixed;
@@ -34,6 +30,7 @@ nav.navbar {
   padding-left: 40px !important;
 }
 
+/* CSS da tabela (não mexer a menos que seja necessario pq qualquer chamada dela não pega mais por conflito
 /* Linhas ímpares - azul claro */
 #main-content table tbody tr:nth-child(even) td {
   background-color: #c9e2ff !important; /* azul claro */
@@ -47,4 +44,23 @@ nav.navbar {
 /* Hover permanece funcionando (aplicado às células) */
 #main-content table tbody tr:hover td {
   background-color: #e9edf0 !important; /* azul mais forte ao passar o mouse */
+}
+
+.form-background {
+  background-color: #c9e2ff !important;
+  padding: 1.5rem; /* equivalente ao p-4 */
+  border-radius: 1rem; /* equivalente ao rounded-4 */
+}
+
+.btn-voltar {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+  transition: background-color 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #e1e6eb;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
 }

@@ -50,4 +50,7 @@ Route::get('/components/navbar.admin', [TemporariaController::class, 'navbarADM'
 Route::get('/components/sidenav.admin', [TemporariaController::class, 'sidenavADM']);
 Route::get('/components/navbar.user', [TemporariaController::class, 'navbarUser']);
 Route::get('/components/sidenav.user', [TemporariaController::class, 'sidebarUser']);
-Route::get('/admin/dashbord.adm', [TemporariaController::class, 'dashboardADM']);
+Route::get('/admin/dashboard.admin', [TemporariaController::class, 'dashboardADM']);
+Route::get('/admin/new.building', [TemporariaController::class, 'newBuilding']);
+Route::get('/admin/new.floor', [TemporariaController::class, 'newFloor']);
+Route::get('/admin/new.itens', [TemporariaController::class, 'newitens']);

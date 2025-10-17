@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function dashboardAdmin(): void
     {
         $title = 'Dashboard Admin - Mapas ODS';
-        $this->render('home/dashboard.admin', compact('title'));
+        $this->render('admin/dashboard.admin', compact('title'));
     }
 
     public function dashboardClient(): void

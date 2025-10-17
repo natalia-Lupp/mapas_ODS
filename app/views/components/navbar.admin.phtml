@@ -1,31 +1,56 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
     <div class="container-fluid">
+        <!-- Logo -->
         <a class="navbar-brand text-primary fw-bold" href="#">
-            <img src="/assets/images/defaults/logoMapasODS.png" alt="Avatar do Usuário" class="rounded-circle">
+            <img src="/assets/images/defaults/logoMapasODS.png" alt="Logo">
         </a>
+
+        <!-- Botão hamburguer no mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Itens da navbar -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav align-items-lg-center">
+
+                <!-- Dashboard -->
                 <li class="nav-item me-3">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <form action="/admin" method="get" class="d-inline">
+                        <button type="submit" class="btn btn-link nav-link text-muted p-0">
+                            Dashboard
+                        </button>
+                    </form>
                 </li>
 
                 <li class="nav-item me-3">
-                    <a class="nav-link" href="#">Cadastrar Predio</a>
+                    <a class="nav-link" href="/admin/new.building">Cadastrar Prédio</a>
                 </li>
 
                 <li class="nav-item me-3">
                     <a class="nav-link" href="#">Visualizar Dados</a>
                 </li>
+
                 <li class="nav-item me-3">
-                    <a class="nav-link" href="#">Relatorios</a>
+                    <a class="nav-link" href="#">Relatórios</a>
                 </li>
 
+                <!-- Avatar com dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/assets/images/defaults/avatarADM.png" alt="Avatar do Usuário" class="rounded-circle avatar" style="width: 40px; height: 40px; object-fit: cover;">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/assets/images/defaults/avatarADM.png" alt="Avatar do Usuário"
+                            class="rounded-circle avatar" style="width: 40px; height: 40px; object-fit: cover;">
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Sair</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <form method="POST" action="/logout" class="m-0">
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Sair
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>
