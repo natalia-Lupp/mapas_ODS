@@ -48,6 +48,13 @@ class TemporariaController extends Controller
         $this->render('/admin/new.itens', ['title' => 'Cadastrar Itens']);
     }
 
+    public function edit()
+    {
+        $this->render('/admin/edit', ['title' => 'Editar Cadastro']);
+    }
+
+    
+
 
 
 

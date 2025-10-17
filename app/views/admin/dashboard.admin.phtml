@@ -13,12 +13,13 @@
                 <h2 class="mt-4 fw-semibold">Painel de Prédios</h2>
                 <p class="text-muted">Gerencie as informações dos prédios cadastrados.</p>
 
+                <!-- Cards de resumo -->
                 <div class="row mb-4 g-3 d-flex justify-content-center">
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="card border-primary-subtle border-2">
                             <div class="card-body text-center">
                                 <h6 class="text-secondary mb-1">Total de Prédios</h6>
-                                <h4 class="fw-bold mb-0">6</h4>
+                                <h4 class="fw-bold mb-0" id="totalPredios">0</h4>
                             </div>
                         </div>
                     </div>
@@ -26,72 +27,40 @@
                         <div class="card border-primary-subtle border-2">
                             <div class="card-body text-center">
                                 <h6 class="text-secondary mb-1">Média de Andares</h6>
-                                <h4 class="fw-bold mb-0">5</h4>
+                                <h4 class="fw-bold mb-0" id="mediaAndares">0</h4>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Tabela de prédios -->
                 <div class="card shadow-sm border-0">
                     <div class="table-responsive">
-                        <table class="table align-middle text-center">
+                        <table id="tabelaPrediosDashboard" class="table align-middle text-center">
                             <thead class="table-primary">
                                 <tr>
                                     <th>Prédio</th>
-                                    <th>Qtd. Andares</th>
-                                    <th>Banheiros/Andar</th>
+                                    <th>Andar</th>
+                                    <th>Banheiros</th>
+                                    <th>Torneiras</th>
+                                    <th>Vasos</th>
                                     <th> </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $predios = [
-                                    (object)['id' => 1, 'nome' => 'Bloco A', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 2, 'nome' => 'Bloco B', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 2, 'nome' => 'Bloco C', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 2, 'nome' => 'Bloco E', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 3, 'nome' => 'RU', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 4, 'nome' => 'Biblioteca', 'andares' => 1, 'banheiros' => 1],
-                                    (object)['id' => 5, 'nome' => 'Bloco R', 'andares' => 3, 'banheiros' => 3],
-                                    (object)['id' => 6, 'nome' => 'Bloco H', 'andares' => 3, 'banheiros' => 3],
-                                    (object)['id' => 2, 'nome' => 'Bloco P', 'andares' => 1, 'banheiros' => 1],
-                                ];
-                                ?>
-                                <?php foreach ($predios as $predio): ?>
-                                    <tr>
-                                        <td class="text-secondary"><?= htmlspecialchars($predio->nome) ?></td>
-                                        <td class="text-secondary"><?= htmlspecialchars($predio->andares) ?></td>
-                                        <td class="text-secondary"><?= htmlspecialchars($predio->banheiros) ?></td>
-                                        <td>
-                                            <div class="d-flex justify-content-center gap-4">
-                                                <!-- Link de Editar -->
-                                                <a href="/buildings/<?= $predio->id ?>/edit/"
-                                                    class="text-primary text-decoration-none">
-                                                    Editar
-                                                </a>
-
-                                                <!-- Link de Excluir -->
-                                                <form action="/buildings/delete/<?= $predio->id ?>" method="POST" class="d-inline">
-                                                    <input type="hidden" name="_method" value="DELETE" />
-                                                    <button type="submit" class="btn btn-link text-danger text-decoration-none p-0">
-                                                        Excluir
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                <!-- Preenchido via JS -->
                             </tbody>
                         </table>
                     </div>
                 </div>
+
                 <!-- Botões abaixo da tabela -->
                 <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
-                    <button class="btn btn-outline-danger fw-semibold px-4 rounded-pill">
+                    <button class="btn btn-outline-danger fw-semibold px-4 rounded-pill" id="btnExcluirTabela">
                         Excluir Tabela
                     </button>
 
-                    <button class="btn btn-primary fw-semibold px-4 rounded-pill">
+                    <button class="btn btn-primary fw-semibold px-4 rounded-pill" id="btnExportarPDF">
                         Exportar PDF
                     </button>
                 </div>
@@ -100,3 +69,6 @@
         </div>
     </div>
 </div>
+
+<!-- Inclui JS temporário -->
+<script src="/path/to/dashboard.js"></script>
