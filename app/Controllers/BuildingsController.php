@@ -11,7 +11,7 @@ class BuildingController extends Controller
 {
     public function index(Request $request): void
     {
-        $paginator = $this->current_user->buildings()->paginate(page: $request->getParam('page', 1));
+        $paginator = Building::paginate(page: $request->getParam('page', 1), route:'buildings.index');
         $buildings = $paginator->registers();
 
         $title = 'Prédios Registrados';
@@ -25,7 +25,7 @@ class BuildingController extends Controller
 
     public function new(): void
     {
-        $building = $this->current_user->buildings()->new();
+        $building = new Building();
 
         $title = 'Novo Prédio';
         $this->render('buildings/new', compact('building', 'title'));
@@ -34,7 +34,7 @@ class BuildingController extends Controller
     public function create(Request $request): void
     {
         $params = $request->getParams();
-        $building = $this->current_user->buildings()->new($params['building']);
+        $building = new Building($params['building']);
 
         if ($building->save()) {
             FlashMessage::success('Prédio registrado com sucesso!!');
@@ -50,7 +50,7 @@ class BuildingController extends Controller
     {
         $params = $request->getParams();
 
-        $building = $this->current_user->buildings()->findById($params['id']);
+        $building = Building::findById($params['id']);
 
         $title = "Prédio: {$building->name}";
         $this->render('buildings/show', compact('building', 'title'));
@@ -59,7 +59,7 @@ class BuildingController extends Controller
     public function edit(Request $request): void
     {
         $params = $request->getParams();
-        $building = $this->current_user->buildings()->findById($params['id']);
+        $building = Building::findById($params['id']);
 
         $title = "Editar Prédio: {$building->name}";
         $this->render('buildings/edit', compact('building', 'title'));
@@ -70,8 +70,8 @@ class BuildingController extends Controller
         $id = $request->getParam('id');
         $params = $request->getParam('buildings');
 
-        $building = $this->current_user->buildings()->findById($id);
-        $building->title = $params['title'];
+        $building = Building::findById($id);
+        Building::findById($id);
         $building->name = $params['name'];
         $building->n_floors = $params['n_floors'];
 
@@ -81,7 +81,7 @@ class BuildingController extends Controller
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não foi editado.');
             $title = "Editar Prédio: {$building->name}";
-            $this->render('buildings/edit', compact('buildings', 'title'));
+            $this->render('buildings/edit', compact('building', 'title'));
         }
     }
 
@@ -89,7 +89,7 @@ class BuildingController extends Controller
     {
         $params = $request->getParams();
 
-        $building = $this->current_user->problems()->findById($params['id']);
+        $building = Building::findById($params['id']);
         $building->destroy();
 
         FlashMessage::success('Prédio removido com sucesso!');
