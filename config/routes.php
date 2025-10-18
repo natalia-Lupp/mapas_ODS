@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/admin', [HomeController::class, 'dashboardAdmin'])->name('dashboard.admin');
 
-    // Buildings ----------------------------------------------------------------------------
+        // Buildings ----------------------------------------------------------------------------
         Route::get('/buildings', [BuildingController::class, 'index'])->name('buildings.index');
 
         // Create Building
@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
     // User Routes
     Route::middleware('client')->group(function () {
-            Route::get('/client', [HomeController::class, 'dashboardClient'])->name('dashboard.client');
+        Route::get('/client', [HomeController::class, 'dashboardClient'])->name('dashboard.client');
     });
 });
 
