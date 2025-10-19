@@ -51,8 +51,4 @@ Route::get('/components/navbar.admin', [TemporariaController::class, 'navbarADM'
 Route::get('/components/sidenav.admin', [TemporariaController::class, 'sidenavADM']);
 Route::get('/components/navbar.user', [TemporariaController::class, 'navbarUser']);
 Route::get('/components/sidenav.user', [TemporariaController::class, 'sidebarUser']);
-Route::get('/buildings/new', [TemporariaController::class, 'newBuilding']);
-Route::get('/buildings/new.floor', [TemporariaController::class, 'newFloor']);
-Route::get('/buildings/new.itens', [TemporariaController::class, 'newitens']);
 Route::get('/buildings/edit', [TemporariaController::class, 'edit']);
-Route::get('/buildings/relatorio/pdf', [TemporariaController::class, 'gerarPDF']);
