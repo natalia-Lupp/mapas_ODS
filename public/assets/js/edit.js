@@ -142,5 +142,4 @@ document.addEventListener("DOMContentLoaded", function () {
     //return;
   }
 
-  alert("Nenhum prédio encontrado para edição!");
 });
