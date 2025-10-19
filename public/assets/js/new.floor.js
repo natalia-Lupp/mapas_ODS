@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (mensagemErro) mensagemErro.style.display = "none";
 
       // Dados já estão no localStorage, pode prosseguir
-      window.location.href = "/admin/new.itens";
+      window.location.href = "/buildings/new.itens";
     });
   }
 });

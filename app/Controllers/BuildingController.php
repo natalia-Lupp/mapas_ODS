@@ -11,7 +11,7 @@ class BuildingController extends Controller
 {
     public function index(Request $request): void
     {
-        $paginator = Building::paginate(page: $request->getParam('page', 1), route:'buildings.index');
+        $paginator = Building::paginate(page: $request->getParam('page', 1), route: 'buildings.index');
         $buildings = $paginator->registers();
 
         $title = 'Prédios Registrados';
@@ -95,4 +95,11 @@ class BuildingController extends Controller
         FlashMessage::success('Prédio removido com sucesso!');
         $this->redirectTo(route('buildings.index'));
     }
+    /*
+    public function deleteAll(): void
+    {
+        Building::deleteAll();
+        FlashMessage::success('Todos os prédios foram removidos!');
+        $this->renderJson(['success' => true]);
+    }*/
 }

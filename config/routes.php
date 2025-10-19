@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/buildings', [BuildingController::class, 'create'])->name('buildings.create');
 
         // Retrieve Building
+        Route::get('/buildings/new', [BuildingController::class, 'new'])->name('buildings.new'); // rota nova
         Route::get('/buildings/page/{page}', [BuildingController::class, 'index'])->name('buildings.paginate');
         Route::get('/buildings/{id}', [BuildingController::class, 'show'])->name('buildings.show');
 
@@ -50,9 +51,8 @@ Route::get('/components/navbar.admin', [TemporariaController::class, 'navbarADM'
 Route::get('/components/sidenav.admin', [TemporariaController::class, 'sidenavADM']);
 Route::get('/components/navbar.user', [TemporariaController::class, 'navbarUser']);
 Route::get('/components/sidenav.user', [TemporariaController::class, 'sidebarUser']);
-Route::get('/admin/dashboard.admin', [TemporariaController::class, 'dashboardADM']);
-Route::get('/admin/new.building', [TemporariaController::class, 'newBuilding']);
-Route::get('/admin/new.floor', [TemporariaController::class, 'newFloor']);
-Route::get('/admin/new.itens', [TemporariaController::class, 'newitens']);
-Route::get('/admin/edit', [TemporariaController::class, 'edit']);
-Route::get('/admin/relatorio/pdf', [TemporariaController::class, 'gerarPDF']);
+Route::get('/buildings/new', [TemporariaController::class, 'newBuilding']);
+Route::get('/buildings/new.floor', [TemporariaController::class, 'newFloor']);
+Route::get('/buildings/new.itens', [TemporariaController::class, 'newitens']);
+Route::get('/buildings/edit', [TemporariaController::class, 'edit']);
+Route::get('/buildings/relatorio/pdf', [TemporariaController::class, 'gerarPDF']);

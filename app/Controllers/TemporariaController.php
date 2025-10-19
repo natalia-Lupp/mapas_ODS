@@ -30,27 +30,27 @@ class TemporariaController extends Controller
 
     public function dashboardADM()
     {
-        $this->render('admin/dashboard.admin', ['title' => '']);
+        $this->render('buildings/dashboard.admin', ['title' => '']);
     }
 
     public function newBuilding()
     {
-        $this->render('admin/new.building', ['title' => 'Cadastrar Prédio']);
+        $this->render('buildings/new', ['title' => 'Cadastrar Prédio']);
     }
 
     public function newFloor()
     {
-        $this->render('admin/new.floor', ['title' => 'Cadastrar Andar']);
+        $this->render('buildings/new.floor', ['title' => 'Cadastrar Andar']);
     }
 
     public function newitens()
     {
-        $this->render('/admin/new.itens', ['title' => 'Cadastrar Itens']);
+        $this->render('/buildings/new.itens', ['title' => 'Cadastrar Itens']);
     }
 
     public function edit()
     {
-        $this->render('/admin/edit', ['title' => 'Editar Cadastro']);
+        $this->render('/buildings/edit', ['title' => 'Editar Cadastro']);
     }
 
     

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!predio) {
     alert("Nenhum prédio encontrado para edição!");
-    window.location.href = "/admin/dashboard.admin";
+    window.location.href = "/buildings/dashboard.admin";
     return;
   }
 
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
     mensagemSucesso.classList.remove("d-none");
     setTimeout(() => {
       mensagemSucesso.classList.add("d-none");
-      window.location.href = "/admin/dashboard.admin";
+      window.location.href = "/buildings/dashboard.admin";
     }, 1500);
 
     console.log("Prédio atualizado:", predio);
