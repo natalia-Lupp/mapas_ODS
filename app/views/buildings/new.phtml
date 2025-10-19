@@ -8,34 +8,45 @@
 
 <div id="main-content">
     <div class="container-fluid pt-5 mt-4 p-0 px-5">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mt-4 fw-semibold">Cadastrar Nova Estrutura</h2>
-                <p class="text-muted">Informe os dados da nova estrutura</p>
+        <div class="col-12">
+            <h2 class="mt-4 fw-semibold">Cadastrar Nova Estrutura</h2>
+            <p class="text-muted">Informe os dados do novo prédio</p>
 
-                <div class="form-background">
-                    <!-- envia para o backend -->
-                    <form id="formCadastroPredio" method="POST" action="<?= route('buildings.create') ?>">
-                        <div class="mb-3">
-                            <label for="nomePredio" class="form-label fw-semibold">Nome do Prédio</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="nomePredio"
-                                name="building[name]"
-                                placeholder="Digite o nome do prédio"
-                                required>
-                        </div>
-                        <div class="d-flex justify-content-between mt-5">
-                            <a href="<?= route('buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
-                                <i class="bi bi-building-add"></i>
-                                Salvar Prédio
-                            </button>
-                        </div>
-                    </form>
-                </div>
+            <div class="form-background">
+                <form id="formCadastroPredio" method="POST" action="<?= route('buildings.create') ?>">
+
+                    <div class="mb-3">
+                        <label for="nomePredio" class="form-label fw-semibold">Nome do Prédio</label>
+                        <input type="text" class="form-control" id="nomePredio" name="building[name]" placeholder="Digite o nome do prédio" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="numeroAndares" class="form-label fw-semibold">Número de Andares</label>
+                        <select class="form-select" id="numeroAndares" name="building[n_floors]" required>
+                            <?php for ($i = 1; $i <= 10; $i++): ?>
+                                <option value="<?= $i ?>"><?= $i ?> andar<?= $i > 1 ? 'es' : '' ?></option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+
+                      <div class="d-flex justify-content-between mt-4">
+                        <button type="button" id="btnAddPredios" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+                            Adicionar Predio
+                        </button>
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="<?= route('buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+                            <i class="bi bi-building-add"></i>
+                            Salvar Prédio
+                        </button>
+                    </div>
+
+                </form>
             </div>
+            <div id="containerTabelaItens" class="mt-4"></div>
         </div>
     </div>
 </div>
