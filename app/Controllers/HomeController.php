@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use Core\Http\Controllers\Controller;
 use App\Controllers\AuthController;
+use App\Models\Building;
+use Core\Http\Request;
 use Lib\Authentication\Auth;
 
 class HomeController extends Controller
@@ -13,10 +15,12 @@ class HomeController extends Controller
         $this->isAuthenticated();
     }
 
-    public function dashboardAdmin(): void
+    public function dashboardAdmin(Request $req): void
     {
         $title = 'Dashboard Admin - Mapas ODS';
-        $this->render('buildings/dashboard.admin', compact('title'));
+        $page = $req->getParam('page', 1);
+        $paginator = Building::paginate(page:$page, route:'dashboard.admin');
+        $this->render('buildings/dashboard.admin', compact('title', 'paginator'));
     }
 
     public function dashboardClient(): void
