@@ -67,6 +67,6 @@ nav.navbar {
 
 .alert {
   position: relative;
-  top: 5em;
+  top: 4em;
   z-index: 2000;
 }
