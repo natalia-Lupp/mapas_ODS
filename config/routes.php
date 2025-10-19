@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
         // Retrieve Building
         Route::get('/buildings/new', [BuildingController::class, 'new'])->name('buildings.new'); // rota nova
         Route::get('/buildings/page/{page}', [BuildingController::class, 'index'])->name('buildings.paginate');
-        Route::get('/buildings/{id}', [BuildingController::class, 'show'])->name('buildings.show');
+        Route::get('/buildings/{id}', [BuildingController::class, 'show'])->name('buildings.show'); // usar essa 
 
         // Update Building
         Route::get('/buildings/{id}/edit', [BuildingController::class, 'edit'])->name('buildings.edit');

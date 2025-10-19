@@ -1,0 +1,38 @@
+<div class="mb-0">
+    <?php include __DIR__ . '/../components/navbar.admin.phtml'; ?>
+</div>
+
+<div class="sidebar">
+    <?php include __DIR__ . '/../components/sidenav.admin.phtml'; ?>
+</div>
+
+<div id="main-content">
+    <div class="container-fluid pt-5 mt-4 p-0 px-5">
+        <h2 class="mt-4 fw-semibold"><?= $title ?></h2>
+
+        <?php if (empty($buildings)): ?>
+            <p class="text-muted">Nenhum prédio cadastrado.</p>
+        <?php else: ?>
+            <table class="table table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th>Nome do Prédio</th>
+                        <th>Número de Andares</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($buildings as $building): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($building->name) ?></td>
+                            <td><?= $building->n_floors ?></td>
+                            <td>
+                                <a href="<?= route('buildings.show', ['id' => $building->id]) ?>" class="btn btn-sm btn-primary">Ver</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
+</div>

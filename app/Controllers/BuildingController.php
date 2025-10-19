@@ -95,11 +95,4 @@ class BuildingController extends Controller
         FlashMessage::success('Prédio removido com sucesso!');
         $this->redirectTo(route('buildings.index'));
     }
-    /*
-    public function deleteAll(): void
-    {
-        Building::deleteAll();
-        FlashMessage::success('Todos os prédios foram removidos!');
-        $this->renderJson(['success' => true]);
-    }*/
 }
