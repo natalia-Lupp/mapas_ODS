@@ -1,21 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
   const btnAddPredios = document.getElementById("btnAddPredios");
+  const form = document.getElementById("formCadastroPredio");
   const nomePredio = document.getElementById("nomePredio");
   const numeroAndares = document.getElementById("numeroAndares");
-  const containerTabelaItens = document.getElementById("containerTabelaItens");
+  const containerTabelaPredios = document.getElementById(
+    "containerTabelaPredios"
+  );
 
-  // Array para armazenar os prédios adicionados temporariamente
+  // Array temporário para prédios adicionados
   let predios = [];
 
-  // Função para montar a tabela de prédios
+  // Função para montar a tabela de prédios na tela
   function montarTabelaPredios() {
     if (predios.length === 0) {
-      containerTabelaItens.innerHTML =
+      containerTabelaPredios.innerHTML =
         "<p class='text-muted'>Nenhum prédio adicionado.</p>";
       return;
     }
 
-    containerTabelaItens.innerHTML = `
+    containerTabelaPredios.innerHTML = `
       <table class="table table-striped mt-4">
         <thead>
           <tr>
@@ -28,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       </table>
     `;
 
-    const tbody = containerTabelaItens.querySelector("tbody");
+    const tbody = containerTabelaPredios.querySelector("tbody");
 
     predios.forEach((predio, index) => {
       const tr = document.createElement("tr");
@@ -44,11 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
       tbody.appendChild(tr);
     });
 
-    // Adicionar evento para excluir prédios da lista
-    containerTabelaItens.querySelectorAll(".btn-excluir").forEach((btn) => {
+    // Evento para excluir prédios da tabela temporária
+    containerTabelaPredios.querySelectorAll(".btn-excluir").forEach((btn) => {
       btn.addEventListener("click", function () {
-        const index = Number(this.dataset.index);
-        predios.splice(index, 1);
+        predios.splice(Number(this.dataset.index), 1);
         montarTabelaPredios();
       });
     });
@@ -65,13 +67,46 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    predios.push({ nome: nome, andares: andares });
+    predios.push({ nome, andares });
 
-    // Limpar campos do formulário
+    // Limpar campos
     nomePredio.value = "";
     numeroAndares.value = 1;
 
     montarTabelaPredios();
+  });
+
+  // Evento de submit do formulário para salvar todos os prédios
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    if (predios.length === 0) {
+      alert("Adicione pelo menos um prédio antes de salvar.");
+      return;
+    }
+
+    (async () => {
+      try {
+        for (const p of predios) {
+          const data = new FormData();
+          data.append("building[name]", p.nome);
+          data.append("building[n_floors]", p.andares);
+
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: data,
+          });
+
+          if (!response.ok) throw new Error("Erro ao salvar prédio: " + p.nome);
+        }
+
+        // Redireciona para lista de prédios após salvar todos
+        window.location.href = "<?= route('buildings.index') ?>";
+      } catch (error) {
+        console.error(error);
+        alert("Ocorreu um erro ao cadastrar os prédios.");
+      }
+    })();
   });
 
   // Inicializa tabela vazia

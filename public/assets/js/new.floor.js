@@ -1,168 +1,118 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("formAdicionarAndar");
-  const btnCadastrarItens = document.getElementById("btnCadastrarItens");
-  const listaAndares = document.getElementById("listaAndares");
-  const mensagemErro = document.getElementById("mensagemErro");
+  const btnAddPredios = document.getElementById("btnAddPredios");
+  const form = document.getElementById("formCadastroPredio");
+  const nomePredio = document.getElementById("nomePredio");
+  const numeroAndares = document.getElementById("numeroAndares");
+  const containerTabelaPredios = document.getElementById(
+    "containerTabelaPredios"
+  );
 
-  // 🔹 Recupera prédio salvo no localStorage
-  let predio = null;
-  try {
-    predio = JSON.parse(localStorage.getItem("predioAtual"));
-  } catch (e) {
-    console.warn("Erro ao ler prédio do localStorage:", e);
-  }
+  // Array para armazenar prédios temporariamente
+  let predios = [];
 
-  if (!predio || !predio.id) {
-    if (mensagemErro) {
-      mensagemErro.textContent =
-        "Nenhum prédio encontrado. Cadastre um prédio primeiro.";
-      mensagemErro.style.display = "block";
+  // Função para montar a tabela de prédios
+  function montarTabelaPredios() {
+    if (predios.length === 0) {
+      containerTabelaPredios.innerHTML =
+        "<p class='text-muted'>Nenhum prédio adicionado.</p>";
+      return;
     }
-    return;
-  }
 
-  console.log("🏢 Prédio carregado:", predio);
-
-  // 🔹 Recupera array de andares do localStorage ou cria vazio
-  let andares = [];
-  try {
-    andares =
-      JSON.parse(localStorage.getItem(`andaresPredio_${predio.id}`)) || [];
-  } catch (e) {
-    console.warn("Erro ao ler andares do localStorage:", e);
-  }
-
-  // 🔹 Atualiza predioAtual com os andares atuais
-  predio.andares = andares;
-  localStorage.setItem("predioAtual", JSON.stringify(predio));
-
-  // 🔹 Cria a tabela se ainda não existir
-  if (listaAndares && !listaAndares.querySelector("table")) {
-    listaAndares.innerHTML = `
-      <table id="tabelaAndares" class="table table-striped mt-4 align-middle">
+    containerTabelaPredios.innerHTML = `
+      <table class="table table-striped mt-4">
         <thead>
           <tr>
             <th>Nome do Prédio</th>
-            <th>Andar</th>
-            <th>Banheiros</th>
+            <th>Número de Andares</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     `;
+
+    const tbody = containerTabelaPredios.querySelector("tbody");
+
+    predios.forEach((predio, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${predio.nome}</td>
+        <td>${predio.andares}</td>
+        <td>
+          <button type="button" class="btn btn-sm btn-danger btn-excluir" data-index="${index}">
+            Excluir
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Evento para excluir prédio
+    containerTabelaPredios.querySelectorAll(".btn-excluir").forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const index = Number(this.dataset.index);
+        predios.splice(index, 1);
+        montarTabelaPredios();
+      });
+    });
   }
 
-  const tabelaAndares = document.getElementById("tabelaAndares");
-  if (!tabelaAndares) return; // previne erro se tabela não existir
-  const tbody = tabelaAndares.querySelector("tbody");
+  // Botão "Adicionar Prédio"
+  btnAddPredios.addEventListener("click", function () {
+    const nome = nomePredio.value.trim();
+    const andares = Number(numeroAndares.value);
 
-  // 🔹 Renderiza andares já existentes no localStorage
-  andares.forEach(function (andar) {
-    const linha = document.createElement("tr");
-    linha.innerHTML = `
-      <td>${andar.predioNome}</td>
-      <td>Andar ${andar.numeroAndar}</td>
-      <td>${andar.banheiros} banheiro(s)</td>
-      <td>
-        <form class="d-inline">
-          <button type="button" class="btn btn-link text-danger text-decoration-none p-0 btnExcluir">Excluir</button>
-        </form>
-      </td>
-    `;
-    tbody.appendChild(linha);
+    if (nome.length < 2) {
+      alert("O nome do prédio deve ter pelo menos 2 letras.");
+      nomePredio.focus();
+      return;
+    }
 
-    // Evento de exclusão
-    linha.querySelector(".btnExcluir").addEventListener("click", function () {
-      const index = andares.indexOf(andar);
-      if (index > -1) andares.splice(index, 1);
-      localStorage.setItem(
-        `andaresPredio_${predio.id}`,
-        JSON.stringify(andares)
-      );
+    predios.push({ nome, andares });
 
-      // Atualiza predioAtual também
-      predio.andares = andares;
-      localStorage.setItem("predioAtual", JSON.stringify(predio));
+    // Limpa os campos
+    nomePredio.value = "";
+    numeroAndares.value = 1;
 
-      linha.remove();
-    });
+    montarTabelaPredios();
   });
 
-  // 🔹 Botão “Adicionar Andar”
-  const btnAdicionarAndar = form.querySelector(".btn.btn-primary");
+  // Submeter múltiplos prédios
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-  btnAdicionarAndar.addEventListener("click", function () {
-    const numeroAndar = document.getElementById("numeroAndar").value;
-    const banheiros = document.getElementById("banheiros").value;
+    if (predios.length === 0) {
+      alert("Adicione pelo menos um prédio antes de salvar.");
+      return;
+    }
 
-    if (!numeroAndar || !banheiros) return;
+    // Envia prédio por prédio para o backend
+    (async () => {
+      try {
+        for (const p of predios) {
+          const data = new FormData();
+          data.append("building[name]", p.nome);
+          data.append("building[n_floors]", p.andares);
 
-    if (mensagemErro) mensagemErro.style.display = "none";
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: data,
+          });
 
-    const novoAndar = {
-      predioId: predio.id,
-      predioNome: predio.nome,
-      numeroAndar: numeroAndar,
-      banheiros: banheiros,
-    };
-
-    andares.push(novoAndar);
-
-    // 🔹 Atualiza localStorage
-    localStorage.setItem(`andaresPredio_${predio.id}`, JSON.stringify(andares));
-    predio.andares = andares;
-    localStorage.setItem("predioAtual", JSON.stringify(predio));
-
-    // 🔹 Cria linha na tabela
-    const linha = document.createElement("tr");
-    linha.innerHTML = `
-      <td>${predio.nome}</td>
-      <td>Andar ${numeroAndar}</td>
-      <td>${banheiros} banheiro(s)</td>
-      <td>
-        <form class="d-inline">
-          <button type="button" class="btn btn-link text-danger text-decoration-none p-0 btnExcluir">Excluir</button>
-        </form>
-      </td>
-    `;
-    tbody.appendChild(linha);
-
-    // Evento de exclusão
-    linha.querySelector(".btnExcluir").addEventListener("click", function () {
-      const index = andares.indexOf(novoAndar);
-      if (index > -1) andares.splice(index, 1);
-      localStorage.setItem(
-        `andaresPredio_${predio.id}`,
-        JSON.stringify(andares)
-      );
-      predio.andares = andares;
-      localStorage.setItem("predioAtual", JSON.stringify(predio));
-      linha.remove();
-    });
-
-    document.getElementById("numeroAndar").value = "";
-    document.getElementById("banheiros").value = "";
-  });
-
-  // 🔹 Botão “Cadastrar Itens”
-  if (btnCadastrarItens) {
-    btnCadastrarItens.addEventListener("click", function () {
-      const linhas = tbody.querySelectorAll("tr");
-
-      if (linhas.length === 0) {
-        if (mensagemErro) {
-          mensagemErro.textContent =
-            "Você precisa cadastrar ao menos um andar antes de prosseguir.";
-          mensagemErro.style.display = "block";
+          if (!response.ok) {
+            throw new Error("Erro ao salvar prédio: " + p.nome);
+          }
         }
-        return;
+
+        alert("Todos os prédios foram cadastrados com sucesso!");
+        window.location.href = "<?= route('buildings.index') ?>"; // redireciona
+      } catch (error) {
+        console.error(error);
+        alert("Ocorreu um erro ao cadastrar os prédios.");
       }
+    })();
+  });
 
-      if (mensagemErro) mensagemErro.style.display = "none";
-
-      // Dados já estão no localStorage, pode prosseguir
-      window.location.href = "/buildings/new.itens";
-    });
-  }
+  // Inicializa tabela vazia
+  montarTabelaPredios();
 });

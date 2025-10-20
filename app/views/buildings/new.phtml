@@ -13,7 +13,7 @@
             <p class="text-muted">Informe os dados do novo prédio</p>
 
             <div class="form-background">
-                <form id="formCadastroPredio" method="POST" action="<?= route('buildings.create') ?>">
+                <form id="formCadastroPredio" method="POST" action="<?= route('buildings.create') ?>" data-redirect="<?= route('buildings.index') ?>">
 
                     <div class="mb-3">
                         <label for="nomePredio" class="form-label fw-semibold">Nome do Prédio</label>
@@ -29,12 +29,11 @@
                         </select>
                     </div>
 
-                      <div class="d-flex justify-content-between mt-4">
+                    <div class="d-flex justify-content-between mt-4">
                         <button type="button" id="btnAddPredios" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
                             Adicionar Predio
                         </button>
                     </div>
-
 
                     <div class="d-flex justify-content-between mt-4">
                         <a href="<?= route('buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
@@ -46,7 +45,10 @@
 
                 </form>
             </div>
-            <div id="containerTabelaItens" class="mt-4"></div>
+
+            <div id="containerTabelaPredios" class="mt-4">
+                <p class="text-muted">Nenhum prédio adicionado.</p>
+            </div>
         </div>
     </div>
 </div>
