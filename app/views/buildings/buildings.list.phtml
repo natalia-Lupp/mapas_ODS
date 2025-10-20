@@ -8,12 +8,9 @@
 
 <div id="main-content">
     <div class="container-fluid pt-5 mt-4 p-0 px-5">
-        <h2 class="mt-4 fw-semibold"><?= $title ?></h2>
-
-        <?php if (empty($buildings)): ?>
-            <p class="text-muted">Nenhum prédio cadastrado.</p>
-        <?php else: ?>
-            <table class="table table-striped mt-4">
+        <h2 class="mt-4 fw-semibold">Lista de Prédios</h2>
+        <div class="table-responsive mt-4">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Nome do Prédio</th>
@@ -21,17 +18,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($buildings as $building): ?>
+                    <?php foreach ($predios as $predio): ?>
                         <tr>
-                            <td><?= htmlspecialchars($building->name) ?></td>
-                            <td><?= $building->n_floors ?></td>
-                            <td>
-                                <a href="<?= route('buildings.show', ['id' => $building->id]) ?>" class="btn btn-sm btn-primary">Ver</a>
-                            </td>
+                            <td><?= htmlspecialchars($predio['name']) ?></td>
+                            <td><?= htmlspecialchars($predio['n_floors']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-        <?php endif; ?>
+        </div>
     </div>
 </div>
