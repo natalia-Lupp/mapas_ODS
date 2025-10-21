@@ -39,7 +39,7 @@ class BuildingPopulate
           'n_floors' => 4,
           'name' => 'bloco R'
         ]))->save();
-
-        echo Building::table() + " populate with $numberOfResgisters\n";
+        $table = Building::table();
+        echo "$table populate with $numberOfResgisters\n";
     }
 }

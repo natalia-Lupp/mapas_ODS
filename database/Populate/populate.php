@@ -7,6 +7,7 @@ use Database\Populate\UserPopulate;
 use Database\Populate\UserRulePopulate;
 use Database\Populate\AccountRulePopulate;
 use Database\Populate\BathroomItemTypePopulate;
+use Database\Populate\BathroomPopulate;
 use Database\Populate\BuildingPopulate;
 
 Database::create();

@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Database\Populate;
@@ -24,7 +23,7 @@ class BathroomItemTypePopulate
           'vendor_consumption_expenditure' => 12.0,
           'name' => 'Vaso sanitário'
         ]))->save();
-
-        echo BathroomItemType::table() + " populate with $numberOfResgisters\n";
+        $table = BathroomItemType::table();
+        echo "$table populate with $numberOfResgisters\n";
     }
 }
