@@ -62,12 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const nome = nomePredio.value.trim();
     const andares = Number(numeroAndares.value);
 
-    if (nome.length < 2) {
-      alert("O nome do prédio deve ter pelo menos 2 letras.");
-      nomePredio.focus();
-      return;
-    }
-
     predios.push({ nome, andares });
 
     // Limpa os campos

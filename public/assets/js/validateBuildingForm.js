@@ -7,11 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
     "containerTabelaPredios"
   );
 
-  // Array temporário para prédios adicionados
+  // Lista temporária de prédios adicionados
   let predios = [];
 
-  // Função para montar a tabela de prédios na tela
+  // Monta a tabela temporária
   function montarTabelaPredios() {
+    if (!containerTabelaPredios) return;
+
     if (predios.length === 0) {
       containerTabelaPredios.innerHTML =
         "<p class='text-muted'>Nenhum prédio adicionado.</p>";
@@ -27,43 +29,43 @@ document.addEventListener("DOMContentLoaded", function () {
             <th>Ações</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          ${predios
+            .map(
+              (p, i) => `
+            <tr>
+              <td>${p.nome}</td>
+              <td>${p.andares}</td>
+              <td>
+                <button type="button" class="btn btn-sm btn-danger btn-excluir" data-index="${i}">
+                  Excluir
+                </button>
+              </td>
+            </tr>
+          `
+            )
+            .join("")}
+        </tbody>
       </table>
     `;
-
-    const tbody = containerTabelaPredios.querySelector("tbody");
-
-    predios.forEach((predio, index) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${predio.nome}</td>
-        <td>${predio.andares}</td>
-        <td>
-          <button type="button" class="btn btn-sm btn-danger btn-excluir" data-index="${index}">
-            Excluir
-          </button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    // Evento para excluir prédios da tabela temporária
-    containerTabelaPredios.querySelectorAll(".btn-excluir").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        predios.splice(Number(this.dataset.index), 1);
-        montarTabelaPredios();
-      });
-    });
   }
 
-  // Botão "Adicionar Prédio"
+  // Event delegation para excluir prédios
+  containerTabelaPredios.addEventListener("click", function (e) {
+    if (e.target.classList.contains("btn-excluir")) {
+      const index = Number(e.target.dataset.index);
+      predios.splice(index, 1);
+      montarTabelaPredios();
+    }
+  });
+
+  // Botão “Adicionar Prédio”
   btnAddPredios.addEventListener("click", function () {
     const nome = nomePredio.value.trim();
     const andares = Number(numeroAndares.value);
 
-    if (nome.length < 2) {
-      alert("O nome do prédio deve ter pelo menos 2 letras.");
-      nomePredio.focus();
+    if (nome.length === 0) {
+      alert("Informe o nome do prédio antes de adicionar.");
       return;
     }
 
@@ -76,39 +78,39 @@ document.addEventListener("DOMContentLoaded", function () {
     montarTabelaPredios();
   });
 
-  // Evento de submit do formulário para salvar todos os prédios
+  // Submissão do formulário
   form.addEventListener("submit", function (event) {
-    event.preventDefault();
-
     if (predios.length === 0) {
+      event.preventDefault();
       alert("Adicione pelo menos um prédio antes de salvar.");
       return;
     }
 
-    (async () => {
-      try {
-        for (const p of predios) {
-          const data = new FormData();
-          data.append("building[name]", p.nome);
-          data.append("building[n_floors]", p.andares);
+    // Remove campos ocultos antigos
+    form.querySelectorAll(".predio-hidden").forEach((el) => el.remove());
 
-          const response = await fetch(form.action, {
-            method: "POST",
-            body: data,
-          });
+    // Pega apenas o **primeiro prédio** da lista
+    const p = predios[0];
 
-          if (!response.ok) throw new Error("Erro ao salvar prédio: " + p.nome);
-        }
+    // Cria campos ocultos para enviar para a controller
+    const inputNome = document.createElement("input");
+    inputNome.type = "hidden";
+    inputNome.name = "building[name]";
+    inputNome.value = p.nome;
+    inputNome.classList.add("predio-hidden");
 
-        // Redireciona para lista de prédios após salvar todos
-        window.location.href = "<?= route('buildings.index') ?>";
-      } catch (error) {
-        console.error(error);
-        alert("Ocorreu um erro ao cadastrar os prédios.");
-      }
-    })();
+    const inputAndares = document.createElement("input");
+    inputAndares.type = "hidden";
+    inputAndares.name = "building[n_floors]";
+    inputAndares.value = p.andares;
+    inputAndares.classList.add("predio-hidden");
+
+    form.appendChild(inputNome);
+    form.appendChild(inputAndares);
+
+    console.log("Prédio que será enviado:", p);
   });
 
-  // Inicializa tabela vazia
+  // Inicializa a tabela vazia
   montarTabelaPredios();
 });
