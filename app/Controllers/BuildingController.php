@@ -17,9 +17,9 @@ class BuildingController extends Controller
         $title = 'Prédios Registrados';
 
         if ($request->acceptJson()) {
-            $this->renderJson('buildings/index', compact('paginator', 'buildings', 'title'));
+            $this->renderJson('buildings/dashboard.admin', compact('paginator', 'buildings', 'title'));
         } else {
-            $this->render('buildings/index', compact('paginator', 'buildings', 'title'));
+            $this->render('buildings/dashboard.admin', compact('paginator', 'buildings', 'title'));
         }
     }
 
