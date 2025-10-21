@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/buildings/{id}', [BuildingController::class, 'show'])->name('buildings.show'); // usar essa 
 
         // Update Building
+        Route::get('/buildings/buildings.list', [BuildingController::class, 'new'])->name('buildings.new'); // rota nova
         Route::get('/buildings/{id}/edit', [BuildingController::class, 'edit'])->name('buildings.edit');
         Route::put('/buildings/{id}', [BuildingController::class, 'update'])->name('buildings.update');
 
@@ -51,4 +52,4 @@ Route::get('/components/navbar.admin', [TemporariaController::class, 'navbarADM'
 Route::get('/components/sidenav.admin', [TemporariaController::class, 'sidenavADM']);
 Route::get('/components/navbar.user', [TemporariaController::class, 'navbarUser']);
 Route::get('/components/sidenav.user', [TemporariaController::class, 'sidebarUser']);
-Route::get('/buildings/edit', [TemporariaController::class, 'edit']);
+//Route::get('/buildings/edit', [TemporariaController::class, 'edit']);

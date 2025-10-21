@@ -38,22 +38,7 @@ class TemporariaController extends Controller
         $this->render('buildings/new', ['title' => 'Cadastrar Prédio']);
     }
 
-    public function newFloor()
-    {
-        $this->render('buildings/new.floor', ['title' => 'Cadastrar Andar']);
-    }
 
-    public function newitens()
-    {
-        $this->render('/buildings/new.itens', ['title' => 'Cadastrar Itens']);
-    }
-
-    public function edit()
-    {
-        $this->render('/buildings/edit', ['title' => 'Editar Cadastro']);
-    }
-
-    
 
 
 
