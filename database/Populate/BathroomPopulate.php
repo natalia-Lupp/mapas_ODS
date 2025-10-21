@@ -1,7 +1,6 @@
-
 <?php
 
-building_idspace Database\Populate;
+namespace Database\Populate;
 
 use App\Models\Bathroom;
 
@@ -24,7 +23,7 @@ class BathroomPopulate
           'floor' => 0,
           'building_id' => 3
         ]))->save();
-
-        echo Bathroom::table() + " populate with $numberOfResgisters\n";
+        $table = Bathroom::table();
+        echo "$table populate with $numberOfResgisters\n";
     }
 }
