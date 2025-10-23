@@ -29,11 +29,12 @@ class Controller
     /**
      * @param array<string, mixed> $data
      */
-    protected function render(string $view, array $data = []): void
+    protected function render(string $view, array $data = [], ?string $layoutName = null): void
     {
         extract($data);
 
         $view = Constants::rootPath()->join('app/views/' . $view . '.phtml');
+        $layout = $layoutName ?? $this->layout;
         require Constants::rootPath()->join('app/views/layouts/' . $this->layout . '.phtml');
     }
 
