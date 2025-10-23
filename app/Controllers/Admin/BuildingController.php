@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use Core\Http\Controllers\Controller;
 use App\Models\Building;
@@ -9,26 +9,24 @@ use Lib\FlashMessage;
 
 class BuildingController extends Controller
 {
+    protected string $layout = 'admin/application';
+
     public function index(Request $request): void
     {
-        $paginator = Building::paginate(page: $request->getParam('page', 1), route: 'buildings.index');
+        $paginator = Building::paginate(page: $request->getParam('page', 1), route: 'admin.buildings.index');
         $buildings = $paginator->registers();
 
         $title = 'Prédios Registrados';
 
-        if ($request->acceptJson()) {
-            $this->renderJson('buildings/dashboard.admin', compact('paginator', 'buildings', 'title'));
-        } else {
-            $this->render('buildings/dashboard.admin', compact('paginator', 'buildings', 'title'));
-        }
+        $this->render('admin/buildings/index', compact('paginator', 'buildings', 'title'));
     }
 
     public function new(): void
     {
         $building = new Building();
-
         $title = 'Novo Prédio';
-        $this->render('buildings/new', compact('building', 'title'));
+
+        $this->render('admin/buildings/new', compact('building', 'title'));
     }
 
     public function create(Request $request): void
@@ -38,11 +36,11 @@ class BuildingController extends Controller
 
         if ($building->save()) {
             FlashMessage::success('Prédio registrado com sucesso!!');
-            $this->redirectTo(route('buildings.index'));
+            $this->redirectTo(route('admin.buildings.index'));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
             $title = 'Novo Prédio';
-            $this->render('buildings/new', compact('building', 'title'));
+            $this->render('admin/buildings/new', compact('building', 'title'));
         }
     }
 
@@ -53,7 +51,7 @@ class BuildingController extends Controller
         $building = Building::findById($params['id']);
 
         $title = "Prédio: {$building->name}";
-        $this->render('buildings/show', compact('building', 'title'));
+        $this->render('admin/buildings/show', compact('building', 'title'));
     }
 
     public function edit(Request $request): void
@@ -62,7 +60,7 @@ class BuildingController extends Controller
         $building = Building::findById($params['id']);
 
         $title = "Editar Prédio: {$building->name}";
-        $this->render('buildings/edit', compact('building', 'title'));
+        $this->render('admin/buildings/edit', compact('building', 'title'));
     }
 
     public function update(Request $request): void
@@ -77,11 +75,11 @@ class BuildingController extends Controller
 
         if ($building->save()) {
             FlashMessage::success("Predio {$building->name} atualizado com sucesso!");
-            $this->redirectTo(route('buildings.index'));
+            $this->redirectTo(route('admin.buildings.index'));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não foi editado.');
             $title = "Editar Prédio: {$building->name}";
-            $this->render('buildings/edit', compact('building', 'title'));
+            $this->render('admin/buildings/edit', compact('building', 'title'));
         }
     }
 
@@ -93,6 +91,6 @@ class BuildingController extends Controller
         $building->destroy();
 
         FlashMessage::success('Prédio removido com sucesso!');
-        $this->redirectTo(route('buildings.index'));
+        $this->redirectTo(route('admin.buildings.index'));
     }
 }

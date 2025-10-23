@@ -1,5 +1,6 @@
 <?php
 
+use Core\Constants\Constants;
 use Core\Debug\Debugger;
 use Core\Router\Router;
 
@@ -19,5 +20,16 @@ if (!function_exists('route')) {
     function route(string $name, $params = []): string
     {
         return Router::getInstance()->getRoutePathByName($name, $params);
+    }
+}
+
+if (!function_exists('render')) {
+    /**
+     * @param string $viewPath
+     * @return string
+     */
+    function render(string $partial): string
+    {
+        return Constants::rootPath()->join('app/views/')->join($partial . "phtml");
     }
 }

@@ -10,12 +10,14 @@ use Lib\FlashMessage;
 
 class AuthController extends Controller
 {
+
+    protected string $layout = 'login';
+
     public function index(): void
     {
         $this->redirectByRole();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
-
     }
 
     public function processLogin(Request $request): void
@@ -56,7 +58,7 @@ class AuthController extends Controller
 
         if ($isAdmin) {
             FlashMessage::success('Login realizado com sucesso! Bem-vindo, Admin!');
-            $this->redirectTo(route('dashboard.admin'));
+            $this->redirectTo(route('admin.dashboard'));
             return;
         } elseif ($isClient) {
             FlashMessage::success('Login realizado com sucesso!');
@@ -86,7 +88,7 @@ class AuthController extends Controller
             }
 
             if ($user->hasRule('client')) {
-                $this->redirectTo(route('dashboard.client'));
+                $this->redirectTo(route('admin.dashboard'));
                 return;
             }
         }
