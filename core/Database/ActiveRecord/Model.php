@@ -87,8 +87,8 @@ abstract class Model
     }
     public function __isset(string $name): bool
     {
-      $temp = $this->__get($name);
-      return isset($temp);
+        $temp = $this->__get($name);
+        return isset($temp);
     }
 
     public static function table(): string
@@ -137,7 +137,7 @@ abstract class Model
      */
     public function getErrors()
     {
-      return $this->errors;
+        return $this->errors;
     }
 
     public function addError(string $index, string $value): void
@@ -365,6 +365,25 @@ abstract class Model
     {
         $resp = self::where($conditions);
         return !empty($resp);
+    }
+
+    /**
+     * @param array<string, mixed> $conditions
+     */
+    public static function count(): int
+    {
+        $table = static::$table;
+        $sql = <<<SQL
+            SELECT COUNT(*) as total_rows FROM {$table};
+        SQL;
+
+        $pdo = Database::getDatabaseConn();
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->execute();
+        $rows = $stmt->fetch();
+
+        return $rows['total_rows'];
     }
 
     /* ------------------- RELATIONSHIPS METHODS ------------------- */

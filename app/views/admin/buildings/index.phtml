@@ -30,6 +30,10 @@ $buildings = $paginator->registers() ?? [];
                             <td class="text-secondary"><?= $predio->n_floors ?></td>
                             <td>
                                 <div class="d-flex justify-content-center gap-4">
+                                    <a href="<?= route('admin.bathrooms.index', ['building_id' => $predio->id]) ?>" class="btn btn-link text-primary p-0">
+                                        Banheiros
+                                    </a>
+
                                     <a href="/admin/buildings/<?= $predio->id ?>/edit" class="btn btn-link text-primary p-0">
                                         Editar
                                     </a>
