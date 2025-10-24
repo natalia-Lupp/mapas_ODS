@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("formCadastroPredio");
-  const nomePredio = document.getElementById("id_name");
+  const form = document.getElementById("buildingRegistrationForm");
+  const nameBuilding = document.getElementById("id_name");
 
   form.addEventListener("submit", function (event) {
     // Apenas para evitar envio vazio
-    if (!nomePredio.value.trim()) {
+    if (!nameBuilding.value.trim()) {
       event.preventDefault();
     }
   });

@@ -17,7 +17,7 @@
 
                 <!-- Dashboard -->
                 <li class="nav-item me-3">
-                    <form action="/admin" method="get" class="d-inline">
+                    <form action="<?= route('admin.dashboard') ?>" method="get" class="d-inline">
                         <button type="submit" class="btn btn-link nav-link text-muted p-0">
                             Dashboard
                         </button>
@@ -37,7 +37,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
-                            <form method="POST" action="/logout" class="m-0">
+                            <form method="POST" action="<?= route('auth.logout') ?>" class="m-0">
                                 <button type="submit" class="dropdown-item text-danger">
                                     <i class="bi bi-box-arrow-right me-2"></i> Sair
                                 </button>
