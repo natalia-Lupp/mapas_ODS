@@ -62,7 +62,7 @@ class AuthController extends Controller
             return;
         } elseif ($isClient) {
             FlashMessage::success('Login realizado com sucesso!');
-            $this->redirectTo(route('dashboard.client'));
+            $this->redirectTo(route('client.dashboard'));
             return;
         }
 
@@ -83,12 +83,12 @@ class AuthController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             if ($user->hasRule('admin')) {
-                $this->redirectTo(route('dashboard.admin'));
+                $this->redirectTo(route('admin.dashboard'));
                 return;
             }
 
             if ($user->hasRule('client')) {
-                $this->redirectTo(route('admin.dashboard'));
+                $this->redirectTo(route('client.dashboard'));
                 return;
             }
         }

@@ -22,15 +22,15 @@ class Bathroom extends Model
 {
     protected static string $table = 'bathrooms';
     protected static array $columns = [
-      'image_url',
-      'floor',
-      'building_id'
+        'image_url',
+        'floor',
+        'building_id'
     ];
     public ?string $image_name;
     public ?string $image_type;
     public ?int $image_size;
     public ?string $image_temp_name;
-    public const int MAX_IMAGE_ACEPTED_SIZE = (2 * 1048576);// 2MB
+    public const int MAX_IMAGE_ACEPTED_SIZE = (2 * 1048576); // 2MB
 
     public function validates(): void
     {
@@ -56,8 +56,8 @@ class Bathroom extends Model
             Validations::inRange('image_size', 1, self::MAX_IMAGE_ACEPTED_SIZE, $this);
             Validations::isString('image_type', $this);
             Validations::inEnum('image_type', [
-              'image/png',
-              'image/jpeg'
+                'image/png',
+                'image/jpeg'
             ], $this);
         } else {
             $this->image_name = '';

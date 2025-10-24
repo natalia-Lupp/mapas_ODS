@@ -13,6 +13,10 @@ class HomeController extends Controller
     public function dashboard(Request $req): void
     {
         $title = 'Dashboard Admin - Mapas ODS';
-        $this->render('admin/home/dashboard', compact('title'));
+
+        $totalPredios = Building::count();
+        // $totalPredios = count($buildings);
+
+        $this->render('admin/home/dashboard', compact('title', 'totalPredios'));
     }
 }
