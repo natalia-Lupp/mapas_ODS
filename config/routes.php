@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
 
 
         // Update Building
-        Route::get('/admin/buildings/buildings.list', [BuildingController::class, 'new'])->name('admin.buildings.new');
+        // Route::get('/admin/buildings/buildings.list', [BuildingController::class, 'new'])->name('admin.buildings.new');
         Route::get('/admin/buildings/{id}/edit', [BuildingController::class, 'edit'])->name('admin.buildings.edit');
         Route::put('/admin/buildings/{id}', [BuildingController::class, 'update'])->name('admin.buildings.update');
 

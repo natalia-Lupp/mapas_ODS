@@ -4,6 +4,9 @@
 <!-- Cards de resumo -->
 <?php
 // Pega todos os prédios do paginator
+
+use Behat\Gherkin\Filter\RoleFilter;
+
 $buildings = $paginator->registers() ?? [];
 ?>
 <div class="row mb-4 g-3 d-flex justify-content-center">
@@ -12,9 +15,9 @@ $buildings = $paginator->registers() ?? [];
 </div>
 
 <!-- Tabela de prédios -->
-<div class="card shadow-sm border-0">
+<div class="card shadow-sm border-0 mb-5">
     <div class="table-responsive">
-        <table id="tabelaPrediosDashboard" class="table align-middle text-center">
+        <table id="tableBuildingsDashboard" class="table align-middle text-center">
             <thead class="table-primary">
                 <tr>
                     <th>Prédio</th>
@@ -24,20 +27,23 @@ $buildings = $paginator->registers() ?? [];
             </thead>
             <tbody>
                 <?php if (!empty($buildings)): ?>
-                    <?php foreach ($buildings as $predio): ?>
+                    <?php foreach ($buildings as $building): ?>
                         <tr>
-                            <td class="text-secondary"><?= htmlspecialchars($predio->name) ?></td>
-                            <td class="text-secondary"><?= $predio->n_floors ?></td>
+                            <td class="text-secondary"><?= htmlspecialchars($building->name) ?></td>
+                            <td class="text-secondary"><?= $building->n_floors ?></td>
                             <td>
                                 <div class="d-flex justify-content-center gap-4">
-                                    <a href="<?= route('admin.bathrooms.index', ['building_id' => $predio->id]) ?>" class="btn btn-link text-primary p-0">
+                                    <a href="<?= route('admin.buildings.show', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0">
+                                        Detalhes
+                                    </a>
+                                    <a href="<?= route('admin.bathrooms.index', ['building_id' => $building->id]) ?>" class="btn btn-link text-primary p-0">
                                         Banheiros
                                     </a>
 
-                                    <a href="/admin/buildings/<?= $predio->id ?>/edit" class="btn btn-link text-primary p-0">
+                                    <a href="<?= route('admin.buildings.edit', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0">
                                         Editar
                                     </a>
-                                    <form method="POST" action="/admin/buildings/<?= $predio->id ?>" class="d-inline">
+                                    <form method="POST" action="<?= route('admin.buildings.destroy', ['id' => $building->id]) ?>" class="d-inline">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button class="btn btn-link text-danger p-0" type="submit">Excluir</button>
                                     </form>
@@ -57,7 +63,7 @@ $buildings = $paginator->registers() ?? [];
     </div>
 </div>
 
-<!-- Botões abaixo da tabela -->
+<!-- Botões abaixo da tabela 
 <div class="d-flex justify-content-between align-items-center mt-5 mb-5">
     <form method="POST" action="/buildings/deleteAll">
         <input type="hidden" name="_method" value="DELETE">
@@ -69,4 +75,4 @@ $buildings = $paginator->registers() ?? [];
     <button class="btn btn-primary fw-semibold px-4 rounded-pill" id="btnExportarPDF">
         Exportar PDF
     </button>
-</div>
+</div> -->

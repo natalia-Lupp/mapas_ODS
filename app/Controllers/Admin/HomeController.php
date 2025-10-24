@@ -14,9 +14,8 @@ class HomeController extends Controller
     {
         $title = 'Dashboard Admin - Mapas ODS';
 
-        $totalPredios = Building::count();
-        // $totalPredios = count($buildings);
+        $totalBuildings = Building::count();
 
-        $this->render('admin/home/dashboard', compact('title', 'totalPredios'));
+        $this->render('admin/home/dashboard', compact('title', 'totalBuildings'));
     }
 }

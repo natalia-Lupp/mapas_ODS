@@ -2,7 +2,7 @@
 <p class="text-muted">Atualize os dados do prédio</p>
 
 <div class="form-background">
-    <form id="formEditarPredio" method="POST" action="<?= route('admin.buildings.update', ['id' => $building->id]) ?>" novalidate>
+    <form id="formEditBuilding" method="POST" action="<?= route('admin.buildings.update', ['id' => $building->id]) ?>" novalidate>
 
         <!-- Spoof method PUT -->
         <input type="hidden" name="_method" value="PUT">
