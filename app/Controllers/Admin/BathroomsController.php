@@ -11,7 +11,7 @@ class BathroomsController extends Controller
 {
     protected string $layout = 'admin/application';
 
-    public function index(Request $request)
+    public function index(Request $request): void
     {
         $building = Building::findById($request->getParam('building_id'));
 
@@ -19,7 +19,7 @@ class BathroomsController extends Controller
         $this->render('admin/bathrooms/index', compact('title', 'building'));
     }
 
-    public function new()
+    public function new(): void
     {
         $title = 'Adicionar Banheiros - Mapas ODS';
         $this->render('admin/bathrooms/new', compact('title'));

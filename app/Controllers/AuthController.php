@@ -10,7 +10,6 @@ use Lib\FlashMessage;
 
 class AuthController extends Controller
 {
-
     protected string $layout = 'login';
 
     public function index(): void
