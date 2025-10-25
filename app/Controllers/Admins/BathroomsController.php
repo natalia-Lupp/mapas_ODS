@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
 use App\Models\Building;

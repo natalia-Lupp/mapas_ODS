@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Admin;
+namespace App\Controllers\Admins;
 
 use Core\Http\Controllers\Controller;
 use App\Models\Building;
