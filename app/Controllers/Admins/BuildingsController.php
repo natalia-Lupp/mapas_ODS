@@ -7,7 +7,7 @@ use App\Models\Building;
 use Core\Http\Request;
 use Lib\FlashMessage;
 
-class BuildingController extends Controller
+class BuildingsController extends Controller
 {
     protected string $layout = 'admin/application';
 
