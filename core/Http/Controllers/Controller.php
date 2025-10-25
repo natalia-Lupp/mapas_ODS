@@ -34,7 +34,6 @@ class Controller
         extract($data);
 
         $view = Constants::rootPath()->join('app/views/' . $view . '.phtml');
-        $layout = $layoutName ?? $this->layout;
         require Constants::rootPath()->join('app/views/layouts/' . $this->layout . '.phtml');
     }
 
