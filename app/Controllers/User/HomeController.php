@@ -6,7 +6,6 @@ use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 
 class HomeController extends Controller
-
 {
     protected string $layout = 'user/application';
 

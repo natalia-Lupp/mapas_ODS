@@ -367,9 +367,6 @@ abstract class Model
         return !empty($resp);
     }
 
-    /**
-     * @param array<string, mixed> $conditions
-     */
     public static function count(): int
     {
         $table = static::$table;

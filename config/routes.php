@@ -24,8 +24,10 @@ Route::middleware('auth')->group(function () {
 
 
         //Bathroom Routes
-        Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])->name('admin.bathrooms.index');
-        Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])->name('admin.bathrooms.new');
+        Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
+          ->name('admin.bathrooms.index');
+        Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
+          ->name('admin.bathrooms.new');
 
 
 
@@ -38,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
         // Retrieve Building
         Route::get('/admin/buildings/page/{page}', [BuildingController::class, 'index'])->name('admin.buildings.paginate');
-        Route::get('/admin/buildings/{id}', [BuildingController::class, 'show'])->name('admin.buildings.show'); // usar essa 
+        Route::get('/admin/buildings/{id}', [BuildingController::class, 'show'])->name('admin.buildings.show'); // usar essa
 
 
         // Update Building

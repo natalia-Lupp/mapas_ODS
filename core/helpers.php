@@ -25,7 +25,7 @@ if (!function_exists('route')) {
 
 if (!function_exists('render')) {
     /**
-     * @param string $viewPath
+     * @param string $partial
      * @return string
      */
     function render(string $partial): string
