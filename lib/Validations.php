@@ -185,6 +185,39 @@ class Validations
 
         return true;
     }
+    /** @param array<int, string> | string $fields */
+    public static function uniquenessMutable(array | string $fields, Model $object): bool
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+
+        $table = $object::table();
+        $conditions = implode(' AND ', array_map(fn($field) => "{$field} = :{$field}", $fields));
+        $id = $object->id;
+        $sql = <<<SQL
+            SELECT id FROM {$table} WHERE id <> {$id} AND {$conditions};
+        SQL;
+
+        $pdo = Database::getDatabaseConn();
+        $stmt = $pdo->prepare($sql);
+
+        foreach ($fields as $field) {
+            $stmt->bindValue($field, $object->$field);
+        }
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() !== 0) {
+            foreach ($fields as $field) {
+                $object->addError($field, 'já existe um registro com esse dado');
+            }
+            return false;
+        }
+
+        return true;
+    }
     public static function isIdFrom(string $field, Model $obj, string $related): bool
     {
         $entity = $related::findById($obj->$field);
