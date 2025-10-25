@@ -2,10 +2,10 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
-use App\Controllers\Admin\HomeController as AdminHomeController;
-use App\Controllers\User\HomeController as UserHomeController;
-use App\Controllers\Admin\BuildingController;
-use App\Controllers\Admin\BathroomsController;
+use App\Controllers\Admins\HomeController as AdminHomeController;
+use App\Controllers\Users\HomeController as UserHomeController;
+use App\Controllers\Admins\BuildingsController;
+use App\Controllers\Admins\BathroomsController;
 use Core\Router\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -29,24 +29,24 @@ Route::middleware('auth')->group(function () {
           ->name('admin.bathrooms.new');
 
         // Buildings ----------------------------------------------------------------------------
-        Route::get('/admin/buildings', [BuildingController::class, 'index'])->name('admin.buildings.index');
+        Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');
 
         // Create Building
-        Route::get('/admin/buildings/new', [BuildingController::class, 'new'])->name('admin.buildings.new'); // rota nova
-        Route::post('/admin/buildings', [BuildingController::class, 'create'])->name('admin.buildings.create');
+        Route::get('/admin/buildings/new', [BuildingsController::class, 'new'])->name('admin.buildings.new'); // rota nova
+        Route::post('/admin/buildings', [BuildingsController::class, 'create'])->name('admin.buildings.create');
 
         // Retrieve Building
-        Route::get('/admin/buildings/page/{page}', [BuildingController::class, 'index'])->name('admin.buildings.paginate');
-        Route::get('/admin/buildings/{id}', [BuildingController::class, 'show'])->name('admin.buildings.show'); // usar essa
+        Route::get('/admin/buildings/page/{page}', [BuildingsController::class, 'index'])->name('admin.buildings.paginate');
+        Route::get('/admin/buildings/{id}', [BuildingsController::class, 'show'])->name('admin.buildings.show'); // usar essa
 
 
         // Update Building
         // Route::get('/admin/buildings/buildings.list', [BuildingController::class, 'new'])->name('admin.buildings.new');
-        Route::get('/admin/buildings/{id}/edit', [BuildingController::class, 'edit'])->name('admin.buildings.edit');
-        Route::put('/admin/buildings/{id}', [BuildingController::class, 'update'])->name('admin.buildings.update');
+        Route::get('/admin/buildings/{id}/edit', [BuildingsController::class, 'edit'])->name('admin.buildings.edit');
+        Route::put('/admin/buildings/{id}', [BuildingsController::class, 'update'])->name('admin.buildings.update');
 
         // Delete Building
-        Route::delete('/admin/buildings/{id}', [BuildingController::class, 'destroy'])->name('admin.buildings.destroy');
+        Route::delete('/admin/buildings/{id}', [BuildingsController::class, 'destroy'])->name('admin.buildings.destroy');
     });
 
     // User Routes
