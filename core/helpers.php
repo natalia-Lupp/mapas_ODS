@@ -26,10 +26,9 @@ if (!function_exists('route')) {
 if (!function_exists('render')) {
     /**
      * @param string $partial
-     * @return string
      */
-    function render(string $partial): string
+    function render(string $partial): void
     {
-        return Constants::rootPath()->join('app/views/')->join($partial . "phtml");
+        require Constants::rootPath()->join('app/views/')->join($partial . ".phtml");
     }
 }
