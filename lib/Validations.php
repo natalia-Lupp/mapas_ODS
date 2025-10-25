@@ -195,10 +195,17 @@ class Validations
 
         $table = $object::table();
         $conditions = implode(' AND ', array_map(fn($field) => "{$field} = :{$field}", $fields));
-        $id = $object->id;
-        $sql = <<<SQL
-            SELECT id FROM {$table} WHERE id <> {$id} AND {$conditions};
-        SQL;
+        $sql = "";
+        if (!$object->newRecord()) {
+            $id = $object->id;
+            $sql = <<<SQL
+              SELECT id FROM {$table} WHERE id <> {$id} AND {$conditions};
+            SQL;
+        } else {
+            $sql = <<<SQL
+              SELECT id FROM {$table} WHERE {$conditions};
+            SQL;
+        }
 
         $pdo = Database::getDatabaseConn();
         $stmt = $pdo->prepare($sql);
