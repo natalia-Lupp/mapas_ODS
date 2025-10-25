@@ -32,6 +32,7 @@ class Building extends Model
         Validations::notEmpty('name', $this);
         Validations::isString('name', $this);
         Validations::inRangeLength('name', 1, 100, $this);
+        Validations::uniquenessMutable('name', $this);
     }
 
     public function getBathroomPaginator(int $page, int $per_page, ?string $route): Paginator
