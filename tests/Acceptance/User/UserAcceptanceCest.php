@@ -27,7 +27,7 @@ class UserAcceptanceCest extends BaseAcceptanceCest
     {
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
-        $page->see('Dashboard Admin', 'h2');
+        $page->see('Total de Prédios', 'h5');
         $page->amOnPage('/client');
         $page->see('Dashboard Client', 'h2');
     }
@@ -35,7 +35,7 @@ class UserAcceptanceCest extends BaseAcceptanceCest
     {
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
-        $page->see('Dashboard Admin', 'h2');
+        $page->see('Total de Prédios', 'h5');
     }
     public function denayAdminAccess(AcceptanceTester $page): void
     {
