@@ -75,4 +75,14 @@ class BuildingTest extends TestCase
             )
         );
     }
+    public function test_building_cache(): void
+    {
+        (new Building([
+        'name' => 'H',
+        'n_floors' => 3
+        ]))->save();
+        $building1 = Building::findById(1);
+        $building2 = Building::findById(1);
+        $this->assertEquals(spl_object_id($building1), spl_object_id($building2));
+    }
 }
