@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Acceptance\User;
+namespace Tests\Acceptance\Admin;
 
 use Database\Populate\AccountRulePopulate;
 use Database\Populate\BathroomPopulate;
