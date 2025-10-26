@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
+use Core\Database\Database;
+use Core\Exceptions\ReferentialIntegrityException;
 use Lib\Paginator;
+use PDOException;
 
 /**
  * @property int $id
@@ -50,5 +53,27 @@ class Building extends Model
         return isset(self::$cache[$id])
         ? self::$cache[$id]
         : (self::$cache[$id] = parent::findById($id));
+    }
+    public function destroy(): bool
+    {
+        $table = static::$table;
+
+        $sql = <<<SQL
+            DELETE FROM {$table} WHERE id = :id;
+        SQL;
+
+        $pdo = Database::getDatabaseConn();
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id', $this->id);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $ex) {
+            throw new ReferentialIntegrityException(
+                'Este prédio não pode ser deletado porque possui banheiros relacionados a ele.'
+            );
+        }
+        return ($stmt->rowCount() != 0);
     }
 }

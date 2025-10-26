@@ -4,6 +4,7 @@ namespace App\Controllers\Admins;
 
 use Core\Http\Controllers\Controller;
 use App\Models\Building;
+use Core\Exceptions\ReferentialIntegrityException;
 use Core\Http\Request;
 use Lib\FlashMessage;
 
@@ -88,9 +89,12 @@ class BuildingsController extends Controller
         $params = $request->getParams();
 
         $building = Building::findById($params['id']);
-        $building->destroy();
-
-        FlashMessage::success('Prédio removido com sucesso!');
+        try {
+            $building->destroy();
+            FlashMessage::success('Prédio removido com sucesso!');
+        } catch (ReferentialIntegrityException $ex) {
+            FlashMessage::danger($ex->getMessage());
+        }
         $this->redirectTo(route('admin.buildings.index'));
     }
 }
