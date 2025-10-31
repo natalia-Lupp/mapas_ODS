@@ -35,6 +35,7 @@ class Building extends Model
         Validations::notEmpty('name', $this);
         Validations::isString('name', $this);
         Validations::inRangeLength('name', 1, 100, $this);
+        Validations::match('name', "[a-zA-Z0-9]{1,100}", $this);
         Validations::uniquenessMutable('name', $this);
     }
 
