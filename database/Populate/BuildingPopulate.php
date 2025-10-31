@@ -13,31 +13,31 @@ class BuildingPopulate
 
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco A'
+          'name' => 'Bloco A'
         ]))->save();
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco B'
+          'name' => 'Bloco B'
         ]))->save();
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco C'
+          'name' => 'Bloco C'
         ]))->save();
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco D'
+          'name' => 'Bloco D'
         ]))->save();
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco E'
+          'name' => 'Bloco E'
         ]))->save();
         (new Building([
           'n_floors' => 1,
-          'name' => 'bloco F'
+          'name' => 'Bloco F'
         ]))->save();
         (new Building([
           'n_floors' => 4,
-          'name' => 'bloco R'
+          'name' => 'Bloco R'
         ]))->save();
         $table = Building::table();
         echo "$table populate with $numberOfResgisters\n";
