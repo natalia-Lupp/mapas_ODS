@@ -1,0 +1,83 @@
+<?php
+
+
+    $select_n_floors = 0;
+?>
+<h2 class="mt-4 fw-semibold">Editar Banheiros</h2>
+<p class="text-muted">Informe os dados dos banheiros do predio</p>
+
+<div class="form-background">
+    <form id="formCadastroBanheiro" method="POST" action="<?= route('admin.bathrooms.update', ['id' => $bathroom->id])?>"  enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Nome do predio</label>
+            <select class="form-select" id="id_building_id" name="bathroom[building_id]" required>
+                <?php foreach ($buildings as $building):
+                    $id = $building->id;
+                    $name = $building->name;
+                    if ($id == $bathroom->building_id) {
+                        $select_n_floors = $building->n_floors;
+                    }
+                ?>
+                    <option
+                        value="<?= $id ?>"
+                        n_floors="<?= $building->n_floors?>"
+                        <?php if($id == $bathroom->building_id) echo 'selected'; ?>
+                    >
+                        <?= $name ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Andar</label>
+            <select class="form-select" id="id_floor" name="bathroom[floor]" required>
+                <?php
+
+                    if ($select_n_floors == 0 && isset($buildings[0])) {
+                        $select_n_floors = $buildings[0]->n_floors;
+                    }
+                ?>
+                <?php for ($i = 0; $i < $select_n_floors; $i++): ?>
+                    <option
+                        value="<?= $i ?>"
+                        <?php if($i == $bathroom->floor) echo 'selected'; ?>
+                    >
+                        <?= $i + 1 ?> andar
+                    </option>
+                <?php endfor; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Imagen</label>
+            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+                <i class="bi bi-building-add"></i>
+                Salvar Banheiro
+            </button>
+        </div>
+
+    </form>
+    <?php
+        if (isset($bathroom->image_url)):
+    ?>
+        <div class="mb2">
+            <img class="bathroom_image" src="/assets/uploads/<?= $bathroom->image_url?>">
+        </div>
+        <div class="mb-3">
+            <form method="POST" action="<?= route('admin.bathrooms.image.destroy', ['id' => $bathroom->id])?>">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Deletar imagem"></input>
+            </form>
+        </div>
+    <?php
+        endif;
+    ?>
+</div>
+
+</div>
+<script src="/assets/js/admin/bathroom/new.js"/>

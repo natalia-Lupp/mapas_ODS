@@ -31,10 +31,18 @@ Route::middleware('auth')->group(function () {
           ->name('admin.buildings.bathrooms.new');
         Route::get('/admin/bathrooms/new', [BathroomsController::class, 'new'])
           ->name('admin.bathrooms.new');
-        Route::post('/admin/bathroom', [BathroomsController::class, 'create'])
+        Route::post('/admin/bathrooms', [BathroomsController::class, 'create'])
           ->name('admin.bathrooms.create');
-        Route::delete('/admin/bathroom/{id}', [BathroomsController::class, 'destroy'])
+        Route::delete('/admin/bathrooms/{id}', [BathroomsController::class, 'destroy'])
           ->name('admin.bathrooms.destroy');
+        Route::get('/admin/bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
+          ->name('admin.bathrooms.edit');
+        Route::put('/admin/bathrooms/{id}', [BathroomsController::class, 'update'])
+          ->name('admin.bathrooms.update');
+        Route::get('/admin/bathrooms/{id}', [BathroomsController::class, 'show'])
+          ->name('admin.bathrooms.show');
+        Route::delete('/admin/bathrooms/image/{id}', [BathroomsController::class, 'destroyImage'])
+          ->name('admin.bathrooms.image.destroy');
 
         // Buildings ----------------------------------------------------------------------------
         Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');

@@ -105,4 +105,13 @@ class Bathroom extends Model
         }
         return $this->save();
     }
+
+    public function deleteImage(): bool
+    {
+        if (isset($this->image_url)) {
+            unlink(Constants::rootPath()->join('public/assets/uploads/' . $this->image_url));
+            $this->image_url = null;
+        }
+        return $this->save();
+    }
 }

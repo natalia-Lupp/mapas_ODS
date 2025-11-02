@@ -4,7 +4,6 @@ namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
 use App\Models\Building;
-use Core\Debug\Debugger;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
@@ -57,7 +56,6 @@ class BathroomsController extends Controller
               'building_id' => $bathroom->id
             ]));
         } else {
-            Debugger::dd($bathroom->getErrors());
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
             $this->redirectTo(route('admin.bathrooms.new'));
         }
@@ -72,13 +70,65 @@ class BathroomsController extends Controller
         FlashMessage::success('Banheiro removido com sucesso!');
         $this->redirectTo(route('admin.buildings.index'));
     }
-}
 
-/*
-  public function bathroom(Request $request, int $id)
-   $building = Building::findById($id);
-        if (!$building) {
-            FlashMessage::danger('Prédio não encontrado!');
-            $this->render('admin/buildings/bathroom', compact('building', 'title'));
+    public function edit(Request $request): void
+    {
+        $id = $request->getParam('id', 0);
+        if ($id > 0) {
+            $bathroom = Bathroom::findById($id);
+            if (!isset($bathroom)) {
+                FlashMessage::danger('Banheiro não encontrado!');
+                $this->redirectTo(route('admin.buildings.index'));
+            }
+            $title = 'Editar Banheiros - Mapas ODS';
+            $buildings = Building::all();
+            $buildingId = $bathroom->building_id;
+            $this->render('admin/bathrooms/edit', compact('title', 'buildings', 'buildingId', 'bathroom'));
+        } else {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
         }
-*/
+    }
+
+    public function update(Request $request): void
+    {
+        $params = $request->getParams();
+        $bathroom = Bathroom::findById(intval($params['id']));
+        $image = $_FILES['image'] ?? [];
+        $bathroomParams = $request->getParam('bathroom', []);
+
+        $bathroom->floor = $bathroomParams['floor'] ?? -1;
+        $bathroom->building_id =$bathroomParams['building_id'] ?? 0;
+        $bathroom->image_name = $image['name'] ?? '';
+        $bathroom->image_type = $image['type'] ?? '';
+        $bathroom->image_size = $image['size'] ?? '';
+        $bathroom->image_temp_name = $image['tmp_name'] ?? '';
+        if ($bathroom->save()) {
+            FlashMessage::success('Banheiro atualizado com sucesso!!');
+            $this->redirectTo(route('admin.bathrooms.index', [
+            'building_id' => $bathroom->building_id
+            ]));
+        } else {
+            FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
+            $this->redirectTo(route('admin.bathrooms.edit'));
+        }
+    }
+    public function show(Request $request): void
+    {
+        $params = $request->getParams();
+
+        $bathroom = Bathroom::findById($params['id']);
+
+        $title = "Banheiro";
+        $this->render('admin/bathrooms/show', compact('bathroom', 'title'));
+    }
+
+    public function destroyImage(Request $request): void
+    {
+        $params = $request->getParams();
+        $bathroom = Bathroom::findById(intval($params['id']));
+        $bathroom->deleteImage();
+        FlashMessage::success('Im agem do banheiro removido com sucesso!');
+        $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
+    }
+}
