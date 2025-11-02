@@ -42,7 +42,7 @@ class BuildingTest extends TestCase
         ]);
         $building->save();
         $this->assertEquals(
-            "Deve ser maior ou igual à 1 caracteres!",
+            "Don't math the patern /[a-zA-Z0-9]{1,100}/",
             $building->errors('name')
         );
         $this->assertEquals(0, count(Building::all()));
