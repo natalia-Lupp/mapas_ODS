@@ -14,7 +14,7 @@ class BathroomsController extends Controller
 
     public function index(Request $request): void
     {
-        $building = Building::findById($request->getParam('building_id'));
+        $building = Building::findById(intval($request->getParam('building_id')));
         $page = $request->getParam('page', 1);
         $per_page = $request->getParam('per_page', 10);
         $paginator = null;
@@ -98,7 +98,7 @@ class BathroomsController extends Controller
         $bathroomParams = $request->getParam('bathroom', []);
 
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
-        $bathroom->building_id =$bathroomParams['building_id'] ?? 0;
+        $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
         $bathroom->image_name = $image['name'] ?? '';
         $bathroom->image_type = $image['type'] ?? '';
         $bathroom->image_size = $image['size'] ?? '';
