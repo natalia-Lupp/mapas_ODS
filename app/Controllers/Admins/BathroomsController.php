@@ -20,9 +20,10 @@ class BathroomsController extends Controller
         $per_page = $request->getParam('per_page', 10);
         $paginator = null;
         if (isset($building)) {
-          $paginator = $building->getBathroomPaginator($page, $per_page, 'admin.bathrooms.index');
+            $building_id = $building->id;
+            $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/$building_id/bathrooms");
         } else {
-          $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.bathrooms.index');
+            $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.bathrooms.index');
         }
         $title = 'Todos Banheiros - Mapas ODS';
         $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
@@ -60,6 +61,16 @@ class BathroomsController extends Controller
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
             $this->redirectTo(route('admin.bathrooms.new'));
         }
+    }
+
+    public function destroy(Request $request): void
+    {
+        $params = $request->getParams();
+
+        $building = Bathroom::findById($params['id']);
+        $building->destroy();
+        FlashMessage::success('Banheiro removido com sucesso!');
+        $this->redirectTo(route('admin.buildings.index'));
     }
 }
 

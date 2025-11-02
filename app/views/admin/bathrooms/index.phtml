@@ -35,7 +35,7 @@ $bathrooms = $paginator->registers() ?? [];
                                     <a href="<?= ''//route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0">
                                         Editar
                                     </a>
-                                    <form method="POST" action="<?= ''//route('admin.bathrooms.destroy', ['id' => $bathroom->id]) ?>" class="d-inline">
+                                    <form method="POST" action="<?= route('admin.bathrooms.destroy', ['id' => $bathroom->id]) ?>" class="d-inline">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button class="btn btn-link text-danger p-0" type="submit">Excluir</button>
                                     </form>

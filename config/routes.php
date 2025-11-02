@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
           ->name('admin.bathrooms.new');
         Route::post('/admin/bathroom', [BathroomsController::class, 'create'])
           ->name('admin.bathrooms.create');
+        Route::delete('/admin/bathroom/{id}', [BathroomsController::class, 'destroy'])
+          ->name('admin.bathrooms.destroy');
 
         // Buildings ----------------------------------------------------------------------------
         Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');
