@@ -23,10 +23,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
 
         //Bathroom Routes
-        Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
+        Route::get('/admin/bathrooms', [BathroomsController::class, 'index'])
           ->name('admin.bathrooms.index');
+        Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
+          ->name('admin.buildings.bathrooms.index');
         Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
+          ->name('admin.buildings.bathrooms.new');
+        Route::get('/admin/bathrooms/new', [BathroomsController::class, 'new'])
           ->name('admin.bathrooms.new');
+        Route::post('/admin/bathroom', [BathroomsController::class, 'create'])
+          ->name('admin.bathrooms.create');
 
         // Buildings ----------------------------------------------------------------------------
         Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');

@@ -1,6 +1,55 @@
 <?= $title ?>
 
+<?php
+// Pega todos os prédios do paginator
+
+
+$bathrooms = $paginator->registers() ?? [];
+?>
 <div>
-    <a class="btn btn-primary fw-semibold px-4 rounded-pill"
-        href="<?= route('admin.bathrooms.new', ['building_id' => $building->id]) ?>">Novo banheiro</a>
+        <a class="btn btn-primary fw-semibold px-4 rounded-pill"
+            href="<?= route('admin.bathrooms.new') ?>">Novo banheiro</a>
+    <table id="tableBuildingsDashboard" class="table align-middle text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>Prédio id</th>
+                    <th>Andar</th>
+                    <th>Imagem</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($bathrooms)): ?>
+                    <?php foreach ($bathrooms as $bathroom): ?>
+                        <tr>
+                            <td class="text-secondary"><?= htmlspecialchars($bathroom->building_id) ?></td>
+                            <td class="text-secondary"><?= $bathroom->floor ?></td>
+                            <td>
+                                <img class="bathroom_image" src="/assets/uploads/<?= $bathroom->image_url?>">
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-4">
+                                    <a href="<?= ''//route('admin.bathrooms.show', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0">
+                                        Detalhes
+                                    </a>
+                                    <a href="<?= ''//route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0">
+                                        Editar
+                                    </a>
+                                    <form method="POST" action="<?= ''//route('admin.bathrooms.destroy', ['id' => $bathroom->id]) ?>" class="d-inline">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button class="btn btn-link text-danger p-0" type="submit">Excluir</button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="3" class="text-muted">Nenhum prédio cadastrado.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <?php $paginator->renderPagesNavigation(); ?>
 </div>
