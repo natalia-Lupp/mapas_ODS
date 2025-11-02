@@ -1,50 +1,31 @@
-<?php
-
-
-    $select_n_floors = 0;
-?>
 <h2 class="mt-4 fw-semibold">Cadastrar Banheiros</h2>
 <p class="text-muted">Informe os dados dos banheiros do predio</p>
 
 <div class="form-background">
-    <form id="formCadastroBanheiro" method="POST" action="<?= route('admin.bathrooms.create')?>"  enctype="multipart/form-data">
+    <form id="formCadastroBanheiro" method="POST">
         <div class="mb-3">
-            <label class="form-label fw-semibold">Nome do predio</label>
-            <select class="form-select" id="id_building_id" name="bathroom[building_id]" required>
-                <?php foreach ($buildings as $building):
-                    $id = $building->id;
-                    $name = $building->name;
-                    if ($id == $buildingId) {
-                        $select_n_floors = $building->n_floors;
-                    }
-                ?>
-                    <option
-                        value="<?= $id ?>"
-                        n_floors="<?= $building->n_floors?>"
-                        <?php if($id == $buildingId) echo 'selected'; ?>
-                    >
-                        <?= $name ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label fw-semibold">Andar</label>
-            <select class="form-select" id="id_floor" name="bathroom[floor]" required>
-                <?php
-
-                    if ($select_n_floors == 0 && isset($buildings[0])) {
-                        $select_n_floors = $buildings[0]->n_floors;
-                    }
-                ?>
-                <?php for ($i = 0; $i < $select_n_floors; $i++): ?>
-                    <option value="<?= $i ?>"><?= $i + 1 ?> andar</option>
+            <label class="form-label fw-semibold">Número de Banheiros por andar</label>
+            <select class="form-select" id="id_n_floors" name="building[n_floors]" required>
+                <?php for ($i = 1; $i <= 10; $i++): ?>
+                    <option value="<?= $i ?>"><?= $i ?> banheiro<?= $i > 1 ? 'es' : '' ?></option>
                 <?php endfor; ?>
             </select>
         </div>
         <div class="mb-3">
-            <label for="image" class="form-label">Imagen</label>
-            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+            <label class="form-label fw-semibold">Numero de torneiras por Banheiro</label>
+            <select class="form-select" id="id_n_floors" name="building[n_floors]" required>
+                <?php for ($i = 1; $i <= 30; $i++): ?>
+                    <option value="<?= $i ?>"><?= $i ?> torneiras<?= $i > 1 ? 'es' : '' ?></option>
+                <?php endfor; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Numero de vasos por Banheiro</label>
+            <select class="form-select" id="id_n_floors" name="building[n_floors]" required>
+                <?php for ($i = 1; $i <= 30; $i++): ?>
+                    <option value="<?= $i ?>"><?= $i ?> vasos<?= $i > 1 ? 'es' : '' ?></option>
+                <?php endfor; ?>
+            </select>
         </div>
 
         <div class="d-flex justify-content-between mt-4">
@@ -59,4 +40,3 @@
 </div>
 
 </div>
-<script src="/assets/js/admin/bathroom/new.js"/>
