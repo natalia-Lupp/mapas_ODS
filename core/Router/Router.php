@@ -53,18 +53,18 @@ class Router
      */
     public function getRoutePathByName(string $name, array $params = []): string
     {
-        foreach ($this->routes as $route) {
-            if (strpos($route->getName(), '/') === false) {
-              if ($route->getName() === $name) {
-                  $routePath = $route->getUri();
-                  $routePath = $this->replaceRouteParams($routePath, $params);
-                  $routePath = $this->appendQueryParams($routePath, $params);
+        if (strpos($name, '/') === false) {
+            foreach ($this->routes as $route) {
+                if ($route->getName() === $name) {
+                    $routePath = $route->getUri();
+                    $routePath = $this->replaceRouteParams($routePath, $params);
+                    $routePath = $this->appendQueryParams($routePath, $params);
 
-                  return $routePath;
-              }
-            } else {
-              return $this->appendQueryParams($name, $params);
+                    return $routePath;
+                }
             }
+        } else {
+            return $this->appendQueryParams($name, $params);
         }
 
         throw new Exception("Route with name $name not found", 500);
