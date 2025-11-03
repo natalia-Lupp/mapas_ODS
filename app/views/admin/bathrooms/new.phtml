@@ -1,49 +1,30 @@
-<?php
-
-
-    $select_n_floors = 0;
-?>
-<h2 class="mt-4 fw-semibold">Cadastrar Banheiros</h2>
-<p class="text-muted">Informe os dados dos banheiros do predio</p>
+<h2 class="mt-4 fw-semibold"><?= htmlspecialchars($title) ?></h2>
+<p class="text-muted">Informe os dados dos banheiros do prédio</p>
 
 <div class="form-background">
-    <form id="formCadastroBanheiro" method="POST" action="<?= route('admin.bathrooms.create')?>"  enctype="multipart/form-data">
+    <form id="formCadastroBanheiro" method="POST" action="<?= route('admin.bathrooms.create') ?>" enctype="multipart/form-data">
+
+        <!-- Prédio fixo -->
+        <!-- Nome do prédio como texto fixo -->
         <div class="mb-3">
-            <label class="form-label fw-semibold">Nome do predio</label>
-            <select class="form-select" id="id_building_id" name="bathroom[building_id]" required>
-                <?php foreach ($buildings as $building):
-                    $id = $building->id;
-                    $name = $building->name;
-                    if ($id == $buildingId) {
-                        $select_n_floors = $building->n_floors;
-                    }
-                ?>
-                    <option
-                        value="<?= $id ?>"
-                        n_floors="<?= $building->n_floors?>"
-                        <?php if($id == $buildingId) echo 'selected'; ?>
-                    >
-                        <?= $name ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+            <label class="form-label fw-semibold">Nome do prédio</label>
+            <p class="form-control-plaintext"><?= htmlspecialchars($building->name) ?></p>
+            <input type="hidden" name="bathroom[building_id]" value="<?= $building->id ?>">
         </div>
+
+        <!-- Andar -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Andar</label>
             <select class="form-select" id="id_floor" name="bathroom[floor]" required>
-                <?php
-
-                    if ($select_n_floors == 0 && isset($buildings[0])) {
-                        $select_n_floors = $buildings[0]->n_floors;
-                    }
-                ?>
-                <?php for ($i = 0; $i < $select_n_floors; $i++): ?>
-                    <option value="<?= $i ?>"><?= $i + 1 ?> andar</option>
+                <?php for ($i = 0; $i < $building->n_floors; $i++): ?>
+                    <option value="<?= $i ?>"><?= $i + 1 ?>º andar</option>
                 <?php endfor; ?>
             </select>
         </div>
+
+        <!-- Imagem -->
         <div class="mb-3">
-            <label for="image" class="form-label">Imagen</label>
+            <label for="image" class="form-label">Imagem</label>
             <input class="form-control" type="file" id="image" name="image" accept="image/*">
         </div>
 
@@ -51,12 +32,9 @@
             <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
             <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
                 <i class="bi bi-building-add"></i>
-                Salvar Prédio
+                Salvar Banheiro
             </button>
         </div>
 
     </form>
 </div>
-
-</div>
-<script src="/assets/js/admin/bathroom/new.js"/>

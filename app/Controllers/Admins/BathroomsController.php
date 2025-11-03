@@ -14,26 +14,49 @@ class BathroomsController extends Controller
 
     public function index(Request $request): void
     {
-        $building = Building::findById(intval($request->getParam('building_id')));
+        $buildingId = intval($request->getParam('building_id'));
+        $building = null;
+        $title = 'Todos Banheiros - Mapas ODS';
+
+        if ($buildingId > 0) {
+            $building = Building::findById($buildingId);
+            if ($building) {
+                $title = "Banheiros {$building->name}";
+            }
+        }
+
         $page = $request->getParam('page', 1);
         $per_page = $request->getParam('per_page', 10);
-        $paginator = null;
-        if (isset($building)) {
-            $building_id = $building->id;
-            $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/$building_id/bathrooms");
+
+        if ($building) {
+            $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/{$building->id}/bathrooms");
         } else {
             $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.bathrooms.index');
         }
-        $title = 'Todos Banheiros - Mapas ODS';
+
         $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
     }
 
     public function new(Request $request): void
     {
-        $title = 'Adicionar Banheiros - Mapas ODS';
-        $buildings = Building::all();
-        $buildingId = $request->getParam('building_id', 0);
-        $this->render('admin/bathrooms/new', compact('title', 'buildings', 'buildingId'));
+        $buildingId = intval($request->getParam('building_id', 0));
+        $building = null;
+
+        if ($buildingId > 0) {
+            $building = Building::findById($buildingId);
+            if (!$building) {
+                FlashMessage::danger('Prédio não encontrado!');
+                $this->redirectTo(route('admin.buildings.index'));
+                return;
+            }
+        } else {
+            FlashMessage::danger('Prédio não informado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $title = "Cadastrar Banheiros - {$building->name}";
+        $this->render('admin/bathrooms/new', compact('title', 'building'));
     }
 
     public function create(Request $request): void
@@ -42,18 +65,18 @@ class BathroomsController extends Controller
         $bathroomParams = $params['bathroom'] ?? [];
         $image = $_FILES['image'] ?? [];
         $bathroom = new Bathroom([
-          'floor' => $bathroomParams['floor'] ?? -1,
-          'building_id' => $bathroomParams['building_id'] ?? 0,
-          'image_name' => $image['name'] ?? '',
-          'image_type' => $image['type'] ?? '',
-          'image_size' => $image['size'] ?? 0,
-          'image_temp_name' => $image['tmp_name'] ?? ''
+            'floor' => $bathroomParams['floor'] ?? -1,
+            'building_id' => $bathroomParams['building_id'] ?? 0,
+            'image_name' => $image['name'] ?? '',
+            'image_type' => $image['type'] ?? '',
+            'image_size' => $image['size'] ?? 0,
+            'image_temp_name' => $image['tmp_name'] ?? ''
         ]);
 
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro registrado com sucesso!!');
             $this->redirectTo(route('admin.bathrooms.index', [
-              'building_id' => $bathroom->id
+                'building_id' => $bathroom->id
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
@@ -106,7 +129,7 @@ class BathroomsController extends Controller
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro atualizado com sucesso!!');
             $this->redirectTo(route('admin.bathrooms.index', [
-            'building_id' => $bathroom->building_id
+                'building_id' => $bathroom->building_id
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');

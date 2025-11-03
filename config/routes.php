@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
 
-        //Bathroom Routes
+        //Bathroom Routes-----------------------------------------------------------------------
         Route::get('/admin/bathrooms', [BathroomsController::class, 'index'])
           ->name('admin.bathrooms.index');
         Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
