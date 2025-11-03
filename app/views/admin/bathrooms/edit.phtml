@@ -11,7 +11,7 @@
         <input type="hidden" name="_method" value="PUT">
         <div class="mb-3">
             <label class="form-label fw-semibold">Nome do predio</label>
-            <select class="form-select" id="id_building_id" name="bathroom[building_id]" required>
+            <select class="form-select field-building_id " id="id_building_id" name="bathroom[building_id]" required>
                 <?php foreach ($buildings as $building):
                     $id = $building->id;
                     $name = $building->name;
@@ -31,7 +31,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label fw-semibold">Andar</label>
-            <select class="form-select" id="id_floor" name="bathroom[floor]" required>
+            <select class="form-select field-floor " id="id_floor" name="bathroom[floor]" required>
                 <?php
 
                     if ($select_n_floors == 0 && isset($buildings[0])) {
@@ -50,12 +50,12 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Imagen</label>
-            <input class="form-control" type="file" id="image" name="image" accept="image/*">
+            <input class="form-control field-image " type="file" id="image" name="image" accept="image/*">
         </div>
 
         <div class="d-flex justify-content-between mt-4">
             <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
-            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit">
                 <i class="bi bi-building-add"></i>
                 Salvar Banheiro
             </button>
@@ -71,7 +71,7 @@
         <div class="mb-3">
             <form method="POST" action="<?= route('admin.bathrooms.image.destroy', ['id' => $bathroom->id])?>">
                 <input type="hidden" name="_method" value="DELETE">
-                <input type="submit" value="Deletar imagem"></input>
+                <input type="submit" value="Deletar imagem" class="link-delete-image"></input>
             </form>
         </div>
     <?php

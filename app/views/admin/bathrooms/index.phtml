@@ -27,7 +27,9 @@ $floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default
         </thead>
         <tbody>
             <?php if (!empty($bathrooms)): ?>
-                <?php foreach ($bathrooms as $bathroom): ?>
+                <?php foreach ($bathrooms as $bathroom):
+                    $id = $bathroom->id;
+                ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($bathroom->building_id) ?></td>
                         <td class="text-secondary"><?= $bathroom->floor ?></td> <!-- Mostra o andar real -->
@@ -38,15 +40,15 @@ $floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default
                         </td>
                         <td>
                             <div class="d-flex justify-content-center gap-4">
-                                <a href="<?= route('admin.bathrooms.show', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0">
+                                <a href="<?= route('admin.bathrooms.show', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?=$id?>">
                                     Detalhes
                                 </a>
-                                <a href="<?= route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0">
+                                <a href="<?= route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-edit-<?=$id?>">
                                     Editar
                                 </a>
                                 <form method="POST" action="<?= route('admin.bathrooms.destroy', ['id' => $bathroom->id]) ?>" class="d-inline">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-link text-danger p-0" type="submit">Excluir</button>
+                                    <button class="btn btn-link text-danger p-0 link-delete-<?=$id?>" type="submit">Excluir</button>
                                 </form>
                             </div>
                         </td>
