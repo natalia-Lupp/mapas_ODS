@@ -128,7 +128,7 @@ class BathroomsController extends Controller
         $bathroom->image_temp_name = $image['tmp_name'] ?? '';
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro atualizado com sucesso!!');
-            $this->redirectTo(route('admin.bathrooms.index', [
+            $this->redirectTo(route('admin.buildings.bathrooms.index', [
                 'building_id' => $bathroom->building_id
             ]));
         } else {
