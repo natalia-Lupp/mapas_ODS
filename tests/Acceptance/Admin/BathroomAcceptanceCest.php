@@ -12,7 +12,7 @@ use Tests\Support\AcceptanceTester;
 
 class BathroomAcceptanceCest extends BaseAcceptanceCest
 {
-    protected const blockName = 'Bloco A';
+    protected const BLOCK_NAME = 'Bloco A';
 
     public function _before(AcceptanceTester $page): void
     {
@@ -25,14 +25,14 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
-        $page->see(self::blockName);
+        $page->see(self::BLOCK_NAME);
         $page->click('.link-bathrooms-1');
     }
     public function createBathroom(AcceptanceTester $page): void
     {
         $page->dontSee('Editar', 'a.link-edit-4');
         $page->click('Novo banheiro');
-        //$page->fillField('.field-name', self::blockName);
+        //$page->fillField('.field-name', self::BLOCK_NAME);
         $page->selectOption('.field-floor', '1º andar');
         $page->click('.link-submit');
         $page->see('Editar', 'a.link-edit-4');
@@ -45,13 +45,13 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     }
     //public function failToDeleteBuilding(AcceptanceTester $page): void
     //{
-    //    $blockName = 'Bloco A';
+    //    $BLOCK_NAME = 'Bloco A';
     //    $page->amOnPage('/logout');
     //    $page->login('user1@email.com', 'SenhaSenha1');
     //    $page->click('Ver todos');
-    //    $page->see($blockName);
+    //    $page->see($BLOCK_NAME);
     //    $page->click('form[action="/admin/buildings/1"] button');
-    //    $page->see($blockName);
+    //    $page->see($BLOCK_NAME);
     //    $page->see('Este prédio não pode ser deletado porque possui banheiros relacionados a ele.');
     //}
     public function editBathroom(AcceptanceTester $page): void
