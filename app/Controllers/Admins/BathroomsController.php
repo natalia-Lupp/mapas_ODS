@@ -121,7 +121,7 @@ class BathroomsController extends Controller
         $bathroom = Bathroom::findById(intval($params['id']));
         $image = $_FILES['image'] ?? [];
         $bathroomParams = $request->getParam('bathroom', []);
-
+        $oldId = $bathroom->id;
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
         $bathroom->image_name = $image['name'] ?? '';
@@ -131,7 +131,7 @@ class BathroomsController extends Controller
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro atualizado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
-                'building_id' => $bathroom->building_id
+                'building_id' => $oldId
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
