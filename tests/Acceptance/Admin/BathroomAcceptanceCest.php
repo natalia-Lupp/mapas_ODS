@@ -2,6 +2,7 @@
 
 namespace Tests\Acceptance\Admin;
 
+use App\Models\Bathroom;
 use Database\Populate\AccountRulePopulate;
 use Database\Populate\BathroomPopulate;
 use Database\Populate\BuildingPopulate;
@@ -36,6 +37,21 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
         $page->selectOption('.field-floor', '1º andar');
         $page->click('.link-submit');
         $page->see('Editar', 'a.link-edit-4');
+    }
+
+    public function upBathroomImage(AcceptanceTester $page): void
+    {
+        $page->dontSee('Editar', 'a.link-edit-4');
+        $page->click('Novo banheiro');
+        //$page->fillField('.field-name', self::BLOCK_NAME);
+        $page->selectOption('.field-floor', '1º andar');
+        $page->attachFile('.field-image', 'feminino-especial-bloco-alunos1.jpg');
+        $page->click('.link-submit');
+        $page->see('Editar', '.link-edit-4');
+        $page->click('a[href="/admin/bathrooms/4/edit"]');
+        $bathroom = Bathroom::findById(4);
+        $imageName = $bathroom->image_url;
+        $page->seeElement("img[src=\"/assets/uploads/$imageName\"]");
     }
     public function deleteBathroom(AcceptanceTester $page): void
     {
