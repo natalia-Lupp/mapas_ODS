@@ -91,9 +91,9 @@ class BathroomsController extends Controller
         $bathroom = Bathroom::findById($params['id']);
         $bathroom->destroy();
         FlashMessage::success('Banheiro removido com sucesso!');
-        $this->redirectTo(route('admin.buildings.bathrooms.index'), [
+        $this->redirectTo(route('admin.buildings.bathrooms.index', [
           'building_id' => $bathroom->building_id
-        ]);
+        ]));
     }
 
     public function edit(Request $request): void
