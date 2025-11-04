@@ -75,8 +75,8 @@ class BathroomsController extends Controller
 
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro registrado com sucesso!!');
-            $this->redirectTo(route('admin.bathrooms.index', [
-                'building_id' => $bathroom->id
+            $this->redirectTo(route('admin.buildings.bathrooms.index', [
+                'building_id' => $bathroom->building_id
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
