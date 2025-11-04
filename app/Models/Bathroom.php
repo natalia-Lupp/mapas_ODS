@@ -30,7 +30,7 @@ class Bathroom extends Model
     public ?string $image_type;
     public ?int $image_size;
     public ?string $image_temp_name;
-    public const int MAX_IMAGE_ACEPTED_SIZE = (2 * 1048576); // 2MB
+    public const int MAX_IMAGE_ACEPTED_SIZE = (10 * 1048576); // 2MB
 
     public function validates(): void
     {
