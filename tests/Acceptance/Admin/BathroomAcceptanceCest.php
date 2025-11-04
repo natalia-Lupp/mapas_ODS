@@ -12,7 +12,6 @@ use Tests\Support\AcceptanceTester;
 
 class BathroomAcceptanceCest extends BaseAcceptanceCest
 {
-
     protected const blockName = 'Bloco A';
 
     public function _before(AcceptanceTester $page): void
@@ -40,9 +39,9 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     }
     public function deleteBathroom(AcceptanceTester $page): void
     {
-      $page->see('Excluir', 'button.link-delete-1');
-      $page->click('button.link-delete-1');
-      $page->dontSee('Excluir', 'button.link-delete-1');
+        $page->see('Excluir', 'button.link-delete-1');
+        $page->click('button.link-delete-1');
+        $page->dontSee('Excluir', 'button.link-delete-1');
     }
     //public function failToDeleteBuilding(AcceptanceTester $page): void
     //{
@@ -57,28 +56,28 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     //}
     public function editBathroom(AcceptanceTester $page): void
     {
-      $otherBlock = 'Bloco B';
-      $page->see('Excluir', 'button.link-delete-1');
-      $page->click('a.link-edit-1');
-      $page->selectOption('.field-building_id', $otherBlock);
-      $page->click('button.link-submit');
-      $page->dontSee('Editar', 'a.link-edit-1');
-      $page->amOnPage('/admin/buildings/2/bathrooms');
-      $page->see('Excluir', 'button.link-delete-1');
+        $otherBlock = 'Bloco B';
+        $page->see('Excluir', 'button.link-delete-1');
+        $page->click('a.link-edit-1');
+        $page->selectOption('.field-building_id', $otherBlock);
+        $page->click('button.link-submit');
+        $page->dontSee('Editar', 'a.link-edit-1');
+        $page->amOnPage('/admin/buildings/2/bathrooms');
+        $page->see('Excluir', 'button.link-delete-1');
     }
 
     public function showBathroom(AcceptanceTester $page): void
     {
-      $page->seeCurrentUrlEquals('/admin/bathrooms?building_id=1');
-      $page->click('a.link-details-1');
-      $page->seeCurrentUrlEquals('/admin/bathrooms/1');
-      $page->see('Predio 1');
-      $page->see('Andar 0');
-      $page->click('a.link-comeback');
-      $page->seeCurrentUrlEquals('/admin/buildings/1/bathrooms');
-      $page->click('a.link-details-1');
-      $page->seeCurrentUrlEquals('/admin/bathrooms/1');
-      $page->click('a.link-edit');
-      $page->seeCurrentUrlEquals('/admin/bathrooms/1/edit');
+        $page->seeCurrentUrlEquals('/admin/bathrooms?building_id=1');
+        $page->click('a.link-details-1');
+        $page->seeCurrentUrlEquals('/admin/bathrooms/1');
+        $page->see('Predio 1');
+        $page->see('Andar 0');
+        $page->click('a.link-comeback');
+        $page->seeCurrentUrlEquals('/admin/buildings/1/bathrooms');
+        $page->click('a.link-details-1');
+        $page->seeCurrentUrlEquals('/admin/bathrooms/1');
+        $page->click('a.link-edit');
+        $page->seeCurrentUrlEquals('/admin/bathrooms/1/edit');
     }
 }
