@@ -92,28 +92,43 @@ class BathroomsController extends Controller
         $bathroom->destroy();
         FlashMessage::success('Banheiro removido com sucesso!');
         $this->redirectTo(route('admin.buildings.bathrooms.index', [
-          'building_id' => $bathroom->building_id
+            'building_id' => $bathroom->building_id
         ]));
     }
 
     public function edit(Request $request): void
     {
         $id = $request->getParam('id', 0);
+
         if ($id > 0) {
             $bathroom = Bathroom::findById($id);
-            if (!isset($bathroom)) {
+
+            if (!$bathroom) {
                 FlashMessage::danger('Banheiro não encontrado!');
                 $this->redirectTo(route('admin.buildings.index'));
+                return;
             }
-            $title = 'Editar Banheiros - Mapas ODS';
-            $buildings = Building::all();
-            $buildingId = $bathroom->building_id;
-            $this->render('admin/bathrooms/edit', compact('title', 'buildings', 'buildingId', 'bathroom'));
+
+            $building = Building::findById($bathroom->building_id);
+            if (!$building) {
+                FlashMessage::danger('Prédio vinculado não encontrado!');
+                $this->redirectTo(route('admin.buildings.index'));
+                return;
+            }
+
+            $title = "Editar Banheiro - {$building->name}";
+
+            $this->render('admin/bathrooms/edit', compact(
+                'title',
+                'building',
+                'bathroom'
+            ));
         } else {
             FlashMessage::danger('Banheiro não encontrado!');
             $this->redirectTo(route('admin.buildings.index'));
         }
     }
+
 
     public function update(Request $request): void
     {
@@ -152,8 +167,15 @@ class BathroomsController extends Controller
     {
         $params = $request->getParams();
         $bathroom = Bathroom::findById(intval($params['id']));
+
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
         $bathroom->deleteImage();
-        FlashMessage::success('Im agem do banheiro removido com sucesso!');
+        FlashMessage::success('Imagem do banheiro removida com sucesso!');
         $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
     }
 }

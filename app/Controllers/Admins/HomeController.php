@@ -3,8 +3,8 @@
 namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
-use Core\Http\Controllers\Controller;
 use App\Models\Building;
+use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 
 class HomeController extends Controller
@@ -18,6 +18,16 @@ class HomeController extends Controller
         $totalBuildings = Building::count();
         $totalBathrooms = Bathroom::count();
 
-        $this->render('admin/home/dashboard', compact('title', 'totalBuildings', 'totalBathrooms'));
+        // Media de banherios por predios 
+        $averageBathroomsPerBuilding = $totalBuildings > 0  // comentario pra eu lembrar que aqui é pra não dividir por zero
+            ? round($totalBathrooms / $totalBuildings)
+            : 0;
+
+        $this->render('admin/home/dashboard', compact(
+            'title',
+            'totalBuildings',
+            'totalBathrooms',
+            'averageBathroomsPerBuilding'
+        ));
     }
 }
