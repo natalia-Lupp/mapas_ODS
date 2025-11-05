@@ -8,17 +8,21 @@
             <div class="mb-2">
                 <span class="fw-semibold text-secondary">Quantidade de Andares:</span>
                 <span><?= $building->n_floors ?></span>
+                <br>
+                <span class="fw-semibold text-secondary">Total de Banheiros:</span>
+                <span><?= $totalBathrooms ?></span>
+                <br>
+                <span class="fw-semibold text-secondary">Banheiros por Andar:</span>
+                <span><?= $bathroomsPerFloor ?></span>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">
+                <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4 link-comeback">
                     Voltar
                 </a>
-
-                <a href="<?= route('admin.buildings.edit', ['id' => $building->id]) ?>" class="btn btn-primary fw-semibold px-4 rounded-pill">
+                <a href="<?= route('admin.buildings.edit', ['id' => $building->id]) ?>" class="btn btn-primary fw-semibold px-4 rounded-pill link-edit">
                     Editar
                 </a>
-
             </div>
         </div>
     </div>

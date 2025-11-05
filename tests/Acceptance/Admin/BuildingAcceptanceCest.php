@@ -23,7 +23,11 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function createBuilding(AcceptanceTester $page): void
     {
+<<<<<<< HEAD
         $blockName = 'bloco Z';
+=======
+        $blockName = 'Bloco Z';
+>>>>>>> uploads
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -36,7 +40,11 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function deleteBuilding(AcceptanceTester $page): void
     {
+<<<<<<< HEAD
         $blockName = 'bloco F';
+=======
+        $blockName = 'Bloco F';
+>>>>>>> uploads
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -46,7 +54,11 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function failToDeleteBuilding(AcceptanceTester $page): void
     {
+<<<<<<< HEAD
         $blockName = 'bloco A';
+=======
+        $blockName = 'Bloco A';
+>>>>>>> uploads
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -57,7 +69,11 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function showBuilding(AcceptanceTester $page): void
     {
+<<<<<<< HEAD
         $blockName = 'bloco A';
+=======
+        $blockName = 'Bloco A';
+>>>>>>> uploads
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -68,8 +84,13 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function editBuilding(AcceptanceTester $page): void
     {
+<<<<<<< HEAD
         $blockName = 'bloco A';
         $newBlockName = 'bloco Z';
+=======
+        $blockName = 'Bloco A';
+        $newBlockName = 'Bloco Z';
+>>>>>>> uploads
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');

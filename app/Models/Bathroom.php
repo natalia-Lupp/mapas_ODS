@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Core\Constants\Constants;
+use Core\Database\ActiveRecord\BelongsTo;
+use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
 use Lib\FileSystemHelper;
@@ -22,15 +24,9 @@ class Bathroom extends Model
 {
     protected static string $table = 'bathrooms';
     protected static array $columns = [
-        'image_url',
         'floor',
         'building_id'
     ];
-    public ?string $image_name;
-    public ?string $image_type;
-    public ?int $image_size;
-    public ?string $image_temp_name;
-    public const int MAX_IMAGE_ACEPTED_SIZE = (2 * 1048576); // 2MB
 
     public function validates(): void
     {
@@ -44,65 +40,15 @@ class Bathroom extends Model
         $building = Building::findById($this->building_id);
         $building_n_floors = isset($building) ? $building->n_floors : -1;
         Validations::inRange('floor', 0, $building_n_floors - 1, $this);
-
-
-        if (isset($this->image_url)) {
-            Validations::inRangeLength('image_url', 10, 255, $this);
-        } else {
-            $this->image_url = null;
-        }
-        if (isset($this->image_name) && $this->image_name !== '') {
-            Validations::match('image_name', '/^.*\.(jpeg|jpg|png)$/', $this);
-            Validations::inRange('image_size', 1, self::MAX_IMAGE_ACEPTED_SIZE, $this);
-            Validations::isString('image_type', $this);
-            Validations::inEnum('image_type', [
-                'image/png',
-                'image/jpeg'
-            ], $this);
-        } else {
-            $this->image_name = '';
-        }
-        if (isset($this->image_url)) {
-            Validations::inRangeLength('image_url', 10, 255, $this);
-        } else {
-            $this->image_url = null;
-        }
     }
 
-    public function save(): bool
+    public function images(): HasMany
     {
-        if (isset($this->image_name) && $this->image_name !== '' && $this->isValid()) {
-            if (isset($this->image_url)) {
-                unlink(Constants::rootPath()->join('public/assets/uploads/' . $this->image_url));
-            }
-            $tokens = explode('.', $this->image_name);
-            $this->image_url = md5(uniqid()) . '.' . array_pop($tokens);
-            FileSystemHelper::move(
-                $this->image_temp_name,
-                Constants::rootPath()->join('public/assets/uploads/' . $this->image_url)
-            );
-        }
-        return parent::save();
+        return $this->hasMany(BathroomImage::class, 'bathroom_id');
     }
 
-    public function getPaginateByBuildingId(
-        int $building_id,
-        int $page,
-        int $per_page,
-        ?string $route
-    ): Paginator {
-        return Bathroom::paginate(
-            $page,
-            $per_page,
-            $route,
-            ['building_id' => $building_id]
-        );
-    }
-    public function update(array $data): bool
+    public function building(): BelongsTo
     {
-        foreach ($data as $key => $val) {
-            $this->$key = $val;
-        }
-        return $this->save();
+        return $this->belongsTo(Building::class, 'building_id');
     }
 }

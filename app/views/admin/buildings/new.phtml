@@ -1,4 +1,4 @@
-<h2 class="mt-4 fw-semibold">Cadastrar Nova Estrutura</h2>
+<h2 class="mt-5 fw-semibold">Cadastrar Nova Estrutura</h2>
 <p class="text-muted">Informe os dados do novo prédio</p>
 
 <div class="form-background">
@@ -6,12 +6,13 @@
 
         <div class="mb-3">
             <label for="id_name" class="form-label fw-semibold">Nome do Prédio</label>
-            <input type="text" class="form-control" id="id_name" name="building[name]" placeholder="Digite o nome do prédio" required>
+            <input type="text" class="form-control field-name" id="id_name" name="building[name]" placeholder="Digite o nome do prédio" required>
+            <div class=""><?= $building->errors('name') ? $building->errors('name') : '' ?></div>
         </div>
 
         <div class="mb-3">
             <label for="id_n_floors" class="form-label fw-semibold">Número de Andares</label>
-            <select class="form-select" id="id_n_floors" name="building[n_floors]" required>
+            <select class="form-select  field-n_floors" id="id_n_floors" name="building[n_floors]" required>
                 <?php for ($i = 1; $i <= 10; $i++): ?>
                     <option value="<?= $i ?>"><?= $i ?> andar<?= $i > 1 ? 'es' : '' ?></option>
                 <?php endfor; ?>
@@ -19,8 +20,8 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
-            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+            <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4  link-comeback">Voltar</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2  link-submit">
                 <i class="bi bi-building-add"></i>
                 Salvar Prédio
             </button>

@@ -1,6 +1,56 @@
-<?= $title ?>
+<h2 class="mt-5 fw-semibold"><?= $title ?></h2>
+<p class="text-muted">Quer adicionar um banheiro?</p>
+
+<?php
+// Pega todos os banheiros do paginator
+$bathrooms = $paginator->registers() ?? [];
+$buildingIdForRoute = isset($building) ? $building->id : 0;
+$floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default 0
+?>
 
 <div>
-    <a class="btn btn-primary fw-semibold px-4 rounded-pill"
-        href="<?= route('admin.bathrooms.new', ['building_id' => $building->id]) ?>">Novo banheiro</a>
+    <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
+        href="<?= $buildingIdForRoute > 0
+                    ? route('admin.buildings.bathrooms.new', ['building_id' => $buildingIdForRoute, 'floor' => $floorForRoute])
+                    : route('admin.bathrooms.new', ['floor' => $floorForRoute]) ?>">
+        Novo banheiro
+    </a>
+
+    <table id="tableBuildingsDashboard" class="table align-middle text-center">
+        <thead class="table-primary">
+            <tr>
+                <th>Prédio</th>
+                <th>Andar</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($bathrooms)): ?>
+                <?php foreach ($bathrooms as $bathroom):
+                    $id = $bathroom->id;
+                ?>
+                    <tr>
+                        <td class="text-secondary"><?= htmlspecialchars($bathroom->building_id) ?></td>
+                        <td class="text-secondary"><?= $bathroom->floor ?></td> <!-- Mostra o andar real -->
+                        <td>
+                            <div class="d-flex justify-content-center gap-4">
+                                <a href="<?= route('admin.buildings.bathrooms.show', ['building_id' => $bathroom->building_id, 'id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?= $id ?>">
+                                    Detalhes
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="4" class="text-muted">Nenhum banheiro cadastrado.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    <?php $paginator->renderPagesNavigation(); ?>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
+    </div>
 </div>
