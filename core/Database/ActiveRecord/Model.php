@@ -367,21 +367,21 @@ abstract class Model
         return !empty($resp);
     }
 
-    public static function count(): int
-    {
-        $table = static::$table;
-        $sql = <<<SQL
-            SELECT COUNT(*) as total_rows FROM {$table};
-        SQL;
+        public static function count(): int
+        {
+            $table = static::$table;
+            $sql = <<<SQL
+                SELECT COUNT(*) as total_rows FROM {$table};
+            SQL;
 
-        $pdo = Database::getDatabaseConn();
-        $stmt = $pdo->prepare($sql);
+            $pdo = Database::getDatabaseConn();
+            $stmt = $pdo->prepare($sql);
 
-        $stmt->execute();
-        $rows = $stmt->fetch();
+            $stmt->execute();
+            $rows = $stmt->fetch();
 
-        return $rows['total_rows'];
-    }
+            return $rows['total_rows'];
+        }
 
     /* ------------------- RELATIONSHIPS METHODS ------------------- */
 

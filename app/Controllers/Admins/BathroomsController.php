@@ -159,8 +159,12 @@ class BathroomsController extends Controller
 
         $bathroom = Bathroom::findById($params['id']);
 
+        $building = Building::findById($bathroom->building_id);
+
+        $titleNome = "Informações dos Banheiros do {$building->name}";
+
         $title = "Banheiro";
-        $this->render('admin/bathrooms/show', compact('bathroom', 'title'));
+        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
     }
 
     public function destroyImage(Request $request): void

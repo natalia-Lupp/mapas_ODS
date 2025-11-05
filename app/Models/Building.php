@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
 use Core\Database\ActiveRecord\Model;
 use Core\Database\Database;
@@ -18,8 +19,8 @@ class Building extends Model
 {
     protected static string $table = 'buildings';
     protected static array $columns = [
-      'n_floors',
-      'name'
+        'n_floors',
+        'name'
     ];
     /**
      * @var array<int, static |null> $cache
@@ -39,6 +40,11 @@ class Building extends Model
         Validations::uniquenessMutable('name', $this);
     }
 
+    public function bathrooms(): HasMany
+    {
+        return $this->hasMany(Bathroom::class, 'building_id');
+    }
+
     public function getBathroomPaginator(int $page, int $per_page, ?string $route): Paginator
     {
         return Bathroom::paginate(
@@ -52,8 +58,8 @@ class Building extends Model
     public static function findById(int $id): static|null
     {
         return isset(self::$cache[$id])
-        ? self::$cache[$id]
-        : (self::$cache[$id] = parent::findById($id));
+            ? self::$cache[$id]
+            : (self::$cache[$id] = parent::findById($id));
     }
     public function destroy(): bool
     {
@@ -76,5 +82,30 @@ class Building extends Model
             );
         }
         return ($stmt->rowCount() != 0);
+    }
+
+
+    public function countBathrooms(): int
+    {
+        $pdo = \Core\Database\Database::getDatabaseConn();
+        $sql = "SELECT COUNT(*) as total FROM bathrooms WHERE building_id = :building_id";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':building_id', $this->id);
+        $stmt->execute();
+
+        $row = $stmt->fetch();
+        return (int) $row['total'];
+    }
+
+    public function getBathroomsPerFloor(): int
+    {
+        $totalBaths = $this->countBathrooms();
+
+        if ($this->n_floors > 0) {
+            return intdiv($totalBaths, $this->n_floors);
+        }
+
+        return 0;
     }
 }

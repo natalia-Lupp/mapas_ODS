@@ -35,19 +35,19 @@ $buildings = $paginator->registers() ?? [];
                             <td class="text-secondary"><?= $building->n_floors ?></td>
                             <td>
                                 <div class="d-flex justify-content-center gap-4">
-                                    <a href="<?= route('admin.buildings.show', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?=$id?>">
+                                    <a href="<?= route('admin.buildings.show', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?= $id ?>">
                                         Detalhes
                                     </a>
-                                    <a href="<?= route('admin.bathrooms.index', ['building_id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-bathrooms-<?=$id?>">
+                                    <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-bathrooms-<?= $id ?>">
                                         Banheiros
                                     </a>
 
-                                    <a href="<?= route('admin.buildings.edit', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-edit-<?=$id?>">
+                                    <a href="<?= route('admin.buildings.edit', ['id' => $building->id]) ?>" class="btn btn-link text-primary p-0 link-edit-<?= $id ?>">
                                         Editar
                                     </a>
                                     <form method="POST" action="<?= route('admin.buildings.destroy', ['id' => $building->id]) ?>" class="d-inline">
                                         <input type="hidden" name="_method" value="DELETE">
-                                        <button class="btn btn-link text-danger p-0 link-delete-<?=$id?>" type="submit">Excluir</button>
+                                        <button class="btn btn-link text-danger p-0 link-delete-<?= $id ?>" type="submit">Excluir</button>
                                     </form>
 
                                 </div>

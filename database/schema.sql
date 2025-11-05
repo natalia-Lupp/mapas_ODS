@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS `consumptions`;
 DROP TABLE IF EXISTS `bathroom_items`;
+DROP TABLE IF EXISTS `bathroom_images`;
 DROP TABLE IF EXISTS `bathrooms`;
 DROP TABLE IF EXISTS `buildings`;
 DROP TABLE IF EXISTS `bathroom_item_types`;
@@ -15,10 +16,16 @@ CREATE TABLE  `buildings` (
 
 CREATE TABLE `bathrooms` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `image_url` VARCHAR(255),
-	`floor` INT NOT NULL,
+  `floor` INT NOT NULL,
   `building_id` INT NOT NULL,
 	FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`)
+);
+
+CREATE TABLE `bathroom_images` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `image_name` VARCHAR(255),
+	`bathroom_id` INT NOT NULL,
+	FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`)
 );
 
 CREATE TABLE `bathroom_item_types`(

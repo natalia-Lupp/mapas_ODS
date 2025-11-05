@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (event) {
     // Apenas para evitar envio vazio
     if (!nameBuilding.value.trim()) {
-      event.preventDefault();
+      // event.preventDefault();
     } else {
       // Garante todas as palavras capitalizadas antes de enviar
       nameBuilding.value = capitalizeWords(nameBuilding.value.trim());

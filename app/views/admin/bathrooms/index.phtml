@@ -1,4 +1,4 @@
-<h2 class="mt-4 fw-semibold"><?= $title ?></h2>
+<h2 class="mt-5 fw-semibold"><?= $title ?></h2>
 <p class="text-muted">Quer adicionar um banheiro?</p>
 
 <?php
@@ -19,9 +19,8 @@ $floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default
     <table id="tableBuildingsDashboard" class="table align-middle text-center">
         <thead class="table-primary">
             <tr>
-                <th>Prédio id</th>
+                <th>Prédio</th>
                 <th>Andar</th>
-                <th>Imagem</th>
                 <th> </th>
             </tr>
         </thead>
@@ -34,22 +33,10 @@ $floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default
                         <td class="text-secondary"><?= htmlspecialchars($bathroom->building_id) ?></td>
                         <td class="text-secondary"><?= $bathroom->floor ?></td> <!-- Mostra o andar real -->
                         <td>
-                            <?php if (!empty($bathroom->image_url)): ?>
-                                <img class="bathroom_image" src="/assets/uploads/<?= $bathroom->image_url ?>">
-                            <?php endif; ?>
-                        </td>
-                        <td>
                             <div class="d-flex justify-content-center gap-4">
-                                <a href="<?= route('admin.bathrooms.show', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?=$id?>">
+                                <a href="<?= route('admin.buildings.bathrooms.show', ['building_id' => $bathroom->building_id, 'id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-details-<?= $id ?>">
                                     Detalhes
                                 </a>
-                                <a href="<?= route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-link text-primary p-0 link-edit-<?=$id?>">
-                                    Editar
-                                </a>
-                                <form method="POST" action="<?= route('admin.bathrooms.destroy', ['id' => $bathroom->id]) ?>" class="d-inline">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <button class="btn btn-link text-danger p-0 link-delete-<?=$id?>" type="submit">Excluir</button>
-                                </form>
                             </div>
                         </td>
                     </tr>

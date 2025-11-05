@@ -1,4 +1,4 @@
-<h2 class="mt-4 fw-semibold">Cadastrar Nova Estrutura</h2>
+<h2 class="mt-5 fw-semibold">Cadastrar Nova Estrutura</h2>
 <p class="text-muted">Informe os dados do novo prédio</p>
 
 <div class="form-background">
@@ -7,6 +7,7 @@
         <div class="mb-3">
             <label for="id_name" class="form-label fw-semibold">Nome do Prédio</label>
             <input type="text" class="form-control field-name" id="id_name" name="building[name]" placeholder="Digite o nome do prédio" required>
+            <div class=""><?= $building->errors('name') ? $building->errors('name') : '' ?></div>
         </div>
 
         <div class="mb-3">

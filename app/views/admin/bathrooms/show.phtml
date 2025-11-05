@@ -1,28 +1,75 @@
-<h2 class="mt-5 fw-semibold">Detalhes do Banheiro</h2>
+<?php
+
+use App\Services\Image;
+
+/** @var \App\Models\Bathroom $bathroom */
+?>
+
+<h2 class="mt-5 fw-semibold"><?= htmlspecialchars($titleNome) ?></h2>
 <p class="text-muted">Visualize as informações do Banheiro cadastrado.</p>
 
 <div class="row mt-4">
     <div class="col-md-6">
         <div class="card shadow-sm border border-primary border-2 p-4">
-            <h4 class="fw-semibold mb-3"> Predio <?= htmlspecialchars($bathroom->building_id) ?></h4>
+            <h4 class="fw-semibold mb-3">Prédio <?= htmlspecialchars($bathroom->building_id) ?></h4>
+
             <div class="mb-2">
                 <span class="fw-semibold text-secondary">Andar</span>
-                <span><?= $bathroom->floor ?></span>
+                <span><?= htmlspecialchars($bathroom->floor) ?></span>
             </div>
-            <div class="mb2">
-                <img class="bathroom_image" src="/assets/uploads/<?= $bathroom->image_url?>">
+
+            <!-- 🔹 Exibir todas as imagens associadas -->
+            <div class="mb-2 d-flex flex-wrap gap-3">
+                <?php if (!empty($bathroom->images)): ?>
+                    <?php foreach ($bathroom->images as $image): ?>
+                        <div class="bathroom_image_wrapper">
+                            <img
+                                class="bathroom_image border rounded shadow-sm"
+                                src="<?= htmlspecialchars($image->imageService()->path()); ?>"
+                                alt="Imagem do banheiro"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Nenhuma imagem adicionada ainda.</p>
+                <?php endif; ?>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $bathroom->building_id]) ?>" class="btn btn-voltar rounded-pill px-4 link-comeback">
+                <a href="<?= route('admin.buildings.bathrooms.index', [
+                                'building_id' => $bathroom->building_id
+                            ]) ?>"
+                    class="btn btn-voltar rounded-pill px-4 link-comeback">
                     Voltar
                 </a>
-
-                <a href="<?= route('admin.bathrooms.edit', ['id' => $bathroom->id]) ?>" class="btn btn-primary fw-semibold px-4 rounded-pill link-edit">
-                    Editar
-                </a>
-
             </div>
         </div>
     </div>
+</div>
+
+<!-- 🔹 Formulário para adicionar mais imagens -->
+<div class="form-background mt-5">
+    <form method="POST" action="<?= route('admin.buildings.bathrooms.images.create', [
+                                    'building_id' => $bathroom->building_id,
+                                    'id' => $bathroom->id
+                                ]) ?>" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="bathroom_image" class="form-label">Adicionar nova imagem</label>
+            <input
+                class="form-control field-image"
+                type="file"
+                id="bathroom_image"
+                name="bathroom_image"
+                accept="image/*"
+                multiple>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit">
+                <i class="bi bi-building-add"></i>
+                Adicionar Imagem
+            </button>
+        </div>
+    </form>
 </div>

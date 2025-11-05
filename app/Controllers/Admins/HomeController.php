@@ -20,7 +20,7 @@ class HomeController extends Controller
 
         // Media de banherios por predios 
         $averageBathroomsPerBuilding = $totalBuildings > 0  // comentario pra eu lembrar que aqui é pra não dividir por zero
-            ? round($totalBathrooms / $totalBuildings)
+            ? ceil($totalBathrooms / $totalBuildings)
             : 0;
 
         $this->render('admin/home/dashboard', compact(
