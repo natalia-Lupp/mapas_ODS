@@ -36,8 +36,17 @@ class Building extends Model
         Validations::notEmpty('name', $this);
         Validations::isString('name', $this);
         Validations::inRangeLength('name', 1, 100, $this);
-        Validations::match('name', "/[a-zA-Z0-9]{1,100}/", $this);
+        //Validations::match('name', "/^[\p{L}\p{N}\s]{1,100}$/u", $this);
         Validations::uniquenessMutable('name', $this);
+
+        $name = $this->name ?? '';
+
+        if (!preg_match("/^[\p{L}\p{N}\s]{1,100}$/u", $name)) {
+            $this->addError(
+                'name',
+                'O nome do prédio deve conter apenas letras, números e espaços.'
+            );
+        }
     }
 
     public function bathrooms(): HasMany
@@ -107,27 +116,5 @@ class Building extends Model
         }
 
         return 0;
-    }
-    public function destroy(): bool
-    {
-        $table = static::$table;
-
-        $sql = <<<SQL
-            DELETE FROM {$table} WHERE id = :id;
-        SQL;
-
-        $pdo = Database::getDatabaseConn();
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':id', $this->id);
-
-        try {
-            $stmt->execute();
-        } catch (PDOException $ex) {
-            throw new ReferentialIntegrityException(
-                'Este prédio não pode ser deletado porque possui banheiros relacionados a ele.'
-            );
-        }
-        return ($stmt->rowCount() != 0);
     }
 }

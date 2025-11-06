@@ -12,8 +12,8 @@ class BuildingTest extends TestCase
     {
         $this->assertEquals(0, count(Building::all()));
         (new Building([
-        'name' => 'H',
-        'n_floors' => 3
+            'name' => 'H',
+            'n_floors' => 3
         ]))->save();
         $this->assertEquals(1, count(Building::all()));
     }
@@ -22,8 +22,8 @@ class BuildingTest extends TestCase
     {
         $this->assertEquals(0, count(Building::all()));
         $building = new Building([
-        'name' => 'H',
-        'n_floors' => -3
+            'name' => 'H',
+            'n_floors' => -3
         ]);
         $building->save();
         $this->assertEquals(
@@ -37,12 +37,12 @@ class BuildingTest extends TestCase
     {
         $this->assertEquals(0, count(Building::all()));
         $building = new Building([
-        'name' => '',
-        'n_floors' => 3
+            'name' => '',
+            'n_floors' => 3
         ]);
         $building->save();
         $this->assertEquals(
-            "Don't math the patern /[a-zA-Z0-9]{1,100}/",
+            "Nome do prédio não pode ser vazio",
             $building->errors('name')
         );
         $this->assertEquals(0, count(Building::all()));
@@ -50,8 +50,8 @@ class BuildingTest extends TestCase
     public function test_should_create_a_bathroom_paginator(): void
     {
         $building = new Building([
-        'name' => 'H',
-        'n_floors' => 3
+            'name' => 'H',
+            'n_floors' => 3
         ]);
         $building->save();
 
@@ -63,8 +63,8 @@ class BuildingTest extends TestCase
         );
 
         $bathroom = new Bathroom([
-        'building_id' => 1,
-        'floor' => 0
+            'building_id' => 1,
+            'floor' => 0
         ]);
         $bathroom->save();
 
@@ -78,8 +78,8 @@ class BuildingTest extends TestCase
     public function test_building_cache(): void
     {
         (new Building([
-        'name' => 'H',
-        'n_floors' => 3
+            'name' => 'H',
+            'n_floors' => 3
         ]))->save();
         $building1 = Building::findById(1);
         $building2 = Building::findById(1);

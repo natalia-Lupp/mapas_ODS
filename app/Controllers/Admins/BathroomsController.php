@@ -161,7 +161,7 @@ class BathroomsController extends Controller
 
         $building = Building::findById($bathroom->building_id);
 
-        $titleNome = "Informações dos Banheiros do {$building->name}";
+        $titleNome = "Informações do Banheiro do Andar {$building->n_floors} do {$building->name}";
 
         $title = "Banheiro";
         $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
