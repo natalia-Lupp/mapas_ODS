@@ -42,7 +42,7 @@ class BuildingTest extends TestCase
         ]);
         $building->save();
         $this->assertEquals(
-            "Nome do prédio não pode ser vazio",
+            "O nome do prédio deve conter apenas letras, números e espaços.",
             $building->errors('name')
         );
         $this->assertEquals(0, count(Building::all()));
