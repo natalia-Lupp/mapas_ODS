@@ -62,6 +62,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])
       ->name('admin.buildings.bathrooms.images.create');
 
+    // Bathroom images delete ----------------------------------------------------------------------------
+    Route::delete(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/images/{image_id}',
+      [BathroomImagesController::class, 'destroy']
+    )->name('admin.buildings.bathrooms.images.destroy');
+
     // Buildings ----------------------------------------------------------------------------
     Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');
 

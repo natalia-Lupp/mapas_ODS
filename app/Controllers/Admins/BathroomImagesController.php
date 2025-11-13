@@ -43,27 +43,48 @@ class BathroomImagesController extends Controller
         $this->redirectBack();
     }
 
-    public function destroyImage(Request $request): void
-    {
-        $params = $request->getParams();
-        $bathroom = Bathroom::findById(intval($params['id']));
+   public function destroy(Request $request): void
+{
+    $building_id = $request->getParam('building_id');
+    $bathroom_id = $request->getParam('bathroom_id');
+    $image_id = $request->getParam('image_id');
 
-        if (!$bathroom) {
-            FlashMessage::danger('Banheiro não encontrado!');
-            $this->redirectTo(route('admin.buildings.index'));
-            return;
-        }
-
-        /**
-         * @var ImageModel $image
-         */
-        $image = $bathroom->images()->findById($bathroom->id);
-        if ($image->imageService()->deleteImage()) {
-            FlashMessage::success('Imagem do banheiro removida com sucesso!');
-            $this->redirectTo(route('admin.buildings.bathrooms.edit', ['id' => $bathroom->id]));
-        } else {
-            FlashMessage::danger('Ocorreu um erro ao tentar remover a imagem do banheiro!');
-            $this->redirectTo(route('admin.buildings.bathrooms.edit', ['id' => $bathroom->id]));
-        }
+    $building = Building::findById($building_id);
+    if (!$building) {
+        FlashMessage::danger('Prédio não encontrado!');
+        $this->redirectTo(route('admin.buildings.index'));
+        return;
     }
+
+    $bathroom = $building->bathrooms()->findById($bathroom_id);
+    if (!$bathroom) {
+        FlashMessage::danger('Banheiro não encontrado!');
+        $this->redirectTo(route('admin.buildings.bathrooms.index', [
+            'building_id' => $building_id
+        ]));
+        return;
+    }
+
+    $image = $bathroom->images()->findById($image_id);
+    if (!$image) {
+        FlashMessage::danger('Imagem não encontrada!');
+        $this->redirectTo(route('admin.buildings.bathrooms.show', [
+            'building_id' => $building_id,
+            'id' => $bathroom_id
+        ]));
+        return;
+    }
+
+    if ($image->imageService()->deleteImage()) {
+        FlashMessage::success('Imagem removida com sucesso!');
+    } else {
+        FlashMessage::danger('Falha ao remover a imagem!');
+    }
+
+    $this->redirectTo(route('admin.buildings.bathrooms.show', [
+        'building_id' => $building_id,
+        'id' => $bathroom_id
+    ]));
+}
+
 }

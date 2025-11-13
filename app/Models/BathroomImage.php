@@ -24,7 +24,7 @@ class BathroomImage extends ImageModel
     public ?string $image_type;
     public ?int $image_size;
     public ?string $image_temp_name;
-    public const int MAX_IMAGE_ACEPTED_SIZE = (10 * 1048576); // 2MB
+    public const int MAX_IMAGE_ACEPTED_SIZE = (40 * 1048576); // 2MB
 
 
     public function validates(): void
@@ -35,8 +35,19 @@ class BathroomImage extends ImageModel
         Validations::inRange('bathroom_id', 1, PHP_INT_MAX, $this);
         Validations::isIdFrom('bathroom_id', $this, Bathroom::class);
 
-        //Validations::inRangeLength('image_name', 0, $bathroom_n_floors - 1, $this);
+        Validations::notEmpty('image_name', $this);
+        Validations::isString('image_name', $this);
+
+        // 🔹 Validar tipo e tamanho da imagem (se existirem)
+        if (isset($this->image_size) && $this->image_size > self::MAX_IMAGE_ACEPTED_SIZE) {
+            $this->addError('image_name', 'A imagem excede o tamanho máximo permitido de 40 MB.');
+        }
+
+        if (isset($this->image_type) && !in_array($this->image_type, ['image/jpg', 'image/png', 'image/jpeg'])) {
+            $this->addError('image_name', 'Formato de imagem inválido. Use JPG, PNG ou JPEG.');
+        }
     }
+
 
     public function imageService(): Image
     {

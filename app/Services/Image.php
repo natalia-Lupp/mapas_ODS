@@ -53,6 +53,9 @@ class Image
         // $this->file_name = md5_file($this->getTmpFilePath());
 
         $this->model->image_name = $this->getFileName();
+        $this->model->image_type = $this->image['type'] ?? null;
+        $this->model->image_size = $this->image['size'] ?? null;
+
         if ($this->model->save()) {
             $this->updateFile();
             return true;
@@ -185,16 +188,23 @@ class Image
         }
     }
 
-    public function deleteImage(): bool
+    public function deleteImage(): bool // mudei a a extrutura pq tava tentando excluir antes de montar
     {
-        if (!isset($this->model) || !isset($this->model->image_name)) {
+        if (empty($this->model) || empty($this->model->image_name)) {
             return false;
         }
-        $path = $this->getAbsoluteDestinationPath();
+
+        // ajusta o caminho com base no nome depois que é criado na model de imagem
+        $path = $this->getAbsoluteSavedFilePath();
+
+        // remove o registro do banco primeiro
         if ($this->model->destroy()) {
-            unlink($path);
+            if (file_exists($path)) {
+                unlink($path);
+            }
             return true;
         }
+
         return false;
     }
 }
