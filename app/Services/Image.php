@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Core\Constants\Constants;
 use Core\Database\ActiveRecord\Model;
+use Lib\FileSystemHelper;
 
 // coloquei uns comentarios pra entender o que to fazendo em portugues
 class Image
@@ -77,7 +78,7 @@ class Image
         // $this->removeOldImage();
 
         $destination = $this->getAbsoluteDestinationPath();
-        $resp = move_uploaded_file($tmpPath, $destination);
+        $resp = FileSystemHelper::move($tmpPath, $destination);
 
         if (!$resp) {
             $error = error_get_last();
