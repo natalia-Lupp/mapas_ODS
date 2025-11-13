@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Image;
 use Core\Constants\Constants;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
@@ -12,13 +13,8 @@ use Lib\Paginator;
 
 /**
  * @property int $id
- * @property ?string $image_url
  * @property int $floor
  * @property int $building_id
- * @property string | null $image_name;
- * @property string | null $image_type;
- * @property int | null $image_size;
- * @property string | null $image_temp_name;
  */
 class Bathroom extends Model
 {
@@ -42,11 +38,17 @@ class Bathroom extends Model
         Validations::inRange('floor', 0, $building_n_floors - 1, $this);
     }
 
+    /**
+     * @return HasMany<Bathroom, BathroomImage>
+     */
     public function images(): HasMany
     {
         return $this->hasMany(BathroomImage::class, 'bathroom_id');
     }
 
+    /**
+     * @return BelongsTo<Bathroom, Building>
+     */
     public function building(): BelongsTo
     {
         return $this->belongsTo(Building::class, 'building_id');

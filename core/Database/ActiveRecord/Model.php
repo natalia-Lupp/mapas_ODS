@@ -385,14 +385,29 @@ abstract class Model
 
     /* ------------------- RELATIONSHIPS METHODS ------------------- */
 
+    /**
+     * @template R of Model
+     * @param class-string<R> $related
+     * @param string $foreignKey
+     * @return BelongsTo<static,R>
+     */
     public function belongsTo(string $related, string $foreignKey): BelongsTo
     {
         return new BelongsTo($this, $related, $foreignKey);
     }
-
+    /**
+     * @template R of Model
+     * @param class-string<R> $related
+     * @param string $foreignKey
+     * @return HasMany<static,R>
+     */
     public function hasMany(string $related, string $foreignKey): HasMany
     {
-        return new HasMany($this, $related, $foreignKey);
+      /**
+       * @var HasMany<static, R> $has_many
+       */
+      $has_many =  new HasMany($this, $related, $foreignKey);
+      return $has_many;
     }
 
     public function BelongsToMany(string $related, string $pivot_table, string $from_foreign_key, string $to_foreign_key): BelongsToMany

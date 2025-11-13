@@ -4,29 +4,40 @@ namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
 use App\Models\Building;
+use App\Models\ImageModel;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
 
 class BathroomImagesController extends Controller
 {
-
-    public function create(Request $request)
+    public function create(Request $request): void
     {
         $building_id = $request->getParam('building_id');
         $bathroom_id = $request->getParam('id');
 
+        /**
+         * @var Building $building
+         */
         $building = Building::findById($building_id);
+
+        /**
+         * @var Bathroom $bathroom
+         */
         $bathroom = $building->bathrooms()->findById($bathroom_id);
 
         //dd($_FILES['bathroom_image']);
         //$image = $_FILES['bathroom_image'];
+
+        /**
+         * @var ImageModel $image
+         */
         $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido
 
         if ($image->imageService()->upload($_FILES['bathroom_image'])) {
             FlashMessage::success("Imagem registrada com sucesso!");
         } else {
-            $errors = implode("<br />", $image->errors);
+            $errors = implode("<br />", $image->getErrors());
             FlashMessage::danger("Imagem não registrada!" . $errors);
         }
         $this->redirectBack();
@@ -43,6 +54,9 @@ class BathroomImagesController extends Controller
             return;
         }
 
+        /**
+         * @var ImageModel $image
+         */
         $image = $bathroom->images()->findById($bathroom->id);
         if ($image->imageService()->deleteImage()) {
             FlashMessage::success('Imagem do banheiro removida com sucesso!');

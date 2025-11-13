@@ -49,6 +49,9 @@ class Building extends Model
         }
     }
 
+    /**
+     * @return HasMany<Building, Bathroom>
+     */
     public function bathrooms(): HasMany
     {
         return $this->hasMany(Bathroom::class, 'building_id');

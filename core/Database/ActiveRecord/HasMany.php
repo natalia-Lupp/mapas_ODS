@@ -3,7 +3,13 @@
 namespace Core\Database\ActiveRecord;
 
 use Lib\Paginator;
-
+/**
+ * @template-covariant M of Model
+ * @template-covariant R of Model
+ * @property M $model
+ * @property class-string<R> $related
+ * @property string $foreignKey
+ */
 class HasMany
 {
     public function __construct(
@@ -14,7 +20,7 @@ class HasMany
     }
 
     /**
-     * @return array<Model>
+     * @return array<M>
      */
     public function get(): array
     {
@@ -30,7 +36,9 @@ class HasMany
 
         return new $this->related($params);
     }
-
+    /**
+     * @return M
+     */
     public function findById(int $id): ?Model
     {
         return $this->related::findBy(

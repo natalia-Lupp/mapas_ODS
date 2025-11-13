@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\ImageModel;
 use Core\Constants\Constants;
-use Core\Database\ActiveRecord\Model;
 use Lib\FileSystemHelper;
 
 // coloquei uns comentarios pra entender o que to fazendo em portugues
@@ -15,10 +15,11 @@ class Image
 
     /** @param array<string, mixed> $validations */
     public function __construct(
-        private Model $model,
+        private ImageModel $model,
         private string $storeDir,
         private array $validations = [],
-    ) {}
+    ) {
+    }
 
     public function path(): string
     {
@@ -98,15 +99,15 @@ class Image
     }
 
     //Remove a imagem antiga, qd existir.
-    private function removeOldImage(): void
-    {
-        if ($this->model->image_name) {
-            $oldPath = $this->getAbsoluteSavedFilePath();
-            if (file_exists($oldPath)) {
-                unlink($oldPath);
-            }
-        }
-    }
+    //private function removeOldImage(): void
+    //{
+    //    if ($this->model->image_name) {
+    //        $oldPath = $this->getAbsoluteSavedFilePath();
+    //        if (file_exists($oldPath)) {
+    //            unlink($oldPath);
+    //        }
+    //    }
+    //}
 
     //Gera o nome final do arquivo.
     private function getFileName(): string
@@ -186,14 +187,14 @@ class Image
 
     public function deleteImage(): bool
     {
-      if (!isset($this->model) || !isset($this->model->image_name)) {
+        if (!isset($this->model) || !isset($this->model->image_name)) {
+            return false;
+        }
+        $path = $this->getAbsoluteDestinationPath();
+        if ($this->model->destroy()) {
+            unlink($path);
+            return true;
+        }
         return false;
-      }
-      $path = $this->getAbsoluteDestinationPath();
-      if ($this->model->destroy()) {
-        unlink($path);
-        return true;
-      }
-      return false;
     }
 }

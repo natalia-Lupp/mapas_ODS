@@ -18,7 +18,7 @@ class HomeController extends Controller
         $totalBuildings = Building::count();
         $totalBathrooms = Bathroom::count();
 
-        // Media de banherios por predios 
+        // Media de banherios por predios
         $averageBathroomsPerBuilding = $totalBuildings > 0  // comentario pra eu lembrar que aqui é pra não dividir por zero
             ? ceil($totalBathrooms / $totalBuildings)
             : 0;

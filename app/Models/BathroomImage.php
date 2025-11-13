@@ -13,29 +13,28 @@ use Core\Database\ActiveRecord\Model;
  * @property int $bathroom_id
  * @property ?string $image_name
  */
-class BathroomImage extends Model
+class BathroomImage extends ImageModel
 {
     protected static string $table = 'bathroom_images';
     protected static array $columns = [
         'bathroom_id',
-        'image_name'
+        static::IMAGE_FILD_NAME
     ];
-      public ?string $image_name;
-      public ?string $image_type;
-      public ?int $image_size;
-      public ?string $image_temp_name;
-      public const int MAX_IMAGE_ACEPTED_SIZE = (10 * 1048576); // 2MB
+    public ?string $image_name;
+    public ?string $image_type;
+    public ?int $image_size;
+    public ?string $image_temp_name;
+    public const int MAX_IMAGE_ACEPTED_SIZE = (10 * 1048576); // 2MB
 
 
     public function validates(): void
     {
+        parent::validates();
         Validations::notEmpty('bathroom_id', $this);
         Validations::isInt('bathroom_id', $this);
         Validations::inRange('bathroom_id', 1, PHP_INT_MAX, $this);
         Validations::isIdFrom('bathroom_id', $this, Bathroom::class);
 
-        Validations::notEmpty('image_name', $this);
-        Validations::isString('image_name', $this);
         //Validations::inRangeLength('image_name', 0, $bathroom_n_floors - 1, $this);
     }
 
@@ -44,8 +43,11 @@ class BathroomImage extends Model
         return new Image($this, '/bathrooms/images');
     }
 
+    /**
+     * @return BelongsTo<BathroomImage, Bathroom>
+     */
     public function bathroom(): BelongsTo
     {
-        return $this->belongsTo(Building::class, 'bathroom_id');
+        return $this->belongsTo(Bathroom::class, 'bathroom_id');
     }
 }
