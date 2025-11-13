@@ -1,0 +1,20 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card border border-2 border-primary shadow-sm text-center">
+                <div class="card-body py-4">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 mb-3">
+                            <i class="bi bi-building text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-semibold text-dark mb-1">Total de Prédios</h5>
+                        <p class="card-text display-5 fw-bold text-primary mb-3"><?= $totalBuildings ?></p>
+                        <a href="<?= route('admin.buildings.index') ?>" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="bi bi-list me-2"></i> Ver todos
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

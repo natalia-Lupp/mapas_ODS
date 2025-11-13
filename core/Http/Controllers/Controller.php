@@ -29,7 +29,7 @@ class Controller
     /**
      * @param array<string, mixed> $data
      */
-    protected function render(string $view, array $data = []): void
+    protected function render(string $view, array $data = [], ?string $layoutName = null): void
     {
         extract($data);
 

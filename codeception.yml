@@ -10,3 +10,7 @@ actor_suffix: Tester
 extensions:
   enabled:
     - Codeception\Extension\RunFailed
+modules:
+    config:
+        WebDriver:
+            window_size: 1366x768

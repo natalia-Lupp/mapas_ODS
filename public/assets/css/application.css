@@ -1,29 +1,75 @@
 body {
-  margin-top: 60px;
-}
-
-#main-content {
-  padding-top: 5px;
-  margin-left: 250px;
+  margin: 0;
+  padding: 0;
 }
 
 nav.navbar {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 55px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   background-color: white;
 }
-
 .sidebar {
-  width: 250px;
+  width: 260px;
   position: fixed;
+  /* TOP DEVE SER A ALTURA DA NAVBAR */
   top: 55px;
   bottom: 0;
   left: 0;
-  z-index: 100;
-  padding: 0;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  /* z-index deve ser menor que o da navbar */
+  z-index: 1020; /* Certifique-se que é menor que o z-index da navbar (1030) */
 }
 
-.avatar {
-  width: 315px;
-  height: 315px;
+/* Conteúdo principal */
+#main-content {
+  margin-left: 260px; /* largura da sidebar */
+  padding-top: 15px;
+  padding-right: 40px !important;
+  padding-left: 40px !important;
 }
+
+/* CSS da tabela (não mexer a menos que seja necessario pq qualquer chamada dela não pega mais por conflito
+/* Linhas ímpares - azul claro */
+#main-content table tbody tr:nth-child(even) td {
+  background-color: #c9e2ff !important; /* azul claro */
+}
+
+/* Linhas pares - branco */
+#main-content table tbody tr:nth-child(odd) td {
+  background-color: #ffffff !important; /* branco */
+}
+
+/* Hover permanece funcionando (aplicado às células) */
+#main-content table tbody tr:hover td {
+  background-color: #e9edf0 !important; /* azul mais forte ao passar o mouse */
+}
+
+.form-background {
+  background-color: #c9e2ff !important;
+  padding: 1.5rem; /* equivalente ao p-4 */
+  border-radius: 1rem; /* equivalente ao rounded-4 */
+}
+
+.btn-voltar {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+  transition: background-color 0.2s;
+}
+
+.btn-voltar:hover {
+  background-color: #e1e6eb;
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+}
+
+.alert {
+  position: absolute; /* ou fixed se for necessário */
+  top: 4em;
+  left: 260px; /* desloca o alert para não cobrir a sidebar */
+  right: 0;
+  z-index: 1010; /* menor que a sidebar */
+}
+

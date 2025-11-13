@@ -9,27 +9,27 @@ DROP TABLE IF EXISTS `user_rules`;
 
 CREATE TABLE  `buildings` (
 	`id` INT PRIMARY KEY AUTO_INCREMENT,
-    `n_floors` INT NOT NULL,
-    `name` VARCHAR(100) NOT NULL
+  `n_floors` INT NOT NULL,
+  `name` VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE `bathrooms` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `image_url` VARCHAR(255),
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `image_url` VARCHAR(255),
 	`floor` INT NOT NULL,
-    `building_id` INT NOT NULL,
+  `building_id` INT NOT NULL,
 	FOREIGN KEY (`building_id`) REFERENCES `buildings` (`id`)
 );
 
 CREATE TABLE `bathroom_item_types`(
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `vendor_consumption_expenditure` FLOAT NOT NULL,
-    `name` 	VARCHAR(100) NOT NULL
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `vendor_consumption_expenditure` FLOAT NOT NULL,
+  `name` 	VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE `bathroom_items` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `bathroom_item_type_id` INT NOT NULL,
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `bathroom_item_type_id` INT NOT NULL,
 	`bathroom_id` INT NOT NULL,
 	FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
 	FOREIGN KEY (`bathroom_item_type_id`) REFERENCES `bathroom_item_types` (`id`)
@@ -62,14 +62,14 @@ CREATE TABLE `account_rules` (
 );
 
 CREATE TABLE `consumptions` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `user_id` INT NOT NULL,
-    `quantity`FLOAT NOT NULL,
-    `bathroom_id` INT NOT NULL,
-    `bathroom_item_id` INT NOT NULL,
-    `date` DATE NOT NULL,
-    FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-    FOREIGN KEY (`bathroom_item_id`) REFERENCES `bathroom_items` (`id`)
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `quantity`FLOAT NOT NULL,
+  `bathroom_id` INT NOT NULL,
+  `bathroom_item_id` INT NOT NULL,
+  `date` DATE NOT NULL,
+  FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  FOREIGN KEY (`bathroom_item_id`) REFERENCES `bathroom_items` (`id`)
 );
 

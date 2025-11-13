@@ -7,7 +7,8 @@ use Core\Database\ActiveRecord\Model;
 
 /**
  * @property int $id
- * @property string $rule_type
+ * @property int $user_id
+ * @property int $user_rule_id
  */
 class AccountRule extends Model
 {

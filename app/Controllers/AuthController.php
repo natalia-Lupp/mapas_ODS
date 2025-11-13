@@ -10,12 +10,11 @@ use Lib\FlashMessage;
 
 class AuthController extends Controller
 {
+    protected string $layout = 'login';
+
     public function index(): void
     {
-        if (Auth::check()) {
-            $this->redirectTo('/');
-        }
-
+        $this->redirectByRole();
         $title = 'Login - Mapas ODS';
         $this->render('authentications/login', compact('title'));
     }
@@ -28,7 +27,7 @@ class AuthController extends Controller
 
         if (empty($email) || empty($password)) {
             FlashMessage::danger('Email e senha são obrigatórios.');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
@@ -37,14 +36,14 @@ class AuthController extends Controller
 
         if (!$user) {
             FlashMessage::danger('Credenciais inválidas. Tem certeza de que este é o email correto?');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
         // Verifica senha
         if (!$user->authenticate($password)) {
             FlashMessage::danger('Credenciais inválidas. Tem certeza de que digitou a senha corretamente?');
-            $this->redirectTo('/login');
+            $this->redirectTo(route('login'));
             return;
         }
 
@@ -53,15 +52,44 @@ class AuthController extends Controller
 
         $user->last_login = date('Y-m-d H:i:s');
         $user->save();
+        $isAdmin = $user->hasRule('admin');
+        $isClient = $user->hasRule('client');
 
-        FlashMessage::success('Login realizado com sucesso!');
-        $this->redirectTo('/');
+        if ($isAdmin) {
+            FlashMessage::success('Login realizado com sucesso! Bem-vindo, Admin!');
+            $this->redirectTo(route('admin.dashboard'));
+            return;
+        } elseif ($isClient) {
+            FlashMessage::success('Login realizado com sucesso!');
+            $this->redirectTo(route('client.dashboard'));
+            return;
+        }
+
+        // Usuário sem regra atribuída - escape -> needs work
+        FlashMessage::success('OOPS, algo de errado não está certo!!! Contate os mantenedores do sistema.');
+        $this->redirectTo(route('home'));
     }
 
     public function logout(): void
     {
         Auth::logout();
         FlashMessage::success('Logout realizado com sucesso!');
-        $this->redirectTo('/login');
+        $this->redirectTo(route('login'));
+    }
+
+    public function redirectByRole(): void
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->hasRule('admin')) {
+                $this->redirectTo(route('admin.dashboard'));
+                return;
+            }
+
+            if ($user->hasRule('client')) {
+                $this->redirectTo(route('client.dashboard'));
+                return;
+            }
+        }
     }
 }

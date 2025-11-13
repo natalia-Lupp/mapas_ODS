@@ -1,0 +1,46 @@
+<h2 class="mt-4 fw-semibold">Editar Prédio</h2>
+<p class="text-muted">Atualize os dados do prédio</p>
+
+<div class="form-background">
+    <form id="formEditBuilding" method="POST" action="<?= route('admin.buildings.update', ['id' => $building->id]) ?>" novalidate>
+
+        <!-- Spoof method PUT -->
+        <input type="hidden" name="_method" value="PUT">
+
+        <!-- Nome do prédio -->
+        <div class="mb-3">
+            <label for="building_name" class="form-label fw-semibold">Nome do Prédio</label>
+            <input type="text"
+                class="form-control"
+                id="building_name"
+                name="buildings[name]"
+                value="<?= htmlspecialchars($building->name) ?>"
+                placeholder="Digite o nome do prédio"
+                required>
+        </div>
+
+        <!-- Número de andares -->
+        <div class="mb-3">
+            <label for="building_floors" class="form-label fw-semibold">Número de Andares</label>
+            <select class="form-select"
+                id="building_floors"
+                name="buildings[n_floors]"
+                required>
+                <?php for ($i = 1; $i <= 10; $i++): ?>
+                    <option value="<?= $i ?>" <?= $i == $building->n_floors ? 'selected' : '' ?>>
+                        <?= $i ?> andar<?= $i > 1 ? 'es' : '' ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2">
+                <i class="bi bi-pencil-square"></i>
+                Salvar Alterações
+            </button>
+        </div>
+
+    </form>
+</div>

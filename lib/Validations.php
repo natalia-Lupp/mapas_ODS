@@ -185,9 +185,53 @@ class Validations
 
         return true;
     }
+    /** @param array<int, string> | string $fields */
+    public static function uniquenessMutable(array | string $fields, Model $object): bool
+    {
+        if (!is_array($fields)) {
+            $fields = [$fields];
+        }
+
+
+        $table = $object::table();
+        $conditions = implode(' AND ', array_map(fn($field) => "{$field} = :{$field}", $fields));
+        $sql = "";
+        if (!$object->newRecord()) {
+            $id = $object->id;
+            $sql = <<<SQL
+              SELECT id FROM {$table} WHERE id <> {$id} AND {$conditions};
+            SQL;
+        } else {
+            $sql = <<<SQL
+              SELECT id FROM {$table} WHERE {$conditions};
+            SQL;
+        }
+
+        $pdo = Database::getDatabaseConn();
+        $stmt = $pdo->prepare($sql);
+
+        foreach ($fields as $field) {
+            $stmt->bindValue($field, $object->$field);
+        }
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() !== 0) {
+            foreach ($fields as $field) {
+                $object->addError($field, 'já existe um registro com esse dado');
+            }
+            return false;
+        }
+
+        return true;
+    }
     public static function isIdFrom(string $field, Model $obj, string $related): bool
     {
         $entity = $related::findById($obj->$field);
-        return isset($entity) && $entity->id === $obj->$field;
+        if (isset($entity) && $entity->id === $obj->$field) {
+            return true;
+        }
+        $obj->addError($field, "$field deve fazer referência a um registro valido.");
+        return false;
     }
 }

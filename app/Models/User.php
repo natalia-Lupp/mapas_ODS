@@ -75,7 +75,7 @@ class User extends Model
         $rule = UserRule::findByRuleType($rule);
         if (isset($rule) && $this->id) {
             $grant = new AccountRule([
-            'rule_id' => $rule->id,
+            'user_rule_id' => $rule->id,
             'user_id' => $this->id
             ]);
             $grant->save();
@@ -104,7 +104,7 @@ class User extends Model
                 UserRule::class,
                 'account_rules',
                 'user_id',
-                'rule_id'
+                'user_rule_id'
             );
           /** @var UserRule[] $rules */
             $rules = $btm->get();
