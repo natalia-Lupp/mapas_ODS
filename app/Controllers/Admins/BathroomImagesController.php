@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admins;
 
+use App\Models\Bathroom;
 use App\Models\Building;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
@@ -29,5 +30,26 @@ class BathroomImagesController extends Controller
             FlashMessage::danger("Imagem não registrada!" . $errors);
         }
         $this->redirectBack();
+    }
+
+    public function destroyImage(Request $request): void
+    {
+        $params = $request->getParams();
+        $bathroom = Bathroom::findById(intval($params['id']));
+
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $image = $bathroom->images()->findById($bathroom->id);
+        if ($image->imageService()->deleteImage()) {
+          FlashMessage::success('Imagem do banheiro removida com sucesso!');
+          $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
+        } else {
+          FlashMessage::danger('Ocorreu um erro ao tentar remover a imagem do banheiro!');
+          $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
+        }
     }
 }
