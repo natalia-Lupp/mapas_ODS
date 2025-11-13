@@ -7,12 +7,12 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
 ?>
 
 <div>
-    <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
-        href="<?= $buildingIdForRoute > 0
-                    ? route('admin.buildings.bathrooms.new', ['building_id' => $buildingIdForRoute])
-                    : route('admin.buildings.bathrooms.new') ?>">
-        Novo banheiro
-    </a>
+    <?php if ($buildingIdForRoute > 0): ?> <!--como estamos usando o msmo index pra todo os banheiros assim como para um unico banheiro o if identifica a rota passada e mostra o botão de acordo com ela -->
+        <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
+            href="<?= route('admin.buildings.bathrooms.new', ['building_id' => $buildingIdForRoute]) ?>">
+            Novo banheiro
+        </a>
+    <?php endif; ?>
 
     <table id="tableBuildingsDashboard" class="table align-middle text-center">
         <thead class="table-primary">
@@ -24,12 +24,11 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
         </thead>
         <tbody>
             <?php if (!empty($bathrooms)): ?>
-                <?php foreach ($bathrooms as $bathroom): // aqui passa o predio pra não ficar puxando os dados por index do predio e do andar  evitar  fazer esse erro  ai "Call to undefined method...::first()".
+                <?php foreach ($bathrooms as $bathroom):
                     $building = $bathroom->building;
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
-
                         <td class="text-secondary"><?= $bathroom->floor ?></td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
@@ -57,7 +56,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                     style="display:inline-block"
                                     onsubmit="return confirm('Tem certeza que deseja excluir este banheiro?');">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="btn btn-link text-primary p-0">Excluir</button>
+                                    <button type="submit" class="btn btn-link text-danger p-0">Excluir</button>
                                 </form>
                             </div>
                         </td>
@@ -73,7 +72,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
 
     <?php $paginator->renderPagesNavigation(); ?>
 
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4 mb-5">
         <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
     </div>
 </div>

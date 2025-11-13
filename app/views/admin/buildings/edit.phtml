@@ -17,6 +17,7 @@
                 value="<?= htmlspecialchars($building->name) ?>"
                 placeholder="Digite o nome do prédio"
                 required>
+            <div class=""><?= $building->errors('name') ? $building->errors('name') : '' ?></div>
         </div>
 
         <!-- Número de andares -->
