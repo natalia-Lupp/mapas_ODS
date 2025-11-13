@@ -7,6 +7,7 @@ use App\Controllers\Admins\HomeController as AdminHomeController;
 use App\Controllers\Users\HomeController as UserHomeController;
 use App\Controllers\Admins\BuildingsController;
 use App\Controllers\Admins\BathroomsController;
+use Codeception\Command\Run;
 use Core\Router\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,25 +38,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
       ->name('admin.buildings.bathrooms.show');
 
-     Route::get('/admin.buildings.bathrooms/new', [BathroomsController::class, 'new'])
-       ->name('admin.buildings.bathrooms.new');
+    Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
+      ->name('admin.buildings.bathrooms.new');
 
-     Route::post('/admin.buildings.bathrooms', [BathroomsController::class, 'create'])
-       ->name('admin.buildings.bathrooms.create');
+    Route::post('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'create'])
+      ->name('admin.buildings.bathrooms.create');
 
-    // // Update Bathroom
-    // Route::get('/admin.buildings.bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
-    //   ->name('admin.buildings.bathrooms.edit');
+    // Update Bathroom
+    Route::get('/admin/buildings/{building_id}/bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
+      ->name('admin.buildings.bathrooms.edit');
 
-    // Route::put('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'update'])
-    //   ->name('admin.buildings.bathrooms.update');
+    Route::put('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'update'])
+      ->name('admin.buildings.bathrooms.update');
 
-    // Route::get('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'show'])
-    //   ->name('admin.buildings.bathrooms.show');
+    Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
+      ->name('admin.buildings.bathrooms.show');
 
-    // // Delete Bathroom
-    // Route::delete('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'destroy'])
-    //   ->name('admin.buildings.bathrooms.destroy');
+    // Delete Bathroom
+    Route::delete('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'destroy'])
+      ->name('admin.buildings.bathrooms.destroy');
 
     // Bathroom images ----------------------------------------------------------------------------
     Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])

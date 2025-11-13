@@ -12,6 +12,7 @@ class BathroomsController extends Controller
 {
     protected string $layout = 'admin/application';
 
+    // ...
     public function index(Request $request): void
     {
         $buildingId = intval($request->getParam('building_id'));
@@ -29,8 +30,10 @@ class BathroomsController extends Controller
         $per_page = $request->getParam('per_page', 10);
 
         if ($building) {
+            // Consulta de banheiros específica para um prédio.
             $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/{$building->id}/bathrooms");
         } else {
+            // Consulta de todos os banheiros sem Eager Loading, devido ao erro 'with()'.
             $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.buildings.bathrooms.index');
         }
 
@@ -159,5 +162,4 @@ class BathroomsController extends Controller
         $title = "Banheiro";
         $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
     }
-
 }
