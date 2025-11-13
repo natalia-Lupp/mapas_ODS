@@ -63,14 +63,9 @@ class BathroomsController extends Controller
     {
         $params = $request->getParams();
         $bathroomParams = $params['bathroom'] ?? [];
-        $image = $_FILES['image'] ?? [];
         $bathroom = new Bathroom([
             'floor' => $bathroomParams['floor'] ?? -1,
-            'building_id' => $bathroomParams['building_id'] ?? 0,
-            'image_name' => $image['name'] ?? '',
-            'image_type' => $image['type'] ?? '',
-            'image_size' => $image['size'] ?? 0,
-            'image_temp_name' => $image['tmp_name'] ?? ''
+            'building_id' => $bathroomParams['building_id'] ?? 0
         ]);
 
         if ($bathroom->save()) {
@@ -133,16 +128,14 @@ class BathroomsController extends Controller
     public function update(Request $request): void
     {
         $params = $request->getParams();
-        $bathroom = Bathroom::findById(intval($params['id']));
-        $image = $_FILES['image'] ?? [];
         $bathroomParams = $request->getParam('bathroom', []);
-        $oldId = $bathroom->id;
+
+        $bathroom = Bathroom::findById(intval($params['id']));
+
+        $oldId = $bathroom->building_id;
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
-        $bathroom->image_name = $image['name'] ?? '';
-        $bathroom->image_type = $image['type'] ?? '';
-        $bathroom->image_size = $image['size'] ?? '';
-        $bathroom->image_temp_name = $image['tmp_name'] ?? '';
+
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro atualizado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
@@ -167,19 +160,4 @@ class BathroomsController extends Controller
         $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
     }
 
-    public function destroyImage(Request $request): void
-    {
-        $params = $request->getParams();
-        $bathroom = Bathroom::findById(intval($params['id']));
-
-        if (!$bathroom) {
-            FlashMessage::danger('Banheiro não encontrado!');
-            $this->redirectTo(route('admin.buildings.index'));
-            return;
-        }
-
-        $bathroom->deleteImage();
-        FlashMessage::success('Imagem do banheiro removida com sucesso!');
-        $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
-    }
 }
