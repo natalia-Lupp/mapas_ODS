@@ -34,7 +34,7 @@ class BathroomsController extends Controller
             $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.buildings.bathrooms.index');
         }
 
-        $this->render('admin/buildings/bathrooms/index', compact('title', 'building', 'paginator'));
+        $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
     }
 
     public function new(Request $request): void
@@ -56,7 +56,7 @@ class BathroomsController extends Controller
         }
 
         $title = "Cadastrar Banheiros - {$building->name}";
-        $this->render('admin/buildings/bathrooms/new', compact('title', 'building'));
+        $this->render('admin/bathrooms/new', compact('title', 'building'));
     }
 
     public function create(Request $request): void
@@ -113,7 +113,7 @@ class BathroomsController extends Controller
 
             $title = "Editar Banheiro - {$building->name}";
 
-            $this->render('admin/buildings/bathrooms/edit', compact(
+            $this->render('admin/bathrooms/edit', compact(
                 'title',
                 'building',
                 'bathroom'
@@ -157,7 +157,7 @@ class BathroomsController extends Controller
         $titleNome = "Informações do Banheiro do Andar {$building->n_floors} do {$building->name}";
 
         $title = "Banheiro";
-        $this->render('admin/buildings/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
+        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
     }
 
 }
