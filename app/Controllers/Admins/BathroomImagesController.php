@@ -46,10 +46,10 @@ class BathroomImagesController extends Controller
         $image = $bathroom->images()->findById($bathroom->id);
         if ($image->imageService()->deleteImage()) {
           FlashMessage::success('Imagem do banheiro removida com sucesso!');
-          $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
+          $this->redirectTo(route('admin.buildings.bathrooms.edit', ['id' => $bathroom->id]));
         } else {
           FlashMessage::danger('Ocorreu um erro ao tentar remover a imagem do banheiro!');
-          $this->redirectTo(route('admin.bathrooms.edit', ['id' => $bathroom->id]));
+          $this->redirectTo(route('admin.buildings.bathrooms.edit', ['id' => $bathroom->id]));
         }
     }
 }

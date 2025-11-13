@@ -31,10 +31,10 @@ class BathroomsController extends Controller
         if ($building) {
             $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/{$building->id}/bathrooms");
         } else {
-            $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.bathrooms.index');
+            $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.buildings.bathrooms.index');
         }
 
-        $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
+        $this->render('admin.buildings.bathrooms/index', compact('title', 'building', 'paginator'));
     }
 
     public function new(Request $request): void
@@ -56,7 +56,7 @@ class BathroomsController extends Controller
         }
 
         $title = "Cadastrar Banheiros - {$building->name}";
-        $this->render('admin/bathrooms/new', compact('title', 'building'));
+        $this->render('admin.buildings.bathrooms/new', compact('title', 'building'));
     }
 
     public function create(Request $request): void
@@ -75,7 +75,7 @@ class BathroomsController extends Controller
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
-            $this->redirectTo(route('admin.bathrooms.new'));
+            $this->redirectTo(route('admin.buildings.bathrooms.new'));
         }
     }
 
@@ -113,7 +113,7 @@ class BathroomsController extends Controller
 
             $title = "Editar Banheiro - {$building->name}";
 
-            $this->render('admin/bathrooms/edit', compact(
+            $this->render('admin.buildings.bathrooms/edit', compact(
                 'title',
                 'building',
                 'bathroom'
@@ -143,7 +143,7 @@ class BathroomsController extends Controller
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
-            $this->redirectTo(route('admin.bathrooms.edit'));
+            $this->redirectTo(route('admin.buildings.bathrooms.edit'));
         }
     }
     public function show(Request $request): void
@@ -157,7 +157,7 @@ class BathroomsController extends Controller
         $titleNome = "Informações do Banheiro do Andar {$building->n_floors} do {$building->name}";
 
         $title = "Banheiro";
-        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
+        $this->render('admin.buildings.bathrooms/show', compact('bathroom', 'title', 'titleNome'));
     }
 
 }

@@ -24,8 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
 
     //Bathroom Routes-----------------------------------------------------------------------
-    Route::get('/admin/bathrooms', [BathroomsController::class, 'index'])
-      ->name('admin.bathrooms.index');
+    Route::get('/admin.buildings.bathrooms', [BathroomsController::class, 'index'])
+      ->name('admin.buildings.bathrooms.index');
 
     Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
       ->name('admin.buildings.bathrooms.index');
@@ -37,25 +37,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
       ->name('admin.buildings.bathrooms.show');
 
-    // Route::get('/admin/bathrooms/new', [BathroomsController::class, 'new'])
-    //   ->name('admin.bathrooms.new');
+     Route::get('/admin.buildings.bathrooms/new', [BathroomsController::class, 'new'])
+       ->name('admin.buildings.bathrooms.new');
 
-    // Route::post('/admin/bathrooms', [BathroomsController::class, 'create'])
-    //   ->name('admin.bathrooms.create');
+     Route::post('/admin.buildings.bathrooms', [BathroomsController::class, 'create'])
+       ->name('admin.buildings.bathrooms.create');
 
     // // Update Bathroom
-    // Route::get('/admin/bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
-    //   ->name('admin.bathrooms.edit');
+    // Route::get('/admin.buildings.bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
+    //   ->name('admin.buildings.bathrooms.edit');
 
-    // Route::put('/admin/bathrooms/{id}', [BathroomsController::class, 'update'])
-    //   ->name('admin.bathrooms.update');
+    // Route::put('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'update'])
+    //   ->name('admin.buildings.bathrooms.update');
 
-    // Route::get('/admin/bathrooms/{id}', [BathroomsController::class, 'show'])
-    //   ->name('admin.bathrooms.show');
+    // Route::get('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'show'])
+    //   ->name('admin.buildings.bathrooms.show');
 
     // // Delete Bathroom
-    // Route::delete('/admin/bathrooms/{id}', [BathroomsController::class, 'destroy'])
-    //   ->name('admin.bathrooms.destroy');
+    // Route::delete('/admin.buildings.bathrooms/{id}', [BathroomsController::class, 'destroy'])
+    //   ->name('admin.buildings.bathrooms.destroy');
 
     // Bathroom images ----------------------------------------------------------------------------
     Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])

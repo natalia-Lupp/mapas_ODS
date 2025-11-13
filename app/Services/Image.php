@@ -183,4 +183,17 @@ class Image
             $this->model->addError('avatar', 'Tamanho do arquivo inválido');
         }
     }
+
+    public function deleteImage(): bool
+    {
+      if (!isset($this->model) || !isset($this->model->image_name)) {
+        return false;
+      }
+      $path = $this->getAbsoluteDestinationPath();
+      if ($this->model->destroy()) {
+        unlink($path);
+        return true;
+      }
+      return false;
+    }
 }

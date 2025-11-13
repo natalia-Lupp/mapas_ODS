@@ -12,7 +12,7 @@ $floorForRoute = isset($floor) ? $floor : 0; // Pega o andar do request, default
     <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
         href="<?= $buildingIdForRoute > 0
                     ? route('admin.buildings.bathrooms.new', ['building_id' => $buildingIdForRoute, 'floor' => $floorForRoute])
-                    : route('admin.bathrooms.new', ['floor' => $floorForRoute]) ?>">
+                    : route('admin.buildings.bathrooms.new', ['floor' => $floorForRoute]) ?>">
         Novo banheiro
     </a>
 

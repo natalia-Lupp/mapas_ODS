@@ -3,7 +3,7 @@
 
 <div class="form-background">
     <form id="formEditarBanheiro" method="POST"
-        action="<?= route('admin.bathrooms.update', ['id' => $bathroom->id]) ?>"
+        action="<?= route('admin.buildings.bathrooms.update', ['id' => $bathroom->id]) ?>"
         enctype="multipart/form-data">
 
         <input type="hidden" name="_method" value="PUT">
@@ -65,7 +65,7 @@
 
     <!-- Formulário para deletar imagem e não  apagar o banheiro todo -->
     <form id="deleteImageForm" method="POST"
-        action="<?= route('admin.bathrooms.image.destroy', ['id' => $bathroom->id]) ?>"
+        action="<?= route('admin.buildings.bathrooms.image.destroy', ['id' => $bathroom->id]) ?>"
         style="display: none;">
         <input type="hidden" name="_method" value="DELETE">
     </form>
