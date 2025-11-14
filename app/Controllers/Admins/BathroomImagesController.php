@@ -20,12 +20,22 @@ class BathroomImagesController extends Controller
          * @var Building $building
          */
         $building = Building::findById($building_id);
-
+        if (!$building) {
+              FlashMessage::danger('Prédio não encontrado!');
+              $this->redirectTo(route('admin.buildings.index'));
+              return;
+        }
         /**
          * @var Bathroom $bathroom
          */
         $bathroom = $building->bathrooms()->findById($bathroom_id);
-
+        if (!$bathroom) {
+             FlashMessage::danger('Banheiro não encontrado!');
+             $this->redirectTo(route('admin.buildings.bathrooms.index', [
+            'building_id' => $building_id
+             ]));
+             return;
+        }
         //dd($_FILES['bathroom_image']);
         //$image = $_FILES['bathroom_image'];
 
