@@ -12,7 +12,10 @@ class BathroomsController extends Controller
 {
     protected string $layout = 'admin/application';
 
-    // ...
+    // -------------------------------------------------------------------------
+    // READ (Leitura)
+    // -------------------------------------------------------------------------
+
     public function index(Request $request): void
     {
         $buildingId = intval($request->getParam('building_id'));
@@ -33,12 +36,39 @@ class BathroomsController extends Controller
             // Consulta de banheiros específica para um prédio.
             $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/{$building->id}/bathrooms");
         } else {
-            // Consulta de todos os banheiros sem Eager Loading, devido ao erro 'with()'.
+            // Consulta de todos os banheiros.
             $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.buildings.bathrooms.index');
         }
 
         $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
     }
+
+    public function show(Request $request): void
+    {
+        $params = $request->getParams();
+
+        $bathroom = Bathroom::findById($params['id']);
+
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $building = Building::findById($bathroom->building_id);
+
+        // Ajustando para que o andar 0 seja o 1º Andar, etc.
+        $floor = $bathroom->floor + 1;
+
+        $titleNome = "Informações do Banheiro do Andar {$floor} do {$building->name}";
+        $title = "Banheiro";
+
+        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome', 'building'));
+    }
+
+    // -------------------------------------------------------------------------
+    // CREATE (Criação)
+    // -------------------------------------------------------------------------
 
     public function new(Request $request): void
     {
@@ -78,53 +108,48 @@ class BathroomsController extends Controller
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
-            $this->redirectTo(route('admin.buildings.bathrooms.new'));
+            $this->redirectTo(route('admin.buildings.bathrooms.new', [
+                'building_id' => $bathroom->building_id
+            ]));
         }
     }
 
-    public function destroy(Request $request): void
-    {
-        $params = $request->getParams();
-
-        $bathroom = Bathroom::findById($params['id']);
-        $bathroom->destroy();
-        FlashMessage::success('Banheiro removido com sucesso!');
-        $this->redirectTo(route('admin.buildings.bathrooms.index', [
-            'building_id' => $bathroom->building_id
-        ]));
-    }
+    // -------------------------------------------------------------------------
+    // UPDATE (Edição)
+    // -------------------------------------------------------------------------
 
     public function edit(Request $request): void
     {
         $id = $request->getParam('id', 0);
 
-        if ($id > 0) {
-            $bathroom = Bathroom::findById($id);
-
-            if (!$bathroom) {
-                FlashMessage::danger('Banheiro não encontrado!');
-                $this->redirectTo(route('admin.buildings.index'));
-                return;
-            }
-
-            $building = Building::findById($bathroom->building_id);
-            if (!$building) {
-                FlashMessage::danger('Prédio vinculado não encontrado!');
-                $this->redirectTo(route('admin.buildings.index'));
-                return;
-            }
-
-            $title = "Editar Banheiro - {$building->name}";
-
-            $this->render('admin/bathrooms/edit', compact(
-                'title',
-                'building',
-                'bathroom'
-            ));
-        } else {
+        if ($id <= 0) {
             FlashMessage::danger('Banheiro não encontrado!');
             $this->redirectTo(route('admin.buildings.index'));
+            return;
         }
+
+        $bathroom = Bathroom::findById($id);
+
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $building = Building::findById($bathroom->building_id);
+        if (!$building) {
+            FlashMessage::danger('Prédio vinculado não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $title = "Editar Banheiro - {$building->name}";
+
+        $this->render('admin/bathrooms/edit', compact(
+            'title',
+            'building',
+            'bathroom'
+        ));
     }
 
 
@@ -135,31 +160,63 @@ class BathroomsController extends Controller
 
         $bathroom = Bathroom::findById(intval($params['id']));
 
-        $oldId = $bathroom->building_id;
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectTo(route('admin.buildings.index'));
+            return;
+        }
+
+        $oldBuildingId = $bathroom->building_id;
+
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
 
         if ($bathroom->save()) {
             FlashMessage::success('Banheiro atualizado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
-                'building_id' => $oldId
+                'building_id' => $oldBuildingId // Redireciona para o prédio original.
             ]));
         } else {
-            FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
-            $this->redirectTo(route('admin.buildings.bathrooms.edit'));
+            FlashMessage::danger('Por favor verifique novamente os dados enviados! Atualização não realizada.');
+            $this->redirectTo(route('admin.buildings.bathrooms.edit', [
+                'id' => $bathroom->id
+            ]));
         }
     }
-    public function show(Request $request): void
+
+    // -------------------------------------------------------------------------
+    // DELETE (Exclusão)
+    // -------------------------------------------------------------------------
+
+    public function destroy(Request $request): void
     {
         $params = $request->getParams();
 
         $bathroom = Bathroom::findById($params['id']);
 
-        $building = Building::findById($bathroom->building_id);
-        $floor = $bathroom->floor + 1;
-        $titleNome = "Informações do Banheiro do Andar {$floor} do {$building->name}";
+        if (!$bathroom) {
+            FlashMessage::danger('Banheiro não encontrado!');
+            $this->redirectBack();
+            return;
+        }
 
-        $title = "Banheiro";
-        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome'));
+        $buildingId = $bathroom->building_id;
+
+        // 🔥 Buscar imagens SEM get(), porque where() já retorna um array!
+        $images = \App\Models\BathroomImage::where(['bathroom_id' => $bathroom->id]);
+
+        foreach ($images as $image) {
+            $image->imageService()->deleteImage();
+            $image->destroy();
+        }
+
+        // Agora sim, sem FK pendente
+        $bathroom->destroy();
+
+        FlashMessage::success('Banheiro removido com sucesso!');
+
+        $this->redirectTo(route('admin.buildings.bathrooms.index', [
+            'building_id' => $buildingId
+        ]));
     }
 }

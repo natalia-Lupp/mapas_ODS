@@ -1,0 +1,13 @@
+/* Faz o container da página virar relativo ao alerta */
+#full-page-wrapper {
+    position: relative;
+}
+
+/* Move o alerta para baixo do formulário */
+.alert-after-form {
+    position: absolute;
+    top: calc(100% + 20px); /* 20px abaixo do final do wrapper */
+    left: 0;
+    width: 100%;
+    z-index: 20;
+}
