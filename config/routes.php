@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
 
       //Bathroom Routes-----------------------------------------------------------------------
-        Route::get('/admin.buildings.bathrooms', [BathroomsController::class, 'index'])
+        Route::get('/admin/buildings/bathrooms', [BathroomsController::class, 'index'])
         ->name('admin.buildings.bathrooms.index');
 
         Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
