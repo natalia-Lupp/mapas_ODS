@@ -20,12 +20,22 @@ class BathroomImagesController extends Controller
          * @var Building $building
          */
         $building = Building::findById($building_id);
-
+        if (!$building) {
+              FlashMessage::danger('Prédio não encontrado!');
+              $this->redirectTo(route('admin.buildings.index'));
+              return;
+        }
         /**
          * @var Bathroom $bathroom
          */
         $bathroom = $building->bathrooms()->findById($bathroom_id);
-
+        if (!$bathroom) {
+             FlashMessage::danger('Banheiro não encontrado!');
+             $this->redirectTo(route('admin.buildings.bathrooms.index', [
+            'building_id' => $building_id
+             ]));
+             return;
+        }
         //dd($_FILES['bathroom_image']);
         //$image = $_FILES['bathroom_image'];
 
@@ -49,6 +59,10 @@ class BathroomImagesController extends Controller
         $bathroom_id = $request->getParam('bathroom_id');
         $image_id = $request->getParam('image_id');
 
+
+     /**
+      * @var Building | null $building
+      */
         $building = Building::findById($building_id);
         if (!$building) {
               FlashMessage::danger('Prédio não encontrado!');
@@ -56,6 +70,9 @@ class BathroomImagesController extends Controller
               return;
         }
 
+     /**
+      * @var Bathroom | null $bathroom
+      */
         $bathroom = $building->bathrooms()->findById($bathroom_id);
         if (!$bathroom) {
              FlashMessage::danger('Banheiro não encontrado!');
@@ -65,6 +82,10 @@ class BathroomImagesController extends Controller
              return;
         }
 
+
+     /**
+      * @var ImageModel | null $image
+      */
         $image = $bathroom->images()->findById($image_id);
         if (!$image) {
             FlashMessage::danger('Imagem não encontrada!');
