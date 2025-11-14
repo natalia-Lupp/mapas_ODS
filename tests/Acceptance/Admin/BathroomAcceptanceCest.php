@@ -45,64 +45,67 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
         $page->selectOption('.field-floor', '1º andar');
         $page->click('.link-submit');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
 
         $page->see('Editar', 'a.link-edit-' . self::NEW_BATHROOM_ID);
     }
 
     public function deleteBathroom(AcceptanceTester $page): void
     {
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
 
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->click('button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
+
+        $page->acceptPopup();
 
         $page->dontSee('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
     }
 
     public function editBathroom(AcceptanceTester $page): void
     {
-        $otherBlockId = 2;
-        $otherBlockName = 'Bloco B';
+        $otherfloor = '2º andar';
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->click('a.link-edit-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT . '/edit');
 
-        $page->selectOption('.field-building_id', $otherBlockName);
+        $page->selectOption('select.field-floor', $otherfloor);
 
         $page->click('button.link-submit');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . $otherBlockId . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
 
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
     }
 
     public function showBathroom(AcceptanceTester $page): void
     {
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->see('Predio 1');
-        $page->see('Andar 0');
+        $page->see(self::BLOCK_NAME);
+        $page->see('Andar 1');
 
         $page->click('a.link-comeback');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms');
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->click('a.link-edit');
+        $page->dontSee('Enviar Imagem', '.link-submit');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT . '/edit');
+        $page->click('Adicionar imagem');
+
+        $page->see('Enviar Imagem', '.link-submit');
     }
 }
