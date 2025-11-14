@@ -35,8 +35,22 @@ class BathroomImage extends ImageModel
 
     public function imageService(): Image
     {
-        return new Image($this, '/bathrooms/images');
+        // Carrega o banheiro relacionado
+        $bathroom = $this->bathroom()->get();
+
+        // Pega o id do prédio
+        $buildingId = $bathroom->building_id;
+
+        return new Image(
+            $this,
+            "bathrooms/{$buildingId}/{$this->bathroom_id}",
+            [
+                'extension' => ['jpg', 'jpeg', 'png'],
+                'size' => 1024 * 3,
+            ]
+        );
     }
+
 
     /**
      * @return BelongsTo<BathroomImage, Bathroom>
