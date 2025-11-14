@@ -36,7 +36,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                                 'building_id' => $bathroom->building_id,
                                                 'id' => $bathroom->id
                                             ]) ?>"
-                                    class="btn btn-link text-primary p-0">
+                                    class="btn btn-link text-primary p-0 link-details-<?= $bathroom->id ?>">
                                     Detalhes
                                 </a>
 
@@ -44,7 +44,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                                 'building_id' => $bathroom->building_id,
                                                 'id' => $bathroom->id
                                             ]) ?>"
-                                    class="btn btn-link text-primary p-0">
+                                    class="btn btn-link text-primary p-0 link-edit-<?= $bathroom->id ?>">
                                     Editar
                                 </a>
 
@@ -56,7 +56,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                     style="display:inline-block"
                                     onsubmit="return confirm('Tem certeza que deseja excluir este banheiro?');">
                                     <input type="hidden" name="_method" value="DELETE">
-                                    <button type="submit" class="btn btn-link text-danger p-0">Excluir</button>
+                                    <button type="submit" class="btn btn-link text-danger p-0 link-delete-<?= $bathroom->id ?>">Excluir</button>
                                 </form>
                             </div>
                         </td>
@@ -73,6 +73,6 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
     <?php $paginator->renderPagesNavigation(); ?>
 
     <div class="d-flex justify-content-between mt-4 mb-5">
-        <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4">Voltar</a>
+        <a href="<?= route('admin.buildings.index') ?>" class="btn btn-voltar rounded-pill px-4 link-comeback">Voltar</a>
     </div>
 </div>

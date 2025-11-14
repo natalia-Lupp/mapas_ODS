@@ -18,7 +18,7 @@ class BathroomImage extends ImageModel
     protected static string $table = 'bathroom_images';
     protected static array $columns = [
         'bathroom_id',
-        static::IMAGE_FILD_NAME
+        self::IMAGE_FILD_NAME
     ];
     public ?string $image_name;
     public ?string $image_type;
