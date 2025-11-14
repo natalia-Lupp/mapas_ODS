@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label class="form-label fw-semibold">Nome do prédio</label>
             <p class="form-control-plaintext"><?= htmlspecialchars($building->name) ?></p>
-            <input type="hidden" name="bathroom[building_id]" value="<?= $building->id ?>">
+            <input type="hidden" name="bathroom[building_id]" value="<?= $building->id ?>" class="field-building_id">
         </div>
 
         <!-- Andar -->
