@@ -12,10 +12,8 @@ class BathroomsController extends Controller
 {
     protected string $layout = 'admin/application';
 
-    // -------------------------------------------------------------------------
-    // READ (Leitura)
-    // -------------------------------------------------------------------------
 
+    // INDEX
     public function index(Request $request): void
     {
         $buildingId = intval($request->getParam('building_id'));
@@ -33,15 +31,17 @@ class BathroomsController extends Controller
         $per_page = $request->getParam('per_page', 10);
 
         if ($building) {
-            // Consulta de banheiros específica para um prédio.
+            // Consulta de banheiros específico para um prédio.
             $paginator = $building->getBathroomPaginator($page, $per_page, "/admin/buildings/{$building->id}/bathrooms");
         } else {
-            // Consulta de todos os banheiros.
+            // Consulta de todos os banheiros de todos os predios.
             $paginator = Bathroom::paginate(page: $page, per_page: $per_page, route: 'admin.buildings.bathrooms.index');
         }
 
         $this->render('admin/bathrooms/index', compact('title', 'building', 'paginator'));
     }
+
+    // SHOW
 
     public function show(Request $request): void
     {
@@ -66,10 +66,7 @@ class BathroomsController extends Controller
         $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome', 'building'));
     }
 
-    // -------------------------------------------------------------------------
-    // CREATE (Criação)
-    // -------------------------------------------------------------------------
-
+    // CREATE
     public function new(Request $request): void
     {
         $buildingId = intval($request->getParam('building_id', 0));
@@ -114,10 +111,7 @@ class BathroomsController extends Controller
         }
     }
 
-    // -------------------------------------------------------------------------
-    // UPDATE (Edição)
-    // -------------------------------------------------------------------------
-
+    // EDIT
     public function edit(Request $request): void
     {
         $id = $request->getParam('id', 0);
@@ -152,7 +146,7 @@ class BathroomsController extends Controller
         ));
     }
 
-
+    // UPDATE
     public function update(Request $request): void
     {
         $params = $request->getParams();
@@ -184,10 +178,7 @@ class BathroomsController extends Controller
         }
     }
 
-    // -------------------------------------------------------------------------
-    // DELETE (Exclusão)
-    // -------------------------------------------------------------------------
-
+    // DELETE
     public function destroy(Request $request): void
     {
         $params = $request->getParams();
@@ -202,15 +193,27 @@ class BathroomsController extends Controller
 
         $buildingId = $bathroom->building_id;
 
-        // 🔥 Buscar imagens SEM get(), porque where() já retorna um array!
+        // Buscar todas as imagens do banheiro
         $images = \App\Models\BathroomImage::where(['bathroom_id' => $bathroom->id]);
 
+        // 💡 1. Pega o caminho do diretório lógico (ex: 'bathrooms/1/5')
+        // Cria uma instância temporária de BathroomImage para acessar o imageService e o getStoreDir()
+        $tempImage = new \App\Models\BathroomImage(['bathroom_id' => $bathroom->id]);
+        $imageService = $tempImage->imageService();
+        $storeDir = $imageService->getStoreDir();
+
         foreach ($images as $image) {
+            // O deleteImage() apaga o arquivo, remove o registro do DB e 
+            // TENTA REMOVER a pasta se estiver vazia.
             $image->imageService()->deleteImage();
-            $image->destroy();
         }
 
-        // Agora sim, sem FK pendente
+        // garante que o diretório seja removido se estiver vazio, 
+        // mesmo que não houvesse imagens registradas no banco.
+        $imageService->deleteStoreDirIfEmpty($storeDir);
+
+
+        // Exclui banheiro
         $bathroom->destroy();
 
         FlashMessage::success('Banheiro removido com sucesso!');

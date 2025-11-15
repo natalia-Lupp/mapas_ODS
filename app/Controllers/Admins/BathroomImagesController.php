@@ -11,15 +11,17 @@ use Lib\FlashMessage;
 
 class BathroomImagesController extends Controller
 {
+    // CREATE
     public function create(Request $request): void
     {
+        //pega os ids na url
         $building_id = $request->getParam('building_id');
         $bathroom_id = $request->getParam('id');
 
         /**
          * @var Building $building
          */
-        $building = Building::findById($building_id);
+        $building = Building::findById($building_id); //identifica o predio
         if (!$building) {
             FlashMessage::danger('Prédio não encontrado!');
             $this->redirectTo(route('admin.buildings.index'));
@@ -28,7 +30,7 @@ class BathroomImagesController extends Controller
         /**
          * @var Bathroom $bathroom
          */
-        $bathroom = $building->bathrooms()->findById($bathroom_id);
+        $bathroom = $building->bathrooms()->findById($bathroom_id); // busca pelo por banheiro em predio
         if (!$bathroom) {
             FlashMessage::danger('Banheiro não encontrado!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
@@ -42,9 +44,9 @@ class BathroomImagesController extends Controller
         /**
          * @var ImageModel $image
          */
-        $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido
+        $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido (cria a imagem (objeto))
 
-        if ($image->imageService()->upload($_FILES['bathroom_image'])) {
+        if ($image->imageService()->upload($_FILES['bathroom_image'])) { // aqui identifica o caminho e gera o do arquivo (q vem do hash de upload da service)
             FlashMessage::success("Imagem registrada com sucesso!");
         } else {
             $errors = implode("<br />", $image->getErrors());
@@ -53,6 +55,10 @@ class BathroomImagesController extends Controller
         $this->redirectBack();
     }
 
+
+    // DESTROY
+    //tanto a controler de imagem (essa aqui) quanto o destroy de banheiro tem um seguimento pra
+    // deletar as imagens e as pastas vazias, so não ta fazendo a exclusão da pasta predio qd vazia
     public function destroy(Request $request): void
     {
         $building_id = $request->getParam('building_id');
@@ -82,11 +88,10 @@ class BathroomImagesController extends Controller
             return;
         }
 
-
         /**
          * @var ImageModel | null $image
          */
-        $image = $bathroom->images()->findById($image_id);
+        $image = $bathroom->images()->findById($image_id); //valida as imagens q tem no banheiro
         if (!$image) {
             FlashMessage::danger('Imagem não encontrada!');
             $this->redirectTo(route('admin.buildings.bathrooms.show', [
@@ -97,7 +102,6 @@ class BathroomImagesController extends Controller
         }
 
         if ($image->imageService()->deleteImage()) {
-            $image->destroy(); //remove do banco coisa que não tava fazendo antes
             FlashMessage::success('Imagem removida com sucesso!');
         } else {
             FlashMessage::danger('Falha ao remover a imagem!');

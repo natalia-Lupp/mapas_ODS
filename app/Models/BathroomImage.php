@@ -29,7 +29,6 @@ class BathroomImage extends ImageModel
         Validations::isInt('bathroom_id', $this);
         Validations::inRange('bathroom_id', 1, PHP_INT_MAX, $this);
         Validations::isIdFrom('bathroom_id', $this, Bathroom::class);
-        // 🔹 Validar tipo e tamanho da imagem (se existirem)
     }
 
 
@@ -42,15 +41,16 @@ class BathroomImage extends ImageModel
         $buildingId = $bathroom->building_id;
 
         return new Image(
-            $this,
-            "bathrooms/{$buildingId}/{$this->bathroom_id}",
-            [
+            model: $this,
+            storeDir: "bathrooms/{$buildingId}/{$this->bathroom_id}", // retornei pro caminho antigp
+            // pq ele não tava achando a pasta e nem criando a pasta com a seguinte logica
+            // predio -> banheiro -> imagem do banheiro (ele tava jogando tudo numa pasta só)
+            validations: [
                 'extension' => ['jpg', 'jpeg', 'png'],
-                'size' => 1024 * 3,
+                'size' => 1024 * 3
             ]
         );
     }
-
 
     /**
      * @return BelongsTo<BathroomImage, Bathroom>

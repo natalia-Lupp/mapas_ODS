@@ -18,8 +18,7 @@ class Image
         private ImageModel $model,
         private string $storeDir,
         private array $validations = [],
-    ) {
-    }
+    ) {}
 
     public function path(): string
     {
@@ -188,21 +187,79 @@ class Image
         }
     }
 
-    public function deleteImage(): bool // mudei a a extrutura pq tava tentando excluir antes de montar
+    // CAMINHO PRA A PASTA 
+    // monta o caminho onde do repositorio pra saber onde excluir as coisas 
+    public function getStoreDir(): string
+    {
+        return $this->storeDir;
+    }
+
+    // DELETA IMAGEM
+
+    public function deleteImage(): bool
     {
         if (empty($this->model) || empty($this->model->image_name)) {
             return false;
         }
 
-        // ajusta o caminho com base no nome depois que é criado na model de imagem
         $path = $this->getAbsoluteSavedFilePath();
 
-        // remove o registro do banco primeiro
+        // Salva o caminho do diretório antes de destruir a model
+        // Isso garante que você tenha o ID do banheiro, mesmo que o registro seja removido.
+        $storeDir = $this->storeDir;
+
+        // 💡 PASSO 2: Remove o registro do banco de dados (destrói o objeto Model)
         if ($this->model->destroy()) {
+
+            // Remove o arquivo físico
             if (file_exists($path)) {
-                unlink($path);
+                @unlink($path); // Usar @ para evitar erros se o arquivo não existir
             }
+
+            $this->deleteStoreDirIfEmpty($storeDir);
+
             return true;
+        }
+
+        return false;
+    }
+
+
+    //FUNÇÂO PRA DELETAR PASTA VAZIA
+    // Função que fiz pra conseguir excluir as pastas qd vazias pq não tava indo por reza brava ai fui no mais basico pq tava me perdendo nesse monte de configuração
+    /**
+     * Tenta remover o diretório de armazenamento se ele estiver vazio.
+     * // pq esse B.O tava grande
+     * @param string $storeDir O caminho do diretório lógico (ex: 'bathrooms/1/5').
+     * @return bool
+     */
+    public function deleteStoreDirIfEmpty(string $storeDir): bool
+    {
+        // Calcula o caminho absoluto no servidor.
+        //sim vai ter comentario bobo pra eu entender o q fiz no futuro (não remover)
+        $dirPath = Constants::rootPath()->join('public/assets/uploads/' . $storeDir);
+
+        // Verifica se o diretório existe
+        if (!is_dir($dirPath)) {
+            return false;
+        }
+
+        //Verifica se o diretório está vazio usando a função nativa `scandir`
+        // scandir retorna a lista de arquivos/pastas. Se o array resultante 
+        // tiver apenas 2 elementos (".", ".."), o diretório está vazio.
+        // ou seja ve se não tem nada no diretorno atual e o outro o pai
+        //
+        $files = scandir($dirPath); // retorna tudo q tem no caminho no caso $dirPath q 
+        // q setiver vazio vai voltar o (".", "..") que literalmente indica estar vazio
+
+        // Verifica se a leitura foi bem-sucedida e se o único conteúdo é "." e ".."
+        //ai o array_diff vai remover o (".", "..") ai vai bater se é === 0 sendo 0 apaga a pasta
+
+        if ($files !== false && count(array_diff($files, ['.', '..'])) === 0) {
+
+            //Remove o diretório usando a função nativa `rmdir`
+            // Usamos @ para suprimir warnings caso o diretório não possa ser removido. (aqui foi suco da ia então to com duvida de como funciona 100%)
+            return @rmdir($dirPath);
         }
 
         return false;
