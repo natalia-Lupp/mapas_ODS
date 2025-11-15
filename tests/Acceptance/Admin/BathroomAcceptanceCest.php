@@ -54,20 +54,29 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     {
         $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
+        // Verifica se o botão existe
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
+        // Abre o modal
         $page->click('button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->acceptPopup();
+        // Aguarda o modal aparecer
+        $page->waitForElementVisible('#deleteConfirmModal', 3);
 
+        // Clica no botão "Excluir" do modal
+        $page->click('#confirmDeleteBtn');
+
+        // Agora deve desaparecer o botão da linha deletada
         $page->dontSee('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
     }
+
 
     public function editBathroom(AcceptanceTester $page): void
     {
         $otherfloor = '2º andar';
 
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='
+            . self::BUILDING_ID);
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->click('a.link-edit-' . self::BATHROOM_ID_TO_INTERACT);

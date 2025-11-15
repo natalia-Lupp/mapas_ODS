@@ -226,7 +226,8 @@ class Image
 
 
     //FUNÇÂO PRA DELETAR PASTA VAZIA
-    // Função que fiz pra conseguir excluir as pastas qd vazias pq não tava indo por reza brava ai fui no mais basico pq tava me perdendo nesse monte de configuração
+    // Função que fiz pra conseguir excluir as pastas qd vazias pq não tava indo por reza
+    //brava ai fui no mais basico pq tava me perdendo nesse monte de configuração
     /**
      * Tenta remover o diretório de armazenamento se ele estiver vazio.
      * // pq esse B.O tava grande
@@ -253,11 +254,13 @@ class Image
         // q setiver vazio vai voltar o (".", "..") que literalmente indica estar vazio
 
         // Verifica se a leitura foi bem-sucedida e se o único conteúdo é "." e ".."
-        //ai o array_diff vai remover o (".", "..") ai vai bater se é === 0 sendo 0 apaga a pasta
+        //ai o array_diff vai remover o (".", "..") ai vai bater se
+        //é === 0 sendo 0 apaga a pasta
 
         if ($files !== false && count(array_diff($files, ['.', '..'])) === 0) {
             //Remove o diretório usando a função nativa `rmdir`
-            // Usamos @ para suprimir warnings caso o diretório não possa ser removido. (aqui foi suco da ia então to com duvida de como funciona 100%)
+            // Usamos @ para suprimir warnings caso o diretório não possa ser removido.
+            //(aqui foi suco da ia então to com duvida de como funciona 100%)
             return @rmdir($dirPath);
         }
 

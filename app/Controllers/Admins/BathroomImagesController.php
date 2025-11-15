@@ -44,9 +44,12 @@ class BathroomImagesController extends Controller
         /**
          * @var ImageModel $image
          */
-        $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido (cria a imagem (objeto))
+        $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido
+        //(cria a imagem (objeto))
 
-        if ($image->imageService()->upload($_FILES['bathroom_image'])) { // aqui identifica o caminho e gera o do arquivo (q vem do hash de upload da service)
+        if ($image->imageService()->upload($_FILES['bathroom_image'])) {
+            // aqui identifica o caminho e gera o do arquivo
+            //(q vem do hash de upload da service)
             FlashMessage::success("Imagem registrada com sucesso!");
         } else {
             $errors = implode("<br />", $image->getErrors());
