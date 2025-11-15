@@ -58,7 +58,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                     style="display:inline-block">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="button"
-                                        class="btn btn-link text-danger p-0 btn-delete"
+                                        class="btn btn-link text-danger p-0 btn-delete link-delete-<?= $bathroom->id ?>"
                                         data-id="<?= $bathroom->id ?>">
                                         Excluir
                                     </button>

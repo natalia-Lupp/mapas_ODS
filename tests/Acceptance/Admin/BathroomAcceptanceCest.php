@@ -45,14 +45,14 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
         $page->selectOption('.field-floor', '1º andar');
         $page->click('.link-submit');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
         $page->see('Editar', 'a.link-edit-' . self::NEW_BATHROOM_ID);
     }
 
     public function deleteBathroom(AcceptanceTester $page): void
     {
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
@@ -67,7 +67,7 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     {
         $otherfloor = '2º andar';
 
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->click('a.link-edit-' . self::BATHROOM_ID_TO_INTERACT);
@@ -78,14 +78,14 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
 
         $page->click('button.link-submit');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
         $page->see('Excluir', 'button.link-delete-' . self::BATHROOM_ID_TO_INTERACT);
     }
 
     public function showBathroom(AcceptanceTester $page): void
     {
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 
@@ -96,7 +96,7 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
 
         $page->click('a.link-comeback');
 
-        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id='. self::BUILDING_ID );
+        $page->seeCurrentUrlEquals('/admin/buildings/bathrooms?building_id=' . self::BUILDING_ID);
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 

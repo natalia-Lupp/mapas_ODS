@@ -203,12 +203,12 @@ class BathroomsController extends Controller
         $storeDir = $imageService->getStoreDir();
 
         foreach ($images as $image) {
-            // O deleteImage() apaga o arquivo, remove o registro do DB e 
+            // O deleteImage() apaga o arquivo, remove o registro do DB e
             // TENTA REMOVER a pasta se estiver vazia.
             $image->imageService()->deleteImage();
         }
 
-        // garante que o diretório seja removido se estiver vazio, 
+        // garante que o diretório seja removido se estiver vazio,
         // mesmo que não houvesse imagens registradas no banco.
         $imageService->deleteStoreDirIfEmpty($storeDir);
 

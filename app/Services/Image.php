@@ -18,7 +18,8 @@ class Image
         private ImageModel $model,
         private string $storeDir,
         private array $validations = [],
-    ) {}
+    ) {
+    }
 
     public function path(): string
     {
@@ -187,8 +188,8 @@ class Image
         }
     }
 
-    // CAMINHO PRA A PASTA 
-    // monta o caminho onde do repositorio pra saber onde excluir as coisas 
+    // CAMINHO PRA A PASTA
+    // monta o caminho onde do repositorio pra saber onde excluir as coisas
     public function getStoreDir(): string
     {
         return $this->storeDir;
@@ -210,7 +211,6 @@ class Image
 
         // 💡 PASSO 2: Remove o registro do banco de dados (destrói o objeto Model)
         if ($this->model->destroy()) {
-
             // Remove o arquivo físico
             if (file_exists($path)) {
                 @unlink($path); // Usar @ para evitar erros se o arquivo não existir
@@ -245,18 +245,17 @@ class Image
         }
 
         //Verifica se o diretório está vazio usando a função nativa `scandir`
-        // scandir retorna a lista de arquivos/pastas. Se o array resultante 
+        // scandir retorna a lista de arquivos/pastas. Se o array resultante
         // tiver apenas 2 elementos (".", ".."), o diretório está vazio.
         // ou seja ve se não tem nada no diretorno atual e o outro o pai
         //
-        $files = scandir($dirPath); // retorna tudo q tem no caminho no caso $dirPath q 
+        $files = scandir($dirPath); // retorna tudo q tem no caminho no caso $dirPath q
         // q setiver vazio vai voltar o (".", "..") que literalmente indica estar vazio
 
         // Verifica se a leitura foi bem-sucedida e se o único conteúdo é "." e ".."
         //ai o array_diff vai remover o (".", "..") ai vai bater se é === 0 sendo 0 apaga a pasta
 
         if ($files !== false && count(array_diff($files, ['.', '..'])) === 0) {
-
             //Remove o diretório usando a função nativa `rmdir`
             // Usamos @ para suprimir warnings caso o diretório não possa ser removido. (aqui foi suco da ia então to com duvida de como funciona 100%)
             return @rmdir($dirPath);
