@@ -196,8 +196,9 @@ class BathroomsController extends Controller
         // Buscar todas as imagens do banheiro
         $images = \App\Models\BathroomImage::where(['bathroom_id' => $bathroom->id]);
 
-        // 💡 1. Pega o caminho do diretório lógico (ex: 'bathrooms/1/5')
-        // Cria uma instância temporária de BathroomImage para acessar o imageService e o getStoreDir()
+        // Pega o caminho do diretório lógico (ex: 'bathrooms/1/5')
+        // Cria uma instância temporária de BathroomImage para acessar o
+        //imageService e o getStoreDir()
         $tempImage = new \App\Models\BathroomImage(['bathroom_id' => $bathroom->id]);
         $imageService = $tempImage->imageService();
         $storeDir = $imageService->getStoreDir();

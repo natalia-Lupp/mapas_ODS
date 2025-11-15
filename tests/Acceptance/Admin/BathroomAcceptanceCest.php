@@ -81,7 +81,8 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
 
         $page->click('a.link-edit-' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT . '/edit');
+        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID .
+            '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT . '/edit');
 
         $page->selectOption('select.field-floor', $otherfloor);
 
@@ -98,7 +99,8 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
+        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID .
+            '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->see(self::BLOCK_NAME);
         $page->see('Andar 1');
@@ -109,7 +111,8 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
 
         $page->click('a.link-details-' . self::BATHROOM_ID_TO_INTERACT);
 
-        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID . '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
+        $page->seeCurrentUrlEquals('/admin/buildings/' . self::BUILDING_ID .
+            '/bathrooms/' . self::BATHROOM_ID_TO_INTERACT);
 
         $page->dontSee('Enviar Imagem', '.link-submit');
 

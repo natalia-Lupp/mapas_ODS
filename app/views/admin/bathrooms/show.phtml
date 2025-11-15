@@ -47,14 +47,17 @@ use App\Services\Image;
                                             'bathroom_id' => $bathroom->id,
                                             'image_id' => $image->id
                                         ]) ?>"
-                                onsubmit="return confirm('Tem certeza que deseja remover esta imagem?')">
+                                class="delete-image-form delete-image-form-<?= $image->id ?>">
 
                                 <input type="hidden" name="_method" value="DELETE">
 
-                                <button type="submit" class="btn btn-sm btn-danger rounded-pill">
+                                <button type="button"
+                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image"
+                                    data-id="<?= $image->id ?>">
                                     <i class="bi bi-trash"></i> Excluir
                                 </button>
                             </form>
+
                         </div>
                     <?php endforeach; ?>
 
@@ -110,5 +113,29 @@ use App\Services\Image;
 
     </form>
 </div>
+
+<!-- Modal de confirmação para EXCLUSÃO DE IMAGEM -->
+<div class="modal fade" id="deleteImageConfirmModal" tabindex="-1" aria-labelledby="deleteImageConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteImageConfirmLabel">Confirmar exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir esta imagem?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteImageBtn">
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="/assets/js/admin/bathroom/show.js"></script>
