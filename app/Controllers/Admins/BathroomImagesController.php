@@ -19,7 +19,7 @@ class BathroomImagesController extends Controller
         $bathroom_id = $request->getParam('id');
 
         /**
-         * @var Building $building
+         * @var Building|null $building
          */
         $building = Building::findById($building_id); //identifica o predio
         if (!$building) {
@@ -28,7 +28,7 @@ class BathroomImagesController extends Controller
             return;
         }
         /**
-         * @var Bathroom $bathroom
+         * @var Bathroom|null $bathroom
          */
         $bathroom = $building->bathrooms()->findById($bathroom_id); // busca pelo por banheiro em predio
         if (!$bathroom) {
@@ -42,7 +42,7 @@ class BathroomImagesController extends Controller
         //$image = $_FILES['bathroom_image'];
 
         /**
-         * @var ImageModel $image
+         * @var ImageModel | null $image
          */
         $image = $bathroom->images()->new(); //não ta com erro vs code que deu doido
         //(cria a imagem (objeto))
@@ -53,7 +53,7 @@ class BathroomImagesController extends Controller
             FlashMessage::success("Imagem registrada com sucesso!");
         } else {
             $errors = implode("<br />", $image->getErrors());
-            FlashMessage::danger("Imagem não registrada!" . $errors);
+            FlashMessage::danger("Imagem não registrada! " . $errors);
         }
         $this->redirectBack();
     }
