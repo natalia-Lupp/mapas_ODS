@@ -51,7 +51,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
         $page->see('Enviar Imagem');
 
         $page->click('#send-image');
-        $page->wait(2);
+        $page->wait(3);
 
         $bathroom_image = BathroomImage::findById(1);
 
@@ -99,6 +99,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
 
         $page->see('Enviar Imagem');
 
+        $page->scrollTo('#send-image', 200);
         $page->click('#send-image');
         $page->wait(3);
 
