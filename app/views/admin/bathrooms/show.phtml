@@ -1,0 +1,141 @@
+<?php
+
+use App\Services\Image;
+
+/** @var \App\Models\Bathroom $bathroom */
+?>
+
+<h2 class="mt-5 fw-semibold"><?= htmlspecialchars($titleNome) ?></h2>
+<p class="text-muted">Visualize as informações do Banheiro cadastrado.</p>
+
+<div class="row mt-4 mb-5">
+    <div class="col-md-12">
+        <div class="card shadow-sm border border-primary border-2 p-5">
+
+            <!-- Informações Gerais -->
+            <h4 class="fw-semibold mb-3">Informações Gerais</h4>
+
+            <div class="mb-3">
+                <span class="fw-semibold text-secondary d-block mb-1">Resumo dos itens</span>
+                <p class="mb-0">
+                    Este banheiro possui <strong>8 itens</strong> no total,
+                    sendo: <strong>3 vasos sanitários</strong> e
+                    <strong>5 torneiras</strong> (texto ilustrativo para teste).
+                </p>
+            </div>
+
+            <hr class="my-4" style="border: 0; border-top: 3px solid #d0d0d0; opacity: 1;">
+
+            <!-- Galeria -->
+            <h4 class="mt-3 mb-4 fw-semibold">Galeria de Imagens</h4>
+
+            <div class="mb-2 d-flex flex-wrap gap-4">
+
+                <?php if (!empty($bathroom->images)): ?>
+                    <?php foreach ($bathroom->images as $image): ?>
+                        <div class="bathroom_image_wrapper text-center">
+
+                            <img
+                                class="bathroom_image border rounded shadow-sm mb-2"
+                                src="<?= htmlspecialchars($image->imageService()->path()); ?>"
+                                alt="Imagem do banheiro"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+
+                            <form method="POST"
+                                action="<?= route('admin.buildings.bathrooms.images.destroy', [
+                                            'building_id' => $bathroom->building_id,
+                                            'bathroom_id' => $bathroom->id,
+                                            'image_id' => $image->id
+                                        ]) ?>"
+                                class="delete-image-form delete-image-form-<?= $image->id ?>">
+
+                                <input type="hidden" name="_method" value="DELETE">
+
+                                <button type="button"
+                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image link-delete-image-<?= $image->id?>"
+                                    data-id="<?= $image->id ?>">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </button>
+                            </form>
+
+                        </div>
+                    <?php endforeach; ?>
+
+                <?php else: ?>
+                    <p class="text-muted">Nenhuma imagem adicionada ainda.</p>
+                <?php endif; ?>
+
+            </div>
+
+            <!-- Navegação -->
+            <div class="d-flex justify-content-between mt-4">
+                <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $bathroom->building_id]) ?>"
+                    class="btn btn-voltar rounded-pill px-4 link-comeback">
+                    Voltar
+                </a>
+
+                <button type="button" class="btn btn-primary rounded-pill px-4" id="showFormButton">
+                    Adicionar imagem
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Formulário de upload oculto -->
+<div id="formContainer" class="form-background mt-4 mb-5" style="display: none;">
+    <form
+        method="POST"
+        action="<?= route('admin.buildings.bathrooms.images.create', [
+                    'building_id' => $bathroom->building_id,
+                    'id' => $bathroom->id
+                ]) ?>"
+        enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="bathroom_image" class="form-label">Adicionar nova imagem</label>
+            <input
+                class="form-control field-image"
+                type="file"
+                id="bathroom_image"
+                name="bathroom_image"
+                accept="image/*"
+                multiple>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" id="send-image"
+                class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit">
+                <i class="bi bi-upload"></i> Enviar Imagem
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<!-- Modal de confirmação para EXCLUSÃO DE IMAGEM -->
+<div class="modal fade" id="deleteImageConfirmModal" tabindex="-1" aria-labelledby="deleteImageConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteImageConfirmLabel">Confirmar exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir esta imagem?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteImageBtn">
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/js/admin/bathroom/show.js"></script>

@@ -48,12 +48,15 @@ class BuildingsController extends Controller
     public function show(Request $request): void
     {
         $params = $request->getParams();
-
         $building = Building::findById($params['id']);
 
+        $bathroomsPerFloor = $building->getBathroomsPerFloor();
+        $totalBathrooms = $building->countBathrooms();
+
         $title = "Prédio: {$building->name}";
-        $this->render('admin/buildings/show', compact('building', 'title'));
+        $this->render('admin/buildings/show', compact('building', 'bathroomsPerFloor', 'totalBathrooms', 'title'));
     }
+
 
     public function edit(Request $request): void
     {

@@ -12,7 +12,7 @@ class BuildingPopulate
         $numberOfResgisters = 7;
 
         (new Building([
-          'n_floors' => 1,
+          'n_floors' => 2,
           'name' => 'Bloco A'
         ]))->save();
         (new Building([

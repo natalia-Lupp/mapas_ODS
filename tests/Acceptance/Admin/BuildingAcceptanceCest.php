@@ -23,7 +23,7 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function createBuilding(AcceptanceTester $page): void
     {
-        $blockName = 'bloco Z';
+        $blockName = 'Bloco Z';
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -36,7 +36,7 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function deleteBuilding(AcceptanceTester $page): void
     {
-        $blockName = 'bloco F';
+        $blockName = 'Bloco F';
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -46,7 +46,7 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function failToDeleteBuilding(AcceptanceTester $page): void
     {
-        $blockName = 'bloco A';
+        $blockName = 'Bloco A';
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -57,7 +57,7 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function showBuilding(AcceptanceTester $page): void
     {
-        $blockName = 'bloco A';
+        $blockName = 'Bloco A';
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -68,8 +68,8 @@ class BuildingAcceptanceCest extends BaseAcceptanceCest
     }
     public function editBuilding(AcceptanceTester $page): void
     {
-        $blockName = 'bloco A';
-        $newBlockName = 'bloco Z';
+        $blockName = 'Bloco A';
+        $newBlockName = 'Bloco Z';
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
