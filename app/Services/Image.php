@@ -19,6 +19,11 @@ class Image
         private string $storeDir,
         private array $validations = [],
     ) {
+
+        $basedir = $_ENV['APP_ENV'] == 'test'
+          ? 'test/'
+          : '';
+        $this->storeDir = "{$basedir}{$storeDir}";
     }
 
     public function path(): string
@@ -133,7 +138,7 @@ class Image
     }
 
     //Caminho absoluto para armazenamento no servidor.
-    private function storeDir(): string
+    public function storeDir(): string
     {
         $path = Constants::rootPath()->join('public' . $this->baseDir());
         if (!is_dir($path)) {
@@ -144,7 +149,7 @@ class Image
     }
 
     //Caminho absoluto do arquivo salvo.
-    private function getAbsoluteSavedFilePath(): string
+    public function getAbsoluteSavedFilePath(): string
     {
         return Constants::rootPath()
             ->join('public' . $this->baseDir())
