@@ -26,6 +26,10 @@ abstract class ImageModel extends Model
             $this->addError('image_name', 'A imagem excede o tamanho máximo permitido de 40 MB.');
         }
 
+        if (isset($this->image_size) && $this->image_size < 1) {
+            $this->addError('image_name', 'Há algo de errado com a imagem, ela excede o tamanho mínimo.');
+        }
+
         if (isset($this->image_type) && !in_array($this->image_type, ['image/jpg', 'image/png', 'image/jpeg'])) {
             $this->addError('image_name', 'Formato de imagem inválido. Use JPG, PNG ou JPEG.');
         }
