@@ -49,6 +49,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
         $page->attachFile('input.field-image', 'feminino-especial-bloco-alunos1.jpg');
 
         $page->see('Enviar Imagem');
+        $page->wait(2);
 
         $page->click('#send-image');
         $page->wait(3);
@@ -98,6 +99,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
         $page->attachFile('input.field-image', 'feminino-especial-bloco-alunos1.jpg');
 
         $page->see('Enviar Imagem');
+        $page->wait(2);
 
         $page->scrollTo('#send-image', 200);
         $page->click('#send-image');
