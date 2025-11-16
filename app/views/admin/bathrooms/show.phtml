@@ -52,7 +52,7 @@ use App\Services\Image;
                                 <input type="hidden" name="_method" value="DELETE">
 
                                 <button type="button"
-                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image"
+                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image link-delete-image-<?= $image->id?>"
                                     data-id="<?= $image->id ?>">
                                     <i class="bi bi-trash"></i> Excluir
                                 </button>
@@ -105,7 +105,7 @@ use App\Services\Image;
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <button type="submit"
+            <button type="submit" id="send-image"
                 class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit">
                 <i class="bi bi-upload"></i> Enviar Imagem
             </button>
