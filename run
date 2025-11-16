@@ -92,7 +92,7 @@ function db:populate {
 }
 
 function clear:uploads() {
-  docker compose exec php_test find public/assets/uploads/ -delete -regex '.*\.\(png\|jpeg\|jpg\)'
+  docker compose exec php_test find public/assets/uploads/ -type f -delete -regex '.*\.\(png\|jpeg\|jpg\)'
 }
 
 TIMEFORMAT=$'\nTask completed in %3lR'
