@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BathroomImage;
+use App\Models\BathroomItem;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
@@ -49,5 +50,13 @@ class Bathroom extends IdCacheableModel
     public function building(): BelongsTo
     {
         return $this->belongsTo(Building::class, 'building_id');
+    }
+
+    /**
+     * @return HasMany<Bathroom, BathroomItem>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(BathroomItem::class, 'bathroom_id');
     }
 }

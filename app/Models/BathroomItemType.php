@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Lib\Validations;
 use App\Models\IdCacheableModel;
+use App\Models\BathroomItem;
+use Core\Database\ActiveRecord\HasMany;
 
 /**
  * @property int $id
@@ -27,5 +29,12 @@ class BathroomItemType extends IdCacheableModel
         Validations::notEmpty('name', $this);
         Validations::isString('name', $this);
         Validations::inRangeLength('name', 1, 100, $this);
+    }
+    /**
+     * @return HasMany<BathroomItemType, BathroomItem>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(BathroomItem::class, 'bathroom_item_type_id');
     }
 }
