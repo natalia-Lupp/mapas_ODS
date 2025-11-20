@@ -22,10 +22,6 @@ class Building extends Model
         'n_floors',
         'name'
     ];
-    /**
-     * @var array<int, static |null> $cache
-     */
-    protected static array $cache = [];
 
     public function validates(): void
     {
@@ -67,12 +63,6 @@ class Building extends Model
         );
     }
 
-    public static function findById(int $id): static|null
-    {
-        return isset(self::$cache[$id])
-            ? self::$cache[$id]
-            : (self::$cache[$id] = parent::findById($id));
-    }
     public function destroy(): bool
     {
         $table = static::$table;
