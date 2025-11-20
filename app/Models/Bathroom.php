@@ -2,21 +2,18 @@
 
 namespace App\Models;
 
-use App\Services\Image;
-use Core\Constants\Constants;
+use App\Model\BathroomImage;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
-use Core\Database\ActiveRecord\Model;
-use Lib\FileSystemHelper;
-use Lib\Paginator;
+use App\Models\IdCacheableModel;
 
 /**
  * @property int $id
  * @property int $floor
  * @property int $building_id
  */
-class Bathroom extends Model
+class Bathroom extends IdCacheableModel
 {
     protected static string $table = 'bathrooms';
     protected static array $columns = [

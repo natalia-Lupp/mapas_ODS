@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use Lib\Validations;
-use Core\Database\ActiveRecord\Model;
+use App\Models\IdCacheableModel;
 
 /**
  * @property int $id
  * @property int $vendor_consumption_expenditure
  * @property string $name
  */
-class BathroomItemType extends Model
+class BathroomItemType extends IdCacheableModel
 {
     protected static string $table = 'bathroom_item_types';
     protected static array $columns = [
