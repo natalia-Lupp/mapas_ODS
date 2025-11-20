@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Model\BathroomImage;
+use App\Models\BathroomImage;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
