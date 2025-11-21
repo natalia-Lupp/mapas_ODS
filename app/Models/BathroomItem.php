@@ -15,7 +15,7 @@ use Core\Database\ActiveRecord\BelongsTo;
  */
 class BathroomItem extends Model
 {
-    protected static string $table = 'bathroom_item_types';
+    protected static string $table = 'bathroom_items';
     protected static array $columns = [
       'bathroom_item_type_id',
       'bathroom_id'

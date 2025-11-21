@@ -12,16 +12,16 @@ class BathroomItemPopulate
         $numberOfResgisters = 3;
 
         (new BathroomItem([
-          'bathroom_item_types' => 1,
+          'bathroom_item_type_id' => 1,
           'bathroom_id' => 1
         ]))->save();
         (new BathroomItem([
-          'bathroom_item_types' => 1,
+          'bathroom_item_type_id' => 1,
           'bathroom_id' => 1
         ]))->save();
         (new BathroomItem([
-          'vendor_consumption_expenditure' => 5.0,
-          'name' => 'Mictório'
+          'bathroom_item_type_id' => 2,
+          'bathroom_id' => 1
         ]))->save();
         $table = BathroomItem::table();
         echo "$table populate with $numberOfResgisters\n";
