@@ -19,7 +19,7 @@ $items = $items ?? [];
         <thead class="table-primary">
             <tr>
                 <th>Tipo</th>
-                <th>Modelo</th>
+                <th>Consumo médio informado pelo fabricante</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,11 +29,11 @@ $items = $items ?? [];
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <td class="text-secondary">
-                            <?= htmlspecialchars($item->type ?? 'Sem tipo') ?>
+                            <?= htmlspecialchars($item->type()->get()->name ?? 'Sem tipo') ?>
                         </td>
 
                         <td class="text-secondary">
-                            <?= htmlspecialchars($item->modelo ?? 'Sem modelo') ?>
+                            <?= htmlspecialchars($item->type()->get()->vendor_consumption_expenditure ?? 'Sem modelo') ?>
                         </td>
 
                         <td>
