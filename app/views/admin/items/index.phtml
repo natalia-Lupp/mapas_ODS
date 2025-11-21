@@ -94,14 +94,41 @@ $items = $items ?? [];
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-between mt-4 mb-5">
-        <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $bathroom->building_id]) ?>"
-            class="btn btn-voltar rounded-pill px-4 link-comeback">
-            Voltar
-        </a>
-    </div>
-
 </div>
 
-<!-- O JavaScript segue o padrão usado no projeto -->
+<?php $paginator->renderPagesNavigation(); ?>
+
+<div class="d-flex justify-content-between mt-4 mb-5">
+    <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $bathroom->building_id]) ?>" class="btn btn-voltar rounded-pill px-4 link-comeback">Voltar</a>
+</div>
+</div>
+
+<!-- Modal de confirmação para EXCLUSÃO DE ITENS -->
+<div class="modal fade" id="deleteImageConfirmModal" tabindex="-1" aria-labelledby="deleteImageConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteImageConfirmLabel">Confirmar exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir esta imagem?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteImageBtn">
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 <script src="/assets/js/admin/items/index.js"></script>

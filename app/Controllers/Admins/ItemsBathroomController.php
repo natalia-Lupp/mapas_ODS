@@ -4,7 +4,6 @@ namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
 use App\Models\Building;
-use App\Models\ImageModel;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
@@ -18,21 +17,55 @@ class ItemsBathroomController extends Controller
 
     public function index(Request $request): void
     {
-        $buildingId = $request->getParam('building_id');
-        $bathroomId = $request->getParam('bathroom_id');
+        // pega IDs
+        $buildingId = intval($request->getParam('building_id'));
+        $bathroomId = intval($request->getParam('bathroom_id'));
 
+        // carrega o bathroom
         $bathroom = Bathroom::findById($bathroomId);
 
-        $title = "Itens do Banheiro {$bathroom->floor}º Andar";
+        // carrega o building (se existir)
+        $building = null;
+        if ($buildingId) {
+            $building = Building::findById($buildingId);
+        }
 
-        // se não houver itens, vira array vazio
-        $items = $bathroom->items ?? [];
+        // se existir o banheiro, monta o título certo
+        $title = $bathroom
+            ? "Itens do Banheiro {$bathroom->floor}º Andar"
+            : "Itens do Banheiro";
+
+        // itens ou array vazio
+        $items = $bathroom?->items ?? [];
+
+        // paginação
+        $page = $request->getParam('page', 1);
+        $per_page = $request->getParam('per_page', 10);
+
+        if ($bathroom && $building) {
+            $paginator = $building->getBathroomPaginator(
+                $page,
+                $per_page,
+                "/admin/buildings/{$building->id}/bathrooms/{$bathroom->id}/items"
+            );
+        } else {
+            $paginator = Bathroom::paginate(
+                page: $page,
+                per_page: $per_page,
+                route: 'admin.buildings.bathrooms.items.index'
+            );
+        }
+
 
         $this->render(
             'admin/items/index',
-            compact('bathroom', 'buildingId', 'title', 'items')
+            compact('bathroom', 'buildingId', 'title', 'items', 'paginator', 'building')
         );
     }
+
+
+
+
 
 
     public function show(Request $request): void
