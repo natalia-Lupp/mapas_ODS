@@ -5,6 +5,7 @@ namespace App\Models;
 use Lib\Validations;
 use App\Models\IdCacheableModel;
 use App\Models\BathroomItem;
+use Core\Database\ActiveRecord\BelongsToMany;
 use Core\Database\ActiveRecord\HasMany;
 
 /**
@@ -36,5 +37,18 @@ class BathroomItemType extends IdCacheableModel
     public function items(): HasMany
     {
         return $this->hasMany(BathroomItem::class, 'bathroom_item_type_id');
+    }
+
+    /**
+     * @return BeLongsToMany<BathroomItemType, Bathroom>
+     */
+    public function consumptions(): BelongsToMany
+    {
+      return $this->belongsToMany(
+        Bathroom::class,
+        'bathroom_item_id',
+        'bathroom_item_type_id',
+        'bathroom_id'
+      );
     }
 }
