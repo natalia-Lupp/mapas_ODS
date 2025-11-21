@@ -3,10 +3,12 @@
 namespace Core\Database;
 
 use Core\Constants\Constants;
+use Database\Populate\PopulateTrait;
 use PDO;
 
 class Database
 {
+    use PopulateTrait;
     public static function getDatabaseConn(): PDO
     {
         $user = $_ENV['DB_USERNAME'];
@@ -56,10 +58,5 @@ class Database
     public static function exec(string $sql): void
     {
         self::getDatabaseConn()->exec($sql);
-    }
-
-    public static function populate(): void
-    {
-      static::migrate();
     }
 }
