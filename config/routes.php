@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
       [ItemsBathroomController::class, 'index']
     )->name('admin.buildings.bathrooms.items.index');
 
+    // Create Bathroom items
     Route::get(
       '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/new',
       [ItemsBathroomController::class, 'new']
@@ -42,16 +43,23 @@ Route::middleware('auth')->group(function () {
       [ItemsBathroomController::class, 'create']
     )->name('admin.buildings.bathrooms.items.create');
 
+    // Update Bathroom items
     Route::get(
       '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}/edit',
       [ItemsBathroomController::class, 'edit']
     )->name('admin.buildings.bathrooms.items.edit');
+
+    Route::get(
+      '/admin/buildings/{building_id}/bathrooms/{id}/items',
+      [ItemsBathroomController::class, 'show']
+    )->name('admin.buildings.bathrooms.items.show');
 
     Route::put(
       '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
       [ItemsBathroomController::class, 'update']
     )->name('admin.buildings.bathrooms.items.update');
 
+    // Delete Bathroom items
     Route::delete(
       '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
       [ItemsBathroomController::class, 'destroy']
@@ -67,9 +75,6 @@ Route::middleware('auth')->group(function () {
     // Create Bathroom
     Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
       ->name('admin.buildings.bathrooms.new');
-
-    Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
-      ->name('admin.buildings.bathrooms.show');
 
     Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
       ->name('admin.buildings.bathrooms.new');
@@ -95,7 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])
       ->name('admin.buildings.bathrooms.images.create');
 
-    // Bathroom images delete ----------------------------------------------------------------------------
+    // Bathroom images delete
     Route::delete(
       '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/images/{image_id}',
       [BathroomImagesController::class, 'destroy']

@@ -1,0 +1,107 @@
+<h2 class="mt-5 fw-semibold"><?= $title ?></h2>
+<p class="text-muted">Itens cadastrados neste banheiro</p>
+
+<?php
+$items = $items ?? [];
+?>
+
+<div>
+
+    <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
+        href="<?= route('admin.buildings.bathrooms.items.new', [
+                    'building_id' => $buildingId,
+                    'bathroom_id' => $bathroom->id
+                ]) ?>">
+        Novo item
+    </a>
+
+    <table id="tableBuildingsDashboard" class="table align-middle text-center">
+        <thead class="table-primary">
+            <tr>
+                <th>Tipo</th>
+                <th>Modelo</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php if (!empty($items)): ?>
+                <?php foreach ($items as $item): ?>
+                    <tr>
+                        <td class="text-secondary">
+                            <?= htmlspecialchars($item->type ?? 'Sem tipo') ?>
+                        </td>
+
+                        <td class="text-secondary">
+                            <?= htmlspecialchars($item->modelo ?? 'Sem modelo') ?>
+                        </td>
+
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+
+                                <!-- Detalhes -->
+                                <a href="<?= route('admin.buildings.bathrooms.items.show', [
+                                                'building_id' => $buildingId,
+                                                'bathroom_id' => $bathroom->id,
+                                                'id' => $item->id
+                                            ]) ?>"
+                                    class="btn btn-link text-primary p-0 link-details-<?= $item->id ?>">
+                                    Detalhes
+                                </a>
+
+                                <!-- Editar -->
+                                <a href="<?= route('admin.buildings.bathrooms.items.edit', [
+                                                'building_id' => $buildingId,
+                                                'bathroom_id' => $bathroom->id,
+                                                'id' => $item->id
+                                            ]) ?>"
+                                    class="btn btn-link text-primary p-0 link-edit-<?= $item->id ?>">
+                                    Editar
+                                </a>
+
+                                <!-- Excluir -->
+                                <form method="POST"
+                                    action="<?= route('admin.buildings.bathrooms.items.destroy', [
+                                                'building_id' => $buildingId,
+                                                'bathroom_id' => $bathroom->id,
+                                                'id' => $item->id
+                                            ]) ?>"
+                                    class="delete-form delete-form-<?= $item->id ?>"
+                                    style="display:inline-block">
+
+                                    <input type="hidden" name="_method" value="DELETE">
+
+                                    <button type="button"
+                                        class="btn btn-link text-danger p-0 btn-delete link-delete-<?= $item->id ?>"
+                                        data-id="<?= $item->id ?>">
+                                        Excluir
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+
+            <?php else: ?>
+
+                <tr>
+                    <td colspan="3" class="text-muted">Nenhum item cadastrado.</td>
+                </tr>
+
+            <?php endif; ?>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4 mb-5">
+        <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $bathroom->building_id]) ?>"
+            class="btn btn-voltar rounded-pill px-4 link-comeback">
+            Voltar
+        </a>
+    </div>
+
+</div>
+
+<!-- O JavaScript segue o padrão usado no projeto -->
+<script src="/assets/js/admin/items/index.js"></script>

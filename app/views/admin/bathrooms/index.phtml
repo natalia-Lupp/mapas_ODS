@@ -49,6 +49,15 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                     Editar
                                 </a>
 
+                                <a href="<?= route('admin.buildings.bathrooms.items.index', [
+                                                'building_id' => $bathroom->building_id,
+                                                'bathroom_id' => $bathroom->id
+                                            ]) ?>"
+                                    class="btn btn-link text-primary p-0 link-edit-<?= $bathroom->id ?>">
+                                    Itens
+                                </a>
+
+
                                 <form method="POST"
                                     action="<?= route('admin.buildings.bathrooms.destroy', [
                                                 'building_id' => $bathroom->building_id,
