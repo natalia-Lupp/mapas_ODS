@@ -13,15 +13,18 @@ class BathroomItemPopulate
 
         (new BathroomItem([
           'bathroom_item_type_id' => 1,
-          'bathroom_id' => 1
-        ]))->save();
-        (new BathroomItem([
-          'bathroom_item_type_id' => 1,
-          'bathroom_id' => 1
+          'bathroom_id' => 1,
+          'quantity' => 3
         ]))->save();
         (new BathroomItem([
           'bathroom_item_type_id' => 2,
-          'bathroom_id' => 1
+          'bathroom_id' => 1,
+          'quantity' => 3
+        ]))->save();
+        (new BathroomItem([
+          'bathroom_item_type_id' => 3,
+          'bathroom_id' => 1,
+          'quantity' => 0
         ]))->save();
         $table = BathroomItem::table();
         echo "$table populate with $numberOfResgisters\n";

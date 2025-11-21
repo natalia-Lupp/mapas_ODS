@@ -18,7 +18,8 @@ class BathroomItem extends Model
     protected static string $table = 'bathroom_items';
     protected static array $columns = [
       'bathroom_item_type_id',
-      'bathroom_id'
+      'bathroom_id',
+      'quantity'
     ];
 
     public function validates(): void
@@ -30,6 +31,10 @@ class BathroomItem extends Model
         Validations::notEmpty('bathroom_id', $this);
         Validations::isInt('bathroom_id', $this);
         Validations::isIdFrom('bathroom_id', $this, Bathroom::class);
+
+        Validations::notEmpty('quantity', $this);
+        Validations::isInt('quantity', $this);
+        Validations::inRange('quantity', 0, PHP_INT_MAX, $this);
     }
 
     /**

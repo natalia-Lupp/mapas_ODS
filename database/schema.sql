@@ -38,6 +38,7 @@ CREATE TABLE `bathroom_items` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `bathroom_item_type_id` INT NOT NULL,
 	`bathroom_id` INT NOT NULL,
+  `quantity` INT NOT NULL DEFAULT 0,
 	FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
 	FOREIGN KEY (`bathroom_item_type_id`) REFERENCES `bathroom_item_types` (`id`)
 );
