@@ -101,16 +101,22 @@ class ItemsBathroomController extends Controller
 
     public function edit(Request $request): void
     {
-        $item = (object)[
-            'id' => $request->getParam('id'),
-            'type_name' => 'Vaso Sanitário',
-            'label' => 'Vaso Próximo à Janela'
-        ];
+        $buildingId = $request->getParam('building_id');
+        $bathroomId = $request->getParam('bathroom_id');
 
-        $this->render('admin/items/edit', [
-            'item' => $item,
-            'title' => 'Editar Item'
-        ]);
+        $building = Building::findById($buildingId);
+        $bathroom = Bathroom::findById($bathroomId);
+
+
+        // items tem: torneiras e vasos
+        $title = "Editar Itens do banheiro {$bathroom->floor}º andar";
+
+        $this->render('admin/items/edit', compact(
+            'title',
+            'building',
+            'bathroom',
+            'items'
+        ));
     }
 
     public function update(Request $request): void

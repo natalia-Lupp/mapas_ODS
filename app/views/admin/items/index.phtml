@@ -76,24 +76,18 @@ $items = $items ?? [];
                                         data-id="<?= $item->id ?>">
                                         Excluir
                                     </button>
-
                                 </form>
-
                             </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-
             <?php else: ?>
-
                 <tr>
                     <td colspan="3" class="text-muted">Nenhum item cadastrado.</td>
                 </tr>
-
             <?php endif; ?>
         </tbody>
     </table>
-
 </div>
 
 <?php $paginator->renderPagesNavigation(); ?>
