@@ -37,7 +37,7 @@ class BathroomItem extends Model
      */
     public function type(): BelongsTo
     {
-        return $this->belongsTo(BathroomItemType::class, 'banheiro_item_type_id');
+        return $this->belongsTo(BathroomItemType::class, 'bathroom_item_type_id');
     }
 
     /**
