@@ -59,4 +59,12 @@ class Bathroom extends IdCacheableModel
     {
         return $this->hasMany(BathroomItem::class, 'bathroom_id');
     }
+
+    /**
+     * @return HasMany<Bathroom, Consumption>
+     */
+    public function consumptions(): HasMany
+    {
+        return $this->hasMany(Consumption::class, 'bathroom_id');
+    }
 }
