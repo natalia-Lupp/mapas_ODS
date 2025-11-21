@@ -410,6 +410,14 @@ abstract class Model
       return $has_many;
     }
 
+    /**
+     * @template R of Model
+     * @param class-string<R> $related
+     * @param string $pivot_table
+     * @param string $from_foreign_key
+     * @param string $to_foreign_key
+     * @return BelongsToMany<static, R>
+     */
     public function BelongsToMany(string $related, string $pivot_table, string $from_foreign_key, string $to_foreign_key): BelongsToMany
     {
         return new BelongsToMany($this, $related, $pivot_table, $from_foreign_key, $to_foreign_key);

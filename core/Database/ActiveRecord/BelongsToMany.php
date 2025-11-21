@@ -5,6 +5,15 @@ namespace Core\Database\ActiveRecord;
 use Core\Database\Database;
 use PDO;
 
+/**
+ * @template-covariant M of Model
+ * @template-covariant R of Model
+ * @property M $model
+ * @property class-string<R> $related
+ * @property string $pivot_table
+ * @property string $from_foreign_key
+ * @property string $to_foreign_key
+ */
 class BelongsToMany
 {
     public function __construct(
@@ -17,7 +26,7 @@ class BelongsToMany
     }
 
     /**
-     * @return array<Model>
+     * @return array<R>
      */
     public function get()
     {
@@ -31,11 +40,11 @@ class BelongsToMany
         $attributes = rtrim($attributes, ', ');
 
         $sql = <<<SQL
-            SELECT 
+            SELECT
                 {$attributes}
-            FROM 
+            FROM
                 {$fromTable}, {$toTable}, {$this->pivot_table}
-            WHERE 
+            WHERE
                 {$toTable}.id = {$this->pivot_table}.{$this->to_foreign_key} AND
                 {$fromTable}.id = {$this->pivot_table}.{$this->from_foreign_key} AND
                 {$fromTable}.id = :id
@@ -62,11 +71,11 @@ class BelongsToMany
         $toTable = $this->related::table();
 
         $sql = <<<SQL
-        SELECT 
+        SELECT
             count({$toTable}.id) as total
-        FROM 
+        FROM
             {$fromTable}, {$toTable}, {$this->pivot_table}
-        WHERE 
+        WHERE
             {$toTable}.id = {$this->pivot_table}.{$this->to_foreign_key} AND
             {$fromTable}.id = {$this->pivot_table}.{$this->from_foreign_key} AND
             {$fromTable}.id = :id
