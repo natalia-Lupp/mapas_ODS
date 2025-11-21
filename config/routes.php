@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     )->name('admin.buildings.bathrooms.items.edit');
 
     Route::get(
-      '/admin/buildings/{building_id}/bathrooms/{id}/items',
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{item_id}',
       [ItemsBathroomController::class, 'show']
     )->name('admin.buildings.bathrooms.items.show');
 

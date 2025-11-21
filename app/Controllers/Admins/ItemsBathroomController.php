@@ -56,16 +56,33 @@ class ItemsBathroomController extends Controller
             );
         }
 
-
         $this->render(
             'admin/items/index',
             compact('bathroom', 'buildingId', 'title', 'items', 'paginator', 'building')
         );
     }
 
+    public function new(Request $request): void
+    {
+        $buildingId = $request->getParam('building_id');
+        $bathroomId = $request->getParam('bathroom_id');
+
+        $bathroom = Bathroom::findById($bathroomId);
+        $building = Building::findById($buildingId); // <-- ADICIONE
+
+        $title = "Novo Item para o banheiro {$bathroom->floor}º andar";
+
+        $this->render('admin/items/new', compact('title', 'building', 'bathroom'));
+    }
 
 
-
+    public function create(Request $request): void
+    {
+        $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
+            'building_id' => $request->getParam('building_id'),
+            'bathroom_id' => $request->getParam('bathroom_id'),
+        ]));
+    }
 
 
     public function show(Request $request): void
@@ -80,21 +97,6 @@ class ItemsBathroomController extends Controller
             'item' => $item,
             'title' => 'Detalhes do Item'
         ]);
-    }
-
-    public function new(Request $request): void
-    {
-        $this->render('admin/items/new', [
-            'title' => 'Novo Item'
-        ]);
-    }
-
-    public function create(Request $request): void
-    {
-        $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-            'building_id' => $request->getParam('building_id'),
-            'bathroom_id' => $request->getParam('bathroom_id'),
-        ]));
     }
 
     public function edit(Request $request): void
