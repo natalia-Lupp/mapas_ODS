@@ -16,12 +16,12 @@ class BathroomItemTypePopulate
           'name' => 'torneira de lavado'
         ]))->save();
         (new BathroomItemType([
-          'vendor_consumption_expenditure' => 5.0,
-          'name' => 'Mictório'
-        ]))->save();
-        (new BathroomItemType([
           'vendor_consumption_expenditure' => 12.0,
           'name' => 'Vaso sanitário'
+        ]))->save();
+        (new BathroomItemType([
+          'vendor_consumption_expenditure' => 5.0,
+          'name' => 'Mictório'
         ]))->save();
         $table = BathroomItemType::table();
         echo "$table populate with $numberOfResgisters\n";
