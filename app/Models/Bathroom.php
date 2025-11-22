@@ -8,6 +8,7 @@ use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
 use App\Models\IdCacheableModel;
+use App\Services\BathroomItemService;
 
 /**
  * @property int $id
@@ -66,5 +67,10 @@ class Bathroom extends IdCacheableModel
     public function consumptions(): HasMany
     {
         return $this->hasMany(Consumption::class, 'bathroom_id');
+    }
+
+    public function itemService(): BathroomItemService
+    {
+      return new BathroomItemService($this);
     }
 }

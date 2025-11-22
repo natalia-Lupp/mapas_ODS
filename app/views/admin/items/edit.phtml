@@ -6,15 +6,17 @@
         action="<?= route('admin.buildings.bathrooms.items.update', [
                     'building_id' => $building->id,
                     'bathroom_id' => $bathroom->id
-                ]) ?>">
+            ]) ?>">
+
+        <input type="hidden" name="_method" value="PUT">
 
         <!-- Item: Torneiras -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Torneiras</label>
-            <select class="form-select" name="items[torneiras]" required>
+            <select class="form-select" name="items[taps]" required>
                 <?php for ($i = 0; $i <= 50; $i++): ?>
                     <option value="<?= $i ?>"
-                        <?= $items->torneiras == $i ? 'selected' : '' ?>>
+                        <?= $taps->quantity == $i ? 'selected' : '' ?>>
                         <?= $i ?>
                     </option>
                 <?php endfor; ?>
@@ -24,10 +26,10 @@
         <!-- Item: Vasos -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Vasos</label>
-            <select class="form-select" name="items[vasos]" required>
+            <select class="form-select" name="items[toilets]" required>
                 <?php for ($i = 0; $i <= 50; $i++): ?>
                     <option value="<?= $i ?>"
-                        <?= $items->vasos == $i ? 'selected' : '' ?>>
+                        <?= $toilets->quantity == $i ? 'selected' : '' ?>>
                         <?= $i ?>
                     </option>
                 <?php endfor; ?>

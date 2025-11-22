@@ -106,8 +106,10 @@ class ItemsBathroomController extends Controller
 
         $building = Building::findById($buildingId);
         $bathroom = Bathroom::findById($bathroomId);
+        $items = $bathroom->items()->get();
 
-
+        $toilets = $items[1] ?? $bathroom->items()->new();
+        $taps = $items[0] ?? $bathroom->items()->new();
         // items tem: torneiras e vasos
         $title = "Editar Itens do banheiro {$bathroom->floor}º andar";
 
@@ -115,16 +117,47 @@ class ItemsBathroomController extends Controller
             'title',
             'building',
             'bathroom',
-            'items'
+            'toilets',
+            'taps'
         ));
     }
 
     public function update(Request $request): void
     {
-        $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-            'building_id' => $request->getParam('building_id'),
-            'bathroom_id' => $request->getParam('bathroom_id'),
-        ]));
+        $building_id = intval($request->getParam('building_id', '0'));
+        $building = Building::findById($building_id);
+        if (!isset($building)) {
+          FlashMessage::danger('O prédio associado não foi encontrado.');
+          $this->redirectTo(route('admin.dashboard'));
+        }
+
+        $bathroom_id = intval($request->getParam('bathroom_id', '0'));
+        /**
+         * @var Bathroom $bathroom
+         */
+        $bathroom = $building->bathrooms()->findById($bathroom_id);
+        if (!isset($bathroom)) {
+          FlashMessage::danger('O banheiro associado não foi encontrado.');
+          $this->redirectTo(route('admin.buildings.bathrooms.index'),[
+            'building_id' => $building->id
+          ]);
+        }
+
+        $itemsQantity = $request->getParam('items');
+        if ($bathroom->itemService()->update($itemsQantity)) {
+          FlashMessage::success('Itens atualizados com sucesso!');
+          $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
+              'building_id' => $building_id,
+              'bathroom_id' => $bathroom_id,
+          ]));
+        } else {
+          FlashMessage::danger('Falha ao atualizar itens!');
+          $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
+              'building_id' => $building_id,
+              'bathroom_id' => $bathroom_id,
+          ]));
+
+        }
     }
 
     public function destroy(Request $request): void
