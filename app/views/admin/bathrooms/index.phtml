@@ -30,7 +30,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
-                        <td class="text-secondary"><?= $bathroom->floor ?></td>
+                        <td class="text-secondary"><?= $bathroom->floor + 1?></td>
                         <td> aqui vai os itens totais</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
