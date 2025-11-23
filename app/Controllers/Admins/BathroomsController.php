@@ -4,6 +4,7 @@ namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
 use App\Models\Building;
+use Core\Debug\Debugger;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
@@ -61,7 +62,7 @@ class BathroomsController extends Controller
         $titleNome = "Informações do Banheiro do Andar {$floor} do {$building->name}";
         $title = "Banheiro";
 
-        //Carregar itens do banheiro mais itens! eeeeeh! preciso de cafe! ouvir Ado 
+        //Carregar itens do banheiro mais itens! eeeeeh! preciso de cafe! ouvir Ado
         $items = $bathroom->itemService()->getItems();
         $taps = $items[0];
         $toilets = $items[1];
@@ -113,7 +114,6 @@ class BathroomsController extends Controller
         ]);
 
         if ($bathroom->save()) {
-
             //Criar os itens do banheiro usando o service de itens (controller est vazia)
             $bathroom->itemService()->create([
                 'taps' => intval($itemParams['taps'] ?? 0),
@@ -125,7 +125,6 @@ class BathroomsController extends Controller
                 'building_id' => $bathroom->building_id
             ]));
         } else {
-
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
             $this->redirectTo(route('admin.buildings.bathrooms.new', [
                 'building_id' => $bathroom->building_id
@@ -190,7 +189,6 @@ class BathroomsController extends Controller
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
 
         if ($bathroom->save()) {
-
             //Atualizar itens aqui tbm! o os itens.
             $bathroom->itemService()->update([
                 'taps' => intval($params['items']['taps'] ?? 0),

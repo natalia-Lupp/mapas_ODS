@@ -21,8 +21,8 @@ class BathroomItemService
       /**
        * @var array<int, BathroomItem> $items
        */
-      $items =   $bathroom->items()->get();
-      $this->items = $items;
+        $items =   $bathroom->items()->get();
+        $this->items = $items;
     }
 
     public function initItems(): void
