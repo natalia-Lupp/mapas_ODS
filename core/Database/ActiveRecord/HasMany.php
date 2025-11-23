@@ -20,7 +20,7 @@ class HasMany
     }
 
     /**
-     * @return array<M>
+     * @return array<R>
      */
     public function get(): array
     {
@@ -29,6 +29,7 @@ class HasMany
 
     /**
      * @param array<string, mixed> $params
+     * @return R
      */
     public function new(array $params = []): Model
     {
@@ -37,7 +38,7 @@ class HasMany
         return new $this->related($params);
     }
     /**
-     * @return M
+     * @return R
      */
     public function findById(int $id): ?Model
     {

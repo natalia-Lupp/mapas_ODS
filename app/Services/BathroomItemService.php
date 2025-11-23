@@ -18,9 +18,9 @@ class BathroomItemService
 
     public function __construct(private Bathroom $bathroom)
     {
-        /**
-         * @var array<int, BathroomItem> $items
-         */
+      /**
+       * @var array<int, BathroomItem> $items
+       */
         $items =   $bathroom->items()->get();
         $this->items = $items;
     }
@@ -40,15 +40,17 @@ class BathroomItemService
     {
         if (empty($this->items)) {
             $this->items[] = $this->bathroom->items()
-                ->new([
-                    'bathroom_item_type_id' => 1,
-                    'quantity' => $params['taps'] ?? 0,
-                ])->save();
+            ->new([
+            'bathroom_item_type_id' => 1,
+            'quantity' => $params['taps'] ?? 0,
+            ]);
+            $this->items[0]->save();
             $this->items[] = $this->bathroom->items()
-                ->new([
-                    'bathroom_item_type_id' => 2,
-                    'quantity' => $params['toilets'] ?? 0,
-                ])->save();
+            ->new([
+              'bathroom_item_type_id' => 2,
+              'quantity' => $params['toilets'] ?? 0,
+            ]);
+            $this->items[1]->save();
             return true;
         }
         return $this->update($params);

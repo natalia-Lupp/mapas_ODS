@@ -27,11 +27,12 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
             <?php if (!empty($bathrooms)): ?>
                 <?php foreach ($bathrooms as $bathroom):
                     $building = $bathroom->building;
+                    $items = $bathroom->itemService()->getItems();
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
-                        <td class="text-secondary"><?= $bathroom->floor ?></td>
-                        <td> aqui vai os itens totais</td>
+                        <td class="text-secondary"><?= $bathroom->floor + 1?></td>
+                        <td><?= $items[0]->quantity + $items[1]->quantity ?></td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
 
