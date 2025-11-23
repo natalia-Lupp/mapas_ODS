@@ -19,7 +19,8 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
             <tr>
                 <th>Prédio</th>
                 <th>Andar</th>
-                <th>Ações</th>
+                <th>Total de Itens (ideia)</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
                         <td class="text-secondary"><?= $bathroom->floor ?></td>
+                        <td> aqui vai os itens totais</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
 
@@ -75,6 +77,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
 
                             </div>
                         </td>
+
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

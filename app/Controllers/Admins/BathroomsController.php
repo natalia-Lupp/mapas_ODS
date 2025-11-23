@@ -102,7 +102,7 @@ class BathroomsController extends Controller
 
         if ($bathroom->save()) {
 
-            // 👉 Criar os itens do banheiro usando o service
+            //Criar os itens do banheiro usando o service de itens (controller est vazia)
             $bathroom->itemService()->create([
                 'taps' => intval($itemParams['taps'] ?? 0),
                 'toilets' => intval($itemParams['toilets'] ?? 0),
@@ -134,7 +134,6 @@ class BathroomsController extends Controller
         }
 
         $bathroom = Bathroom::findById($id);
-
         if (!$bathroom) {
             FlashMessage::danger('Banheiro não encontrado!');
             $this->redirectTo(route('admin.buildings.index'));
@@ -142,20 +141,23 @@ class BathroomsController extends Controller
         }
 
         $building = Building::findById($bathroom->building_id);
-        if (!$building) {
-            FlashMessage::danger('Prédio vinculado não encontrado!');
-            $this->redirectTo(route('admin.buildings.index'));
-            return;
-        }
 
         $title = "Editar Banheiro - {$building->name}";
+
+        // o os itens vindo aqui agora! eeeeeeeh! Mano to com sono!
+        $items = $bathroom->itemService()->getItems();
+        $taps = $items[0];
+        $toilets = $items[1];
 
         $this->render('admin/bathrooms/edit', compact(
             'title',
             'building',
-            'bathroom'
+            'bathroom',
+            'taps',
+            'toilets'
         ));
     }
+
 
     // UPDATE
     public function update(Request $request): void
@@ -173,13 +175,22 @@ class BathroomsController extends Controller
 
         $oldBuildingId = $bathroom->building_id;
 
+        // Atualizar banheiro
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
 
         if ($bathroom->save()) {
+
+            //Atualizar itens aqui tbm! o os itens.
+            $bathroom->itemService()->update([
+                'taps' => intval($params['items']['taps'] ?? 0),
+                'toilets' => intval($params['items']['toilets'] ?? 0),
+            ]);
+
             FlashMessage::success('Banheiro atualizado com sucesso!!');
+
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
-                'building_id' => $oldBuildingId // Redireciona para o prédio original.
+                'building_id' => $oldBuildingId
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Atualização não realizada.');
@@ -188,6 +199,7 @@ class BathroomsController extends Controller
             ]));
         }
     }
+
 
     // DELETE
     public function destroy(Request $request): void
