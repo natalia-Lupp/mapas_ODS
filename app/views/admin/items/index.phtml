@@ -69,27 +69,23 @@ $items = $items ?? [];
 </div>
 </div>
 
-<!-- Modal de confirmação para EXCLUSÃO DE ITENS -->
-<div class="modal fade" id="deleteImageConfirmModal" tabindex="-1" aria-labelledby="deleteImageConfirmLabel" aria-hidden="true">
+<!--modal com confirmação de exclusão -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteImageConfirmLabel">Confirmar exclusão</h5>
+                <h5 class="modal-title" id="deleteConfirmLabel">Confirmar exclusão</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
             <div class="modal-body">
-                Tem certeza que deseja excluir esta imagem?
+                Tem certeza que deseja excluir este item?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteImageBtn">
-                    Excluir
-                </button>
+                <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteBtn">Excluir</button>
             </div>
         </div>
     </div>
 </div>
 
-<script src="/assets/js/admin/items/index.js"></script>
+<script src="/assets/js/admin/bathroom/index.js"></script>
