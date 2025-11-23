@@ -12,6 +12,7 @@ use Core\Database\ActiveRecord\BelongsTo;
  * @property int $id
  * @property int $bathroom_item_type_id
  * @property int $bathroom_id
+ * @property int $quantity
  */
 class BathroomItem extends Model
 {

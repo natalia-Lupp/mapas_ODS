@@ -8,7 +8,6 @@ use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
 
-
 //controller temporaria para subir  a visualização das views e rotas, assim como já
 // padronizar o modelo que a views devem receber os dados
 class ItemsBathroomController extends Controller
@@ -36,7 +35,7 @@ class ItemsBathroomController extends Controller
             : "Itens do Banheiro";
 
         // itens ou array vazio
-        $items = $bathroom?->items ?? [];
+        $items = $bathroom->items ?? [];
 
         // paginação
         $page = $request->getParam('page', 1);
@@ -127,36 +126,35 @@ class ItemsBathroomController extends Controller
         $building_id = intval($request->getParam('building_id', '0'));
         $building = Building::findById($building_id);
         if (!isset($building)) {
-          FlashMessage::danger('O prédio associado não foi encontrado.');
-          $this->redirectTo(route('admin.dashboard'));
+            FlashMessage::danger('O prédio associado não foi encontrado.');
+            $this->redirectTo(route('admin.dashboard'));
         }
 
         $bathroom_id = intval($request->getParam('bathroom_id', '0'));
         /**
-         * @var Bathroom $bathroom
+         * @var ?Bathroom $bathroom
          */
         $bathroom = $building->bathrooms()->findById($bathroom_id);
         if (!isset($bathroom)) {
-          FlashMessage::danger('O banheiro associado não foi encontrado.');
-          $this->redirectTo(route('admin.buildings.bathrooms.index'),[
-            'building_id' => $building->id
-          ]);
+            FlashMessage::danger('O banheiro associado não foi encontrado.');
+            $this->redirectTo(route('admin.buildings.bathrooms.index', [
+              'building_id' => $building->id
+            ]));
         }
 
         $itemsQantity = $request->getParam('items');
         if ($bathroom->itemService()->update($itemsQantity)) {
-          FlashMessage::success('Itens atualizados com sucesso!');
-          $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
+            FlashMessage::success('Itens atualizados com sucesso!');
+            $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
               'building_id' => $building_id,
               'bathroom_id' => $bathroom_id,
-          ]));
+            ]));
         } else {
-          FlashMessage::danger('Falha ao atualizar itens!');
-          $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
+            FlashMessage::danger('Falha ao atualizar itens!');
+            $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
               'building_id' => $building_id,
               'bathroom_id' => $bathroom_id,
-          ]));
-
+            ]));
         }
     }
 

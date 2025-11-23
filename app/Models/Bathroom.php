@@ -71,6 +71,6 @@ class Bathroom extends IdCacheableModel
 
     public function itemService(): BathroomItemService
     {
-      return new BathroomItemService($this);
+        return new BathroomItemService($this);
     }
 }
