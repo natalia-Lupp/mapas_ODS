@@ -17,12 +17,22 @@ use App\Services\Image;
 
             <div class="mb-3">
                 <span class="fw-semibold text-secondary d-block mb-1">Resumo dos itens</span>
-                <p class="mb-0">
-                    Este banheiro possui <strong>8 itens</strong> no total,
-                    sendo: <strong>3 vasos sanitários</strong> e
-                    <strong>5 torneiras</strong> (texto ilustrativo para teste).
-                </p>
+
+                <?php if (!empty($groupedItems)): ?>
+                    <p class="mb-0">
+                        Este banheiro possui
+                        <strong><?= array_sum(array_column($groupedItems, 'count')) ?></strong> itens no total,
+                        sendo:
+                        <?php foreach ($groupedItems as $index => $item): ?>
+                            <strong><?= $item['count'] ?> <?= htmlspecialchars($item['name']) ?></strong>
+                            <?= $index !== array_key_last($groupedItems) ? ' e ' : '' ?>
+                        <?php endforeach; ?>
+                    </p>
+                <?php else: ?>
+                    <p class="text-muted mb-0">Nenhum item cadastrado neste banheiro.</p>
+                <?php endif; ?>
             </div>
+
 
             <hr class="my-4" style="border: 0; border-top: 3px solid #d0d0d0; opacity: 1;">
 
@@ -52,7 +62,7 @@ use App\Services\Image;
                                 <input type="hidden" name="_method" value="DELETE">
 
                                 <button type="button"
-                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image link-delete-image-<?= $image->id?>"
+                                    class="btn btn-sm btn-danger rounded-pill btn-delete-image link-delete-image-<?= $image->id ?>"
                                     data-id="<?= $image->id ?>">
                                     <i class="bi bi-trash"></i> Excluir
                                 </button>

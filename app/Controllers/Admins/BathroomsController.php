@@ -42,7 +42,6 @@ class BathroomsController extends Controller
     }
 
     // SHOW
-
     public function show(Request $request): void
     {
         $params = $request->getParams();
@@ -57,13 +56,26 @@ class BathroomsController extends Controller
 
         $building = Building::findById($bathroom->building_id);
 
-        // Ajustando para que o andar 0 seja o 1º Andar, etc.
         $floor = $bathroom->floor + 1;
 
         $titleNome = "Informações do Banheiro do Andar {$floor} do {$building->name}";
         $title = "Banheiro";
 
-        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome', 'building'));
+        //Carregar itens do banheiro mais itens! eeeeeh! preciso de cafe! ouvir Ado 
+        $items = $bathroom->itemService()->getItems();
+        $taps = $items[0];
+        $toilets = $items[1];
+        $totalItems = $taps->quantity + $toilets->quantity;
+
+        $this->render('admin/bathrooms/show', compact(
+            'bathroom',
+            'title',
+            'titleNome',
+            'building',
+            'taps',
+            'toilets',
+            'totalItems'
+        ));
     }
 
     // CREATE
@@ -121,7 +133,6 @@ class BathroomsController extends Controller
         }
     }
 
-
     // EDIT
     public function edit(Request $request): void
     {
@@ -157,7 +168,6 @@ class BathroomsController extends Controller
             'toilets'
         ));
     }
-
 
     // UPDATE
     public function update(Request $request): void
@@ -199,7 +209,6 @@ class BathroomsController extends Controller
             ]));
         }
     }
-
 
     // DELETE
     public function destroy(Request $request): void
