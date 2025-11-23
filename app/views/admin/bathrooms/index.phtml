@@ -19,7 +19,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
             <tr>
                 <th>Prédio</th>
                 <th>Andar</th>
-                <th>Total de Itens (ideia)</th>
+                <th>Total de Itens</th>
                 <th></th>
             </tr>
         </thead>
@@ -31,7 +31,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
-                        <td class="text-secondary"><?= $bathroom->floor + 1?></td>
+                        <td class="text-secondary"><?= $bathroom->floor + 1 ?></td>
                         <td><?= $items[0]->quantity + $items[1]->quantity ?></td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">

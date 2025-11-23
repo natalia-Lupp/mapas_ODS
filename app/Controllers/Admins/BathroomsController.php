@@ -223,29 +223,8 @@ class BathroomsController extends Controller
 
         $buildingId = $bathroom->building_id;
 
-        // Buscar todas as imagens do banheiro
-        $images = \App\Models\BathroomImage::where(['bathroom_id' => $bathroom->id]);
-
-        // Pega o caminho do diretório lógico (ex: 'bathrooms/1/5')
-        // Cria uma instância temporária de BathroomImage para acessar o
-        //imageService e o getStoreDir()
-        $tempImage = new \App\Models\BathroomImage(['bathroom_id' => $bathroom->id]);
-        $imageService = $tempImage->imageService();
-        $storeDir = $imageService->getStoreDir();
-
-        foreach ($images as $image) {
-            // O deleteImage() apaga o arquivo, remove o registro do DB e
-            // TENTA REMOVER a pasta se estiver vazia.
-            $image->imageService()->deleteImage();
-        }
-
-        // garante que o diretório seja removido se estiver vazio,
-        // mesmo que não houvesse imagens registradas no banco.
-        $imageService->deleteStoreDirIfEmpty($storeDir);
-
-
-        // Exclui banheiro
-        $bathroom->destroy();
+        //chama o metodo de deletar em cascata (img e e itens) pra deixar o metodo aqui mais limpo
+        $bathroom->deleteCascade();
 
         FlashMessage::success('Banheiro removido com sucesso!');
 

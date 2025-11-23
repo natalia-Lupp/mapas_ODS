@@ -73,4 +73,35 @@ class Bathroom extends IdCacheableModel
     {
         return new BathroomItemService($this);
     }
+
+    public function deleteCascade(): void
+    {
+        //Excluir itens
+        $items = $this->items();
+        foreach ($items as $item) {
+            $item->destroy();
+        }
+
+        // Segurança extra (caso algo tenha ficado) e não me lasquei com as funções do actionrecord
+        $remaining = \App\Models\BathroomItem::where(['bathroom_id' => $this->id]);
+        foreach ($remaining as $item) {
+            $item->destroy();
+        }
+
+        //Excluir imagens
+        $images = $this->images();
+
+        $tempImage = new BathroomImage(['bathroom_id' => $this->id]);
+        $imageService = $tempImage->imageService(); //rasteia os itens na pasta
+        $storeDir = $imageService->getStoreDir();
+
+        foreach ($images as $img) {
+            $img->imageService()->deleteImage();
+        }
+
+        $imageService->deleteStoreDirIfEmpty($storeDir);
+
+        //Excluir o banheiro
+        $this->destroy();
+    }
 }

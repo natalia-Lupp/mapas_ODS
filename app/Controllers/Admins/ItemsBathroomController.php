@@ -158,9 +158,34 @@ class ItemsBathroomController extends Controller
 
     public function destroy(Request $request): void
     {
+        $buildingId = intval($request->getParam('building_id'));
+        $bathroomId = intval($request->getParam('bathroom_id'));
+        $itemId = intval($request->getParam('id'));
+
+        // Busca o item
+        $item = \App\Models\BathroomItem::findById($itemId);
+
+        if (!$item) {
+            FlashMessage::danger('Item não encontrado.');
+            $this->redirectBack();
+            return;
+        }
+
+        // Confere se o item pertence ao banheiro correto
+        if ($item->bathroom_id != $bathroomId) {
+            FlashMessage::danger('Este item não pertence ao banheiro informado.');
+            $this->redirectBack();
+            return;
+        }
+
+        // Remove o item
+        $item->destroy();
+
+        FlashMessage::success('Item removido com sucesso!');
+
         $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-            'building_id' => $request->getParam('building_id'),
-            'bathroom_id' => $request->getParam('bathroom_id'),
+            'building_id' => $buildingId,
+            'bathroom_id' => $bathroomId
         ]));
     }
 }
