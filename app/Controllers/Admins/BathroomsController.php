@@ -93,23 +93,34 @@ class BathroomsController extends Controller
     {
         $params = $request->getParams();
         $bathroomParams = $params['bathroom'] ?? [];
+        $itemParams = $params['items'] ?? [];
+
         $bathroom = new Bathroom([
             'floor' => $bathroomParams['floor'] ?? -1,
             'building_id' => $bathroomParams['building_id'] ?? 0
         ]);
 
         if ($bathroom->save()) {
+
+            // 👉 Criar os itens do banheiro usando o service
+            $bathroom->itemService()->create([
+                'taps' => intval($itemParams['taps'] ?? 0),
+                'toilets' => intval($itemParams['toilets'] ?? 0),
+            ]);
+
             FlashMessage::success('Banheiro registrado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
                 'building_id' => $bathroom->building_id
             ]));
         } else {
+
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Cadastro não realizado.');
             $this->redirectTo(route('admin.buildings.bathrooms.new', [
                 'building_id' => $bathroom->building_id
             ]));
         }
     }
+
 
     // EDIT
     public function edit(Request $request): void

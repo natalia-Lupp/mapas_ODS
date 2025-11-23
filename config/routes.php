@@ -19,116 +19,116 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/auth/login', [AuthController::class, 'processLogin'])->name('auth.login');
 
 Route::middleware('auth')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+  Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
   // Route::get('/auth/login', [AuthController::class, 'processLogin'])->name('auth.login');
 
   // Admin Routes
-    Route::middleware('admin')->group(function () {
-        Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
+  Route::middleware('admin')->group(function () {
+    Route::get('/admin', [AdminHomeController::class, 'dashboard'])->name('admin.dashboard');
 
-      //itens Routes---------------------------------------------------------------------------------
-        Route::get(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items',
-            [ItemsBathroomController::class, 'index']
-        )->name('admin.buildings.bathrooms.items.index');
+    //itens Routes---------------------------------------------------------------------------------
+    Route::get(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items',
+      [ItemsBathroomController::class, 'index']
+    )->name('admin.buildings.bathrooms.items.index');
 
-      // Create Bathroom items
-        Route::get(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/new',
-            [ItemsBathroomController::class, 'new']
-        )->name('admin.buildings.bathrooms.items.new');
+    // Create Bathroom items
+    Route::get(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/new',
+      [ItemsBathroomController::class, 'new']
+    )->name('admin.buildings.bathrooms.items.new');
 
-        Route::post(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items',
-            [ItemsBathroomController::class, 'create']
-        )->name('admin.buildings.bathrooms.items.create');
+    Route::post(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items',
+      [ItemsBathroomController::class, 'create']
+    )->name('admin.buildings.bathrooms.items.create');
 
-      // Update Bathroom items
-        Route::get(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}/edit',
-            [ItemsBathroomController::class, 'edit']
-        )->name('admin.buildings.bathrooms.items.edit');
+    // Update Bathroom items
+    Route::get(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}/edit',
+      [ItemsBathroomController::class, 'edit']
+    )->name('admin.buildings.bathrooms.items.edit');
 
-        Route::get(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{item_id}',
-            [ItemsBathroomController::class, 'show']
-        )->name('admin.buildings.bathrooms.items.show');
+    Route::get(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{item_id}',
+      [ItemsBathroomController::class, 'show']
+    )->name('admin.buildings.bathrooms.items.show');
 
-        Route::put(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
-            [ItemsBathroomController::class, 'update']
-        )->name('admin.buildings.bathrooms.items.update');
+    Route::put(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
+      [ItemsBathroomController::class, 'update']
+    )->name('admin.buildings.bathrooms.items.update');
 
-      // Delete Bathroom items
-        Route::delete(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
-            [ItemsBathroomController::class, 'destroy']
-        )->name('admin.buildings.bathrooms.items.destroy');
+    // Delete Bathroom items
+    Route::delete(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/items/{id}',
+      [ItemsBathroomController::class, 'destroy']
+    )->name('admin.buildings.bathrooms.items.destroy');
 
-      //Bathroom Routes-----------------------------------------------------------------------
-        Route::get('/admin/buildings/bathrooms', [BathroomsController::class, 'index'])
-        ->name('admin.buildings.bathrooms.index');
+    //Bathroom Routes-----------------------------------------------------------------------
+    Route::get('/admin/buildings/bathrooms', [BathroomsController::class, 'index'])
+      ->name('admin.buildings.bathrooms.index');
 
-        Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
-        ->name('admin.buildings.bathrooms.index');
+    Route::get('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'index'])
+      ->name('admin.buildings.bathrooms.index');
 
-      // Create Bathroom
-        Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
-        ->name('admin.buildings.bathrooms.new');
+    // Create Bathroom
+    Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
+      ->name('admin.buildings.bathrooms.new');
 
-        Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
-        ->name('admin.buildings.bathrooms.new');
+    Route::get('/admin/buildings/{building_id}/bathrooms/new', [BathroomsController::class, 'new'])
+      ->name('admin.buildings.bathrooms.new');
 
-        Route::post('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'create'])
-        ->name('admin.buildings.bathrooms.create');
+    Route::post('/admin/buildings/{building_id}/bathrooms', [BathroomsController::class, 'create'])
+      ->name('admin.buildings.bathrooms.create');
 
-      // Update Bathroom
-        Route::get('/admin/buildings/{building_id}/bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
-        ->name('admin.buildings.bathrooms.edit');
+    // Update Bathroom
+    Route::get('/admin/buildings/{building_id}/bathrooms/{id}/edit', [BathroomsController::class, 'edit'])
+      ->name('admin.buildings.bathrooms.edit');
 
-        Route::put('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'update'])
-        ->name('admin.buildings.bathrooms.update');
+    Route::put('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'update'])
+      ->name('admin.buildings.bathrooms.update');
 
-        Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
-        ->name('admin.buildings.bathrooms.show');
+    Route::get('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'show'])
+      ->name('admin.buildings.bathrooms.show');
 
-      // Delete Bathroom
-        Route::delete('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'destroy'])
-        ->name('admin.buildings.bathrooms.destroy');
+    // Delete Bathroom
+    Route::delete('/admin/buildings/{building_id}/bathrooms/{id}', [BathroomsController::class, 'destroy'])
+      ->name('admin.buildings.bathrooms.destroy');
 
-      // Bathroom images ----------------------------------------------------------------------------
-        Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])
-        ->name('admin.buildings.bathrooms.images.create');
+    // Bathroom images ----------------------------------------------------------------------------
+    Route::post('/admin/buildings/{building_id}/bathrooms/{id}/images', [BathroomImagesController::class, 'create'])
+      ->name('admin.buildings.bathrooms.images.create');
 
-      // Bathroom images delete
-        Route::delete(
-            '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/images/{image_id}',
-            [BathroomImagesController::class, 'destroy']
-        )->name('admin.buildings.bathrooms.images.destroy');
+    // Bathroom images delete
+    Route::delete(
+      '/admin/buildings/{building_id}/bathrooms/{bathroom_id}/images/{image_id}',
+      [BathroomImagesController::class, 'destroy']
+    )->name('admin.buildings.bathrooms.images.destroy');
 
-      // Buildings ----------------------------------------------------------------------------
-        Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');
+    // Buildings ----------------------------------------------------------------------------
+    Route::get('/admin/buildings', [BuildingsController::class, 'index'])->name('admin.buildings.index');
 
-      // Create Building
-        Route::get('/admin/buildings/new', [BuildingsController::class, 'new'])->name('admin.buildings.new'); // rota nova
-        Route::post('/admin/buildings', [BuildingsController::class, 'create'])->name('admin.buildings.create');
+    // Create Building
+    Route::get('/admin/buildings/new', [BuildingsController::class, 'new'])->name('admin.buildings.new'); // rota nova
+    Route::post('/admin/buildings', [BuildingsController::class, 'create'])->name('admin.buildings.create');
 
-      // Retrieve Building
-        Route::get('/admin/buildings/page/{page}', [BuildingsController::class, 'index'])->name('admin.buildings.paginate');
-        Route::get('/admin/buildings/{id}', [BuildingsController::class, 'show'])->name('admin.buildings.show'); // usar essa
+    // Retrieve Building
+    Route::get('/admin/buildings/page/{page}', [BuildingsController::class, 'index'])->name('admin.buildings.paginate');
+    Route::get('/admin/buildings/{id}', [BuildingsController::class, 'show'])->name('admin.buildings.show'); // usar essa
 
 
-      // Update Building
-      // Route::get('/admin/buildings/buildings.list', [BuildingController::class, 'new'])->name('admin.buildings.new');
-        Route::get('/admin/buildings/{id}/edit', [BuildingsController::class, 'edit'])->name('admin.buildings.edit');
-        Route::put('/admin/buildings/{id}', [BuildingsController::class, 'update'])->name('admin.buildings.update');
+    // Update Building
+    // Route::get('/admin/buildings/buildings.list', [BuildingController::class, 'new'])->name('admin.buildings.new');
+    Route::get('/admin/buildings/{id}/edit', [BuildingsController::class, 'edit'])->name('admin.buildings.edit');
+    Route::put('/admin/buildings/{id}', [BuildingsController::class, 'update'])->name('admin.buildings.update');
 
-      // Delete Building
-        Route::delete('/admin/buildings/{id}', [BuildingsController::class, 'destroy'])->name('admin.buildings.destroy');
-    });
+    // Delete Building
+    Route::delete('/admin/buildings/{id}', [BuildingsController::class, 'destroy'])->name('admin.buildings.destroy');
+  });
 
   // User Routes
-    Route::middleware('client')->group(function () {
-        Route::get('/client', [UserHomeController::class, 'dashboard'])->name('client.dashboard');
-    });
+  Route::middleware('client')->group(function () {
+    Route::get('/client', [UserHomeController::class, 'dashboard'])->name('client.dashboard');
+  });
 });

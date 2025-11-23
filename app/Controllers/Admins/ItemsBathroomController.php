@@ -8,8 +8,6 @@ use Core\Http\Controllers\Controller;
 use Core\Http\Request;
 use Lib\FlashMessage;
 
-//controller temporaria para subir  a visualização das views e rotas, assim como já
-// padronizar o modelo que a views devem receber os dados
 class ItemsBathroomController extends Controller
 {
     protected string $layout = 'admin/application';
@@ -138,7 +136,7 @@ class ItemsBathroomController extends Controller
         if (!isset($bathroom)) {
             FlashMessage::danger('O banheiro associado não foi encontrado.');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
-              'building_id' => $building->id
+                'building_id' => $building->id
             ]));
         }
 
@@ -146,14 +144,14 @@ class ItemsBathroomController extends Controller
         if ($bathroom->itemService()->update($itemsQantity)) {
             FlashMessage::success('Itens atualizados com sucesso!');
             $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-              'building_id' => $building_id,
-              'bathroom_id' => $bathroom_id,
+                'building_id' => $building_id,
+                'bathroom_id' => $bathroom_id,
             ]));
         } else {
             FlashMessage::danger('Falha ao atualizar itens!');
             $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-              'building_id' => $building_id,
-              'bathroom_id' => $bathroom_id,
+                'building_id' => $building_id,
+                'bathroom_id' => $bathroom_id,
             ]));
         }
     }
