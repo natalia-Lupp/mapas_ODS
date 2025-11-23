@@ -1,20 +1,12 @@
 <h2 class="mt-5 fw-semibold"><?= htmlspecialchars($title) ?></h2>
-<p class="text-muted">Atualize os dados do banheiro</p>
-
-<div class="form-background">
+<p class="text-muted">Atualize os dados do banheiro</p><div class="form-background">
     <form id="formEditarBanheiro" method="POST"
-        action="<?= route('admin.buildings.bathrooms.update', ['id' => $bathroom->id]) ?>">
-
-        <input type="hidden" name="_method" value="PUT">
-
-        <!-- Prédio fixo -->
+        action="<?= route('admin.buildings.bathrooms.update', ['id' => $bathroom->id]) ?>">        <input type="hidden" name="_method" value="PUT">        <!-- Prédio fixo -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Nome do prédio</label>
             <p class="form-control-plaintext"><?= htmlspecialchars($building->name) ?></p>
             <input type="hidden" name="bathroom[building_id]" value="<?= $building->id ?>" class="field-building_id">
-        </div>
-
-        <!-- Andar -->
+        </div>        <!-- Andar -->
         <div class="mb-3">
             <label class="form-label fw-semibold">Andar</label>
             <select class="form-select field-floor" id="id_floor" name="bathroom[floor]" required>
@@ -27,8 +19,29 @@
                 <?php endfor; ?>
             </select>
         </div>
-
-        <div class="d-flex justify-content-between mt-4">
+        <!-- Item: Torneiras -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Torneiras</label>
+            <select class="form-select" name="items[taps]" required>
+                <?php for ($i = 0; $i <= 50; $i++): ?>
+                    <option value="<?= $i ?>"
+                        <?= $taps->quantity == $i ? 'selected' : '' ?>>
+                        <?= $i ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+        </div>        <!-- Item: Vasos -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Vasos</label>
+            <select class="form-select" name="items[toilets]" required>
+                <?php for ($i = 0; $i <= 50; $i++): ?>
+                    <option value="<?= $i ?>"
+                        <?= $toilets->quantity == $i ? 'selected' : '' ?>>
+                        <?= $i ?>
+                    </option>
+                <?php endfor; ?>
+            </select>
+        </div>        <div class="d-flex justify-content-between mt-4">
             <a href="<?= route('admin.buildings.bathrooms.index', ['building_id' => $building->id]) ?>"
                 class="btn btn-voltar rounded-pill px-4">
                 Voltar
@@ -38,9 +51,5 @@
                 <i class="bi bi-save"></i>
                 Atualizar Banheiro
             </button>
-        </div>
-
-    </form>
-</div>
-
-<script src="/assets/js/admin/bathroom/new.js"></script>
+        </div>    </form>
+</div><script src="/assets/js/admin/bathroom/new.js"></script>
