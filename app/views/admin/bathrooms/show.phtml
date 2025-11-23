@@ -1,6 +1,5 @@
 <?php
 
-use App\Services\Image;
 
 /** @var \App\Models\Bathroom $bathroom */
 ?>
@@ -18,14 +17,14 @@ use App\Services\Image;
             <div class="mb-3">
                 <span class="fw-semibold text-secondary d-block mb-1">Resumo dos itens</span>
 
-                <?php if (!empty($groupedItems)): ?>
+                <?php if (!empty($items)): ?>
                     <p class="mb-0">
                         Este banheiro possui
-                        <strong><?= array_sum(array_column($groupedItems, 'count')) ?></strong> itens no total,
+                        <strong><?= array_sum(array_map(fn ($i) => ($i->quantity) ,$items)) ?></strong> itens no total,
                         sendo:
-                        <?php foreach ($groupedItems as $index => $item): ?>
-                            <strong><?= $item['count'] ?> <?= htmlspecialchars($item['name']) ?></strong>
-                            <?= $index !== array_key_last($groupedItems) ? ' e ' : '' ?>
+                        <?php foreach ($items as $index => $item): ?>
+                            <strong><?= $item->quantity ?> <?= htmlspecialchars($item->type()->get()->name) ?></strong>
+                            <?= $index !== array_key_last($items) ? ' e ' : '' ?>
                         <?php endforeach; ?>
                     </p>
                 <?php else: ?>
