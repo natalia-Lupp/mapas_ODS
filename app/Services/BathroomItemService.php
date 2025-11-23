@@ -43,12 +43,14 @@ class BathroomItemService
             ->new([
             'bathroom_item_type_id' => 1,
             'quantity' => $params['taps'] ?? 0,
-            ])->save();
+            ]);
+            $this->items[1]->save();
             $this->items[] = $this->bathroom->items()
             ->new([
               'bathroom_item_type_id' => 2,
               'quantity' => $params['toilets'] ?? 0,
-            ])->save();
+            ]);
+            $this->items[2]->save();
             return true;
         }
         return $this->update($params);
