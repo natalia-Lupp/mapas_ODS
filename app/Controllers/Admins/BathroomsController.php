@@ -74,7 +74,8 @@ class BathroomsController extends Controller
             'building',
             'taps',
             'toilets',
-            'totalItems'
+            'totalItems',
+            'items'
         ));
     }
 
