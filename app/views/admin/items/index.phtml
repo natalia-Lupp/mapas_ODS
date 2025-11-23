@@ -7,14 +7,6 @@ $items = $items ?? [];
 
 <div>
 
-    <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
-        href="<?= route('admin.buildings.bathrooms.items.new', [
-                    'building_id' => $buildingId,
-                    'bathroom_id' => $bathroom->id
-                ]) ?>">
-        Novo item
-    </a>
-
     <table id="tableBuildingsDashboard" class="table align-middle text-center">
         <thead class="table-primary">
             <tr>
@@ -38,26 +30,6 @@ $items = $items ?? [];
 
                         <td>
                             <div class="d-flex justify-content-center gap-2">
-
-                                <!-- Detalhes -->
-                                <a href="<?= route('admin.buildings.bathrooms.items.show', [
-                                                'building_id' => $buildingId,
-                                                'bathroom_id' => $bathroom->id,
-                                                'id' => $item->id
-                                            ]) ?>"
-                                    class="btn btn-link text-primary p-0 link-details-<?= $item->id ?>">
-                                    Detalhes
-                                </a>
-
-                                <!-- Editar -->
-                                <a href="<?= route('admin.buildings.bathrooms.items.edit', [
-                                                'building_id' => $buildingId,
-                                                'bathroom_id' => $bathroom->id,
-                                                'id' => $item->id
-                                            ]) ?>"
-                                    class="btn btn-link text-primary p-0 link-edit-<?= $item->id ?>">
-                                    Editar
-                                </a>
 
                                 <!-- Excluir -->
                                 <form method="POST"

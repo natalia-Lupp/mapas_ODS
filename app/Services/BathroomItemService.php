@@ -11,18 +11,18 @@ use Core\Database\Database;
  */
 class BathroomItemService
 {
-   /**
-    * @var array<int, BathroomItem> $items
-    */
+    /**
+     * @var array<int, BathroomItem> $items
+     */
     protected array $items = [];
 
     public function __construct(private Bathroom $bathroom)
     {
-      /**
-       * @var array<int, BathroomItem> $items
-       */
-      $items =   $bathroom->items()->get();
-      $this->items = $items;
+        /**
+         * @var array<int, BathroomItem> $items
+         */
+        $items =   $bathroom->items()->get();
+        $this->items = $items;
     }
 
     public function initItems(): void
@@ -32,31 +32,31 @@ class BathroomItemService
         }
     }
 
-  /**
-   * @param array<string, int> $params
-   * @return bool
-   */
+    /**
+     * @param array<string, int> $params
+     * @return bool
+     */
     public function create(array $params = []): bool
     {
         if (empty($this->items)) {
             $this->items[] = $this->bathroom->items()
-            ->new([
-            'bathroom_item_type_id' => 1,
-            'quantity' => $params['taps'] ?? 0,
-            ])->save();
+                ->new([
+                    'bathroom_item_type_id' => 1,
+                    'quantity' => $params['taps'] ?? 0,
+                ])->save();
             $this->items[] = $this->bathroom->items()
-            ->new([
-              'bathroom_item_type_id' => 2,
-              'quantity' => $params['toilets'] ?? 0,
-            ])->save();
+                ->new([
+                    'bathroom_item_type_id' => 2,
+                    'quantity' => $params['toilets'] ?? 0,
+                ])->save();
             return true;
         }
         return $this->update($params);
     }
 
-  /**
-   * @return array<int, BathroomItem>
-   */
+    /**
+     * @return array<int, BathroomItem>
+     */
     public function getItems(): array
     {
         if (empty($this->items)) {
@@ -65,10 +65,10 @@ class BathroomItemService
         return $this->items;
     }
 
-  /**
-   * @param array<string, int> $params
-   * @return bool
-   */
+    /**
+     * @param array<string, int> $params
+     * @return bool
+     */
     public function update(array $params): bool
     {
         $this->initItems();
