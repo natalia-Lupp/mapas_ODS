@@ -1,0 +1,53 @@
+<h2 class="mt-5 fw-semibold"><?= htmlspecialchars($title) ?></h2>
+<p class="text-muted">Informe os dados do tipo de item </p>
+
+<div class="form-background">
+    <form id="formCadastroBanheiro" method="POST"
+    action="<?= route('admin.bathroom_item_types.update', [
+        'id' => $type->id
+    ]) ?>"
+        enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="PUT">
+
+        <!-- Nome -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Nome do item</label>
+            <input
+                type="text"
+                class="form-select
+                field-floor"
+                id="id_floor"
+                name="type[name]"
+                value="<?= $type->name?>"
+                required
+            />
+        </div>
+
+        <!-- Consumo medio -->
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Consumo mestro em litros</label>
+            <input
+                type="number"
+                class="form-select"
+                name="type[vendor_consumption_expenditure]"
+                value="<?= $type->vendor_consumption_expenditure?>"
+                required
+            />
+        </div>
+
+
+        <!-- Botões -->
+        <div class="d-flex justify-content-between mt-4">
+            <!-- Botão Voltar para a lista de typos de items do prédio -->
+            <a href="<?= route('admin.bathroom_item_types.index') ?>"
+                class="btn btn-voltar rounded-pill px-4 link-comeback">Voltar</a>
+
+            <input
+                type="submit"
+                class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit"
+                value="Atualizar Typo De Banheiro"
+            />
+        </div>
+
+    </form>
+</div>
