@@ -60,6 +60,7 @@ class ItemsBathroomController extends Controller
     }
 
     // logica temporariamente não utilizada devido a mudança de requisitos
+    /*
     public function destroy(Request $request): void
     {
         $buildingId = intval($request->getParam('building_id'));
@@ -91,5 +92,5 @@ class ItemsBathroomController extends Controller
             'building_id' => $buildingId,
             'bathroom_id' => $bathroomId
         ]));
-    }
+    } */
 }

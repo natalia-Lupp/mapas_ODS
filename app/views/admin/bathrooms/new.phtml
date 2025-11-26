@@ -23,25 +23,19 @@
             </select>
         </div>
 
-        <!-- Torneiras -->
-        <div class="mb-3">
-            <label class="form-label fw-semibold">Torneiras</label>
-            <select class="form-select" name="items[taps]" required>
-                <?php for ($i = 0; $i <= 50; $i++): ?>
-                    <option value="<?= $i ?>"><?= $i ?></option>
-                <?php endfor; ?>
-            </select>
-        </div>
-
-        <!-- Vasos -->
-        <div class="mb-3">
-            <label class="form-label fw-semibold">Vasos Sanitários</label>
-            <select class="form-select" name="items[toilets]" required>
-                <?php for ($i = 0; $i <= 50; $i++): ?>
-                    <option value="<?= $i ?>"><?= $i ?></option>
-                <?php endfor; ?>
-            </select>
-        </div>
+        <?php foreach ($items as $item): ?>
+            <div class="mb-3">
+                <label class="form-label fw-semibold"><?= $item->name ?></label>
+                <select class="form-select" name="items[<?= $item->id ?>]" required>
+                    <?php for ($i = 0; $i <= 50; $i++): ?>
+                        <option value="<?= $i ?>"
+                            <?= $bathroom->lengthOfItem($item) == $i ? 'selected' : '' ?>>
+                            <?= $i ?>
+                        </option>
+                    <?php endfor; ?>
+                </select>
+            </div>
+        <?php endforeach; ?>
 
         <!-- Botões -->
         <div class="d-flex justify-content-between mt-4">

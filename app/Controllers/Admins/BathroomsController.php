@@ -3,6 +3,8 @@
 namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
+use App\Models\BathroomItem;
+use App\Models\BathroomItemType;
 use App\Models\Building;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
@@ -99,7 +101,9 @@ class BathroomsController extends Controller
         }
 
         $title = "Cadastrar Banheiros - {$building->name}";
-        $this->render('admin/bathrooms/new', compact('title', 'building'));
+        $items = BathroomItemType::all();
+        $bathroom = new Bathroom();
+        $this->render('admin/bathrooms/new', compact('title', 'building', 'items', 'bathroom'));
     }
 
     public function create(Request $request): void
@@ -115,10 +119,7 @@ class BathroomsController extends Controller
 
         if ($bathroom->save()) {
             //Criar os itens do banheiro usando o service de itens (controller est vazia)
-            $bathroom->itemService()->create([
-                'taps' => intval($itemParams['taps'] ?? 0),
-                'toilets' => intval($itemParams['toilets'] ?? 0),
-            ]);
+            $bathroom->itemService()->create($itemParams);
 
             FlashMessage::success('Banheiro registrado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
@@ -155,16 +156,18 @@ class BathroomsController extends Controller
         $title = "Editar Banheiro - {$building->name}";
 
         // o os itens vindo aqui agora! eeeeeeeh! Mano to com sono!
-        $items = $bathroom->itemService()->getItems();
-        $taps = $items[0];
-        $toilets = $items[1];
+        // $items = $bathroom->itemService()->getItems();
+        // $taps = $items[0];
+        // $toilets = $items[1];
+        $items = BathroomItemType::all();
 
         $this->render('admin/bathrooms/edit', compact(
             'title',
             'building',
             'bathroom',
-            'taps',
-            'toilets'
+            'items'
+            // 'taps',
+            // 'toilets'
         ));
     }
 
@@ -173,6 +176,7 @@ class BathroomsController extends Controller
     {
         $params = $request->getParams();
         $bathroomParams = $request->getParam('bathroom', []);
+        $itemParams = $params['items'] ?? [];
 
         $bathroom = Bathroom::findById(intval($params['id']));
 
@@ -190,10 +194,7 @@ class BathroomsController extends Controller
 
         if ($bathroom->save()) {
             //Atualizar itens aqui tbm! o os itens.
-            $bathroom->itemService()->update([
-                'taps' => intval($params['items']['taps'] ?? 0),
-                'toilets' => intval($params['items']['toilets'] ?? 0),
-            ]);
+            $bathroom->itemService()->update($itemParams);
 
             FlashMessage::success('Banheiro atualizado com sucesso!!');
 

@@ -22,8 +22,7 @@ class BelongsToMany
         private string $pivot_table,
         private string $from_foreign_key,
         private string $to_foreign_key,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<R>
@@ -88,5 +87,9 @@ class BelongsToMany
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $rows[0]['total'];
+    }
+
+    public static function findBy(array $conditions) {
+        
     }
 }

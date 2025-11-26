@@ -62,6 +62,7 @@ class BuildingsController extends Controller
     {
         $params = $request->getParams();
         $building = Building::findById($params['id']);
+        
 
         $title = "Editar Prédio: {$building->name}";
         $this->render('admin/buildings/edit', compact('building', 'title'));

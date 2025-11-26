@@ -82,12 +82,6 @@ class Bathroom extends IdCacheableModel
             $item->destroy();
         }
 
-        // Segurança extra (caso algo tenha ficado) e não me lasquei com as funções do actionrecord
-        $remaining = \App\Models\BathroomItem::where(['bathroom_id' => $this->id]);
-        foreach ($remaining as $item) {
-            $item->destroy();
-        }
-
         //Excluir imagens
         $images = $this->images();
 
@@ -103,5 +97,15 @@ class Bathroom extends IdCacheableModel
 
         //Excluir o banheiro
         $this->destroy();
+    }
+
+    public function lengthOfItem(BathroomItemType $itemType): int
+    {
+        foreach ($this->items as $item) {
+            if ($item->bathroom_item_type_id === $itemType->id) {
+                return $item->quantity;
+            }
+        }
+        return 0;
     }
 }

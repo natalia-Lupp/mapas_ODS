@@ -32,7 +32,16 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
                         <td class="text-secondary"><?= $bathroom->floor + 1 ?></td>
-                        <td><?= $items[0]->quantity + $items[1]->quantity ?></td>
+                        <td> <!-- trecho pra não quebrar quando não tiver nenhum item -->
+                            <?php
+                            $total = 0;
+                            foreach ($items as $it) {
+                                $total += $it->quantity;
+                            }
+                            echo $total;
+                            ?>
+                        </td> <!-- trecho pra não quebrar quando não tiver nenhum item -->
+
                         <td>
                             <div class="d-flex justify-content-center gap-2">
 

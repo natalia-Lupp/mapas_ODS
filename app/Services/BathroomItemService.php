@@ -18,9 +18,9 @@ class BathroomItemService
 
     public function __construct(private Bathroom $bathroom)
     {
-      /**
-       * @var array<int, BathroomItem> $items
-       */
+        /**
+         * @var array<int, BathroomItem> $items
+         */
         $items =   $bathroom->items()->get();
         $this->items = $items;
     }
@@ -38,22 +38,19 @@ class BathroomItemService
      */
     public function create(array $params = []): bool
     {
-        if (empty($this->items)) {
-            $this->items[] = $this->bathroom->items()
-            ->new([
-            'bathroom_item_type_id' => 1,
-            'quantity' => $params['taps'] ?? 0,
-            ]);
-            $this->items[0]->save();
-            $this->items[] = $this->bathroom->items()
-            ->new([
-              'bathroom_item_type_id' => 2,
-              'quantity' => $params['toilets'] ?? 0,
-            ]);
-            $this->items[1]->save();
-            return true;
+        foreach ($params as $item_id => $quantity) {
+            if ($quantity <= 0) {
+                continue;
+            }
+            $item = $this->bathroom->items()
+                ->new([
+                    'bathroom_item_type_id' => $item_id,
+                    'quantity' => $quantity,
+                ]);
+            $item->save();
+            $this->items[] = $item;
         }
-        return $this->update($params);
+        return true;
     }
 
     /**
@@ -73,6 +70,31 @@ class BathroomItemService
      */
     public function update(array $params): bool
     {
+        foreach ($params as $item_id => $quantity) {
+            $item = $this->bathroom->items()
+                ->findBy(['bathroom_item_type_id' => $item_id]);
+
+            // if a quantity is zero, e o item existe, deleta.
+            // if a quantity for diferente de zero, e o item existe, atualiza.
+            // if a quantidade for diferente de zero, e o item n existe, cria.
+
+
+
+            if ($quantity <= 0) {
+                continue;
+            }
+            $item = $this->bathroom->items()
+                ->new([
+                    'bathroom_item_type_id' => $item_id,
+                    'quantity' => $quantity,
+                ]);
+            $item->save();
+            $this->items[] = $item;
+        }
+        return true;
+
+
+
         $this->initItems();
         $toilets = $this->items[1];
         $taps = $this->items[0];
