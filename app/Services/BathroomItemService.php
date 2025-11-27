@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Bathroom;
 use App\Models\BathroomItem;
 use Core\Database\Database;
+use Core\Database\ActiveRecord\BelongsToMany;
 
 /**
  * @property Bathroom $bathroom
@@ -92,8 +93,6 @@ class BathroomItemService
             $this->items[] = $item;
         }
         return true;
-
-
 
         $this->initItems();
         $toilets = $this->items[1];

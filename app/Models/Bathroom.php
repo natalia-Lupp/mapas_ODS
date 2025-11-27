@@ -6,6 +6,7 @@ use App\Models\BathroomImage;
 use App\Models\BathroomItem;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
+use Core\Database\ActiveRecord\BelongsToMany;
 use Lib\Validations;
 use App\Models\IdCacheableModel;
 use App\Services\BathroomItemService;
