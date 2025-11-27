@@ -72,8 +72,10 @@ class BathroomItemService
     public function update(array $params): bool
     {
         foreach ($params as $item_id => $quantity) {
-            $item = $this->bathroom->items()
+            $item = $this->bathroom->itemsType()
                 ->findBy(['bathroom_item_type_id' => $item_id]);
+
+            dd($item);
 
             // if a quantity is zero, e o item existe, deleta.
             // if a quantity for diferente de zero, e o item existe, atualiza.
