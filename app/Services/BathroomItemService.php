@@ -72,27 +72,49 @@ class BathroomItemService
     public function update(array $params): bool
     {
         foreach ($params as $item_id => $quantity) {
-            $item = $this->bathroom->itemsType()
-                ->findBy(['bathroom_item_type_id' => $item_id]);
-
-            dd($item);
-
-            // if a quantity is zero, e o item existe, deleta.
-            // if a quantity for diferente de zero, e o item existe, atualiza.
-            // if a quantidade for diferente de zero, e o item n existe, cria.
+            $type = $this->bathroom->itemsType()
+                ->findBy(['id' => $item_id])[0] ?? null;
 
 
+            // if a quantity is zero, e o item existe, deleta. [X]
+            // if a quantity for diferente de zero, e o item existe, atualiza. [X]
+            // if a quantidade for diferente de zero, e o item n existe, cria. [ ]
 
-            if ($quantity <= 0) {
-                continue;
-            }
-            $item = $this->bathroom->items()
-                ->new([
+
+            if (isset($type)) {
+
+              $item = $this->bathroom->items()
+                  ->findBy([
+                      'bathroom_item_type_id' => $item_id,
+                      'quantity' => $quantity,
+                  ])[0] ?? null;
+
+              if (isset($item)) {
+
+                if ($item->quantity <= 0) {
+                    $item->destroy();
+                    continue;
+                }
+
+                return $item->save();
+
+              } else {
+
+                if ($item->quantity > 0) {
+
+                  $item = $this->bathroom->items()
+                  ->new([
                     'bathroom_item_type_id' => $item_id,
                     'quantity' => $quantity,
-                ]);
-            $item->save();
-            $this->items[] = $item;
+                  ]);
+
+                  return $item->save();
+                  $this->items[] = $item;
+                }
+
+              }
+
+            }
         }
         return true;
 

@@ -3,6 +3,7 @@
 namespace Core\Database\ActiveRecord;
 
 use Core\Database\Database;
+use Core\Database\ActiveRecord\Model;
 use PDO;
 
 /**
@@ -89,7 +90,10 @@ class BelongsToMany
         return $rows[0]['total'];
     }
 
-    public function findBy(array $conditions)
+    /**
+     * @return array<R>
+     */
+    public function findBy(array $conditions): ?array
     {
         $fromTable = $this->model::table();
         $toTable   = $this->related::table();

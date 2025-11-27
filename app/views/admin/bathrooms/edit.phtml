@@ -25,7 +25,7 @@
         <?php foreach ($items as $item): ?>
             <div class="mb-3">
                 <label class="form-label fw-semibold"><?= $item->name ?></label>
-                <select class="form-select" name="items<?= $item->id ?>]" required>
+                <select class="form-select" name="items[<?= $item->id ?>]" required>
                     <?php for ($i = 0; $i <= 50; $i++): ?>
                         <option value="<?= $i ?>"
                             <?= $bathroom->lengthOfItem($item) == $i ? 'selected' : '' ?>>
