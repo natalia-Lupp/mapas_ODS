@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Bathroom;
 use App\Models\BathroomItem;
+use App\Models\BathroomItemType;
 use Core\Database\Database;
 use Core\Database\ActiveRecord\BelongsToMany;
 
@@ -72,48 +73,46 @@ class BathroomItemService
     public function update(array $params): bool
     {
         foreach ($params as $item_id => $quantity) {
-            $type = $this->bathroom->itemsType()
-                ->findBy(['id' => $item_id])[0] ?? null;
+            $type = BathroomItemType::findById((int)$item_id);
 
 
             // if a quantity is zero, e o item existe, deleta. [X]
             // if a quantity for diferente de zero, e o item existe, atualiza. [X]
             // if a quantidade for diferente de zero, e o item n existe, cria. [ ]
 
-
             if (isset($type)) {
 
-              $item = $this->bathroom->items()
-                  ->findBy([
-                      'bathroom_item_type_id' => $item_id,
-                      'quantity' => $quantity,
-                  ])[0] ?? null;
+                $item = $this->bathroom->items()
+                    ->findBy([
+                        'bathroom_item_type_id' => $item_id,
+                    ]);
 
-              if (isset($item)) {
+                if (isset($item)) {
 
-                if ($item->quantity <= 0) {
-                    $item->destroy();
-                    continue;
+
+                    if ($quantity <= 0) {
+                        $item->destroy();
+                        continue;
+                    }
+                    $item->quantity = $quantity;
+
+                    return $item->save();
+                } else {
+
+                    if ($quantity > 0) {
+
+                        $item = $this->bathroom->items()
+                            ->new([
+                                'bathroom_item_type_id' => $item_id,
+                                'quantity' => $quantity,
+                            ]);
+
+
+
+                        return $item->save();
+                        $this->items[] = $item;
+                    }
                 }
-
-                return $item->save();
-
-              } else {
-
-                if ($item->quantity > 0) {
-
-                  $item = $this->bathroom->items()
-                  ->new([
-                    'bathroom_item_type_id' => $item_id,
-                    'quantity' => $quantity,
-                  ]);
-
-                  return $item->save();
-                  $this->items[] = $item;
-                }
-
-              }
-
             }
         }
         return true;
