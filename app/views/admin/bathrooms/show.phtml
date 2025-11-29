@@ -18,15 +18,22 @@
                 <span class="fw-semibold text-secondary d-block mb-1">Resumo dos itens</span>
 
                 <?php if (!empty($items)): ?>
-                    <p class="mb-0">
-                        Este banheiro possui
-                        <strong><?= array_sum(array_map(fn ($i) => ($i->quantity) ,$items)) ?></strong> itens no total,
-                        sendo:
-                        <?php foreach ($items as $index => $item): ?>
-                            <strong><?= $item->quantity ?> <?= htmlspecialchars($item->type()->get()->name) ?></strong>
-                            <?= $index !== array_key_last($items) ? ' e ' : '' ?>
-                        <?php endforeach; ?>
-                    </p>
+                    <div class="mb-0">
+                        <p>
+                            Este banheiro possui
+                            <strong><?= array_sum(array_map(fn ($i) => ($i->quantity) ,$items)) ?></strong> itens no total,
+                            sendo:
+                        </p>
+                        <ul>
+                            <?php foreach ($items as $index => $item): ?>
+                                <li>
+                                    <strong>
+                                        <?= htmlspecialchars($item->type()->get()->name) ?>
+                                    </strong>: <?= $item->quantity ?>
+                                </li>
+                            <?php endforeach; ?>
+                        <ul>
+                    </div>
                 <?php else: ?>
                     <p class="text-muted mb-0">Nenhum item cadastrado neste banheiro.</p>
                 <?php endif; ?>
