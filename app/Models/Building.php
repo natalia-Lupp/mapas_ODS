@@ -110,5 +110,4 @@ class Building extends IdCacheableModel
 
         return 0;
     }
-    
 }

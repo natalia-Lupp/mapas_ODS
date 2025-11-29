@@ -53,5 +53,4 @@ class BathroomItem extends Model
     {
         return $this->belongsTo(Bathroom::class, 'bathroom_id');
     }
-
 }

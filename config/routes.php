@@ -68,38 +68,38 @@ Route::middleware('auth')->group(function () {
 
       // Bathroom Item Types
         Route::get(
-          '/admin/bathroom_item_types',
-          [BathroomItemTypeController::class, 'index']
+            '/admin/bathroom_item_types',
+            [BathroomItemTypeController::class, 'index']
         )->name('admin.bathroom_item_types.index');
 
         Route::get(
-          '/admin/bathroom_item_types/{id}',
-          [BathroomItemTypeController::class, 'show']
+            '/admin/bathroom_item_types/{id}',
+            [BathroomItemTypeController::class, 'show']
         )->name('admin.bathroom_item_types.show');
 
         Route::get(
-          '/admin/bathroom_item_types/{id}/edit',
-          [BathroomItemTypeController::class, 'edit']
+            '/admin/bathroom_item_types/{id}/edit',
+            [BathroomItemTypeController::class, 'edit']
         )->name('admin.bathroom_item_types.edit');
 
         Route::get(
-          '/admin/bathroom_item_types/new',
-          [BathroomItemTypeController::class, 'new']
+            '/admin/bathroom_item_types/new',
+            [BathroomItemTypeController::class, 'new']
         )->name('admin.bathroom_item_types.new');
 
         Route::post(
-          '/admin/bathroom_item_types',
-          [BathroomItemTypeController::class, 'create']
+            '/admin/bathroom_item_types',
+            [BathroomItemTypeController::class, 'create']
         )->name('admin.bathroom_item_types.create');
 
         Route::put(
-          '/admin/bathroom_item_types/{id}',
-          [BathroomItemTypeController::class, 'update']
+            '/admin/bathroom_item_types/{id}',
+            [BathroomItemTypeController::class, 'update']
         )->name('admin.bathroom_item_types.update');
 
         Route::delete(
-          '/admin/bathroom_item_types/{id}',
-          [BathroomItemTypeController::class, 'destroy']
+            '/admin/bathroom_item_types/{id}',
+            [BathroomItemTypeController::class, 'destroy']
         )->name('admin.bathroom_item_types.destroy');
 
       //Bathroom Routes-----------------------------------------------------------------------

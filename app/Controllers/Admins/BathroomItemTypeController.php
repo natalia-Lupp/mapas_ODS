@@ -35,15 +35,14 @@ class BathroomItemTypeController extends Controller
         $type = BathroomItemType::findById($id);
 
         if (isset($type)) {
-          $this->render(
-              'admin/itemTypes/show',
-              compact('title', 'type')
-          );
+            $this->render(
+                'admin/itemTypes/show',
+                compact('title', 'type')
+            );
         } else {
             FlashMessage::danger('tipo de item não encontrado!');
             $this->redirectBack();
         }
-
     }
 
     public function new(Request $request): void
@@ -59,10 +58,10 @@ class BathroomItemTypeController extends Controller
         $type = BathroomItemType::findById($id);
         $title = "Editar tipo de iten de banheiro monitorado";
         if (isset($type)) {
-          $this->render(
-              'admin/itemTypes/edit',
-              compact('title', 'type')
-          );
+            $this->render(
+                'admin/itemTypes/edit',
+                compact('title', 'type')
+            );
         } else {
             FlashMessage::danger('tipo de item não encontrado!');
             $this->redirectBack();
@@ -71,58 +70,57 @@ class BathroomItemTypeController extends Controller
 
     public function create(Request $request): void
     {
-      $typeParam = $request->getParam('type', []);
-      $type = new BathroomItemType($typeParam);
-      if ($type->save()) {
-        FlashMessage::success('Typo de item criada com sucesso!');
-        $this->redirectTo(route('admin.bathroom_item_types.index'));
-      } else {
-        $errors = $type->getErrors();
-        foreach ($errors as $prop => $error) {
-          FlashMessage::danger("$prop: $error");
+        $typeParam = $request->getParam('type', []);
+        $type = new BathroomItemType($typeParam);
+        if ($type->save()) {
+            FlashMessage::success('Typo de item criada com sucesso!');
+            $this->redirectTo(route('admin.bathroom_item_types.index'));
+        } else {
+            $errors = $type->getErrors();
+            foreach ($errors as $prop => $error) {
+                FlashMessage::danger("$prop: $error");
+            }
+            $this->redirectTo(route('admin.bathroom_item_types.new'));
         }
-        $this->redirectTo(route('admin.bathroom_item_types.new'));
-      }
     }
 
     public function update(Request $request): void
     {
-      $id = intval($request->getParam('id', 0));
-      $typeParam = $request->getParam('type', []);
-      $type = BathroomItemType::findById($id);
-      if (isset($type)){
-        $type->name = $typeParam['name'] ?? '';
-        $type->vendor_consumption_expenditure = $typeParam['vendor_consumption_expenditure'] ?? 0;
-        if ($type->save()) {
-          FlashMessage::success('Typo de item atualizado com sucesso!');
-          $this->redirectTo(route('admin.bathroom_item_types.index'));
+        $id = intval($request->getParam('id', 0));
+        $typeParam = $request->getParam('type', []);
+        $type = BathroomItemType::findById($id);
+        if (isset($type)) {
+            $type->name = $typeParam['name'] ?? '';
+            $type->vendor_consumption_expenditure = $typeParam['vendor_consumption_expenditure'] ?? 0;
+            if ($type->save()) {
+                FlashMessage::success('Typo de item atualizado com sucesso!');
+                $this->redirectTo(route('admin.bathroom_item_types.index'));
+            } else {
+                $errors = $type->getErrors();
+                foreach ($errors as $prop => $error) {
+                    FlashMessage::danger("$prop: $error");
+                }
+                $this->redirectTo(route('admin.bathroom_item_types.edit'), [
+                'id' => $id
+                ]);
+            }
         } else {
-          $errors = $type->getErrors();
-          foreach ($errors as $prop => $error) {
-            FlashMessage::danger("$prop: $error");
-          }
-          $this->redirectTo(route('admin.bathroom_item_types.edit'), [
-            'id' => $id
-          ]);
+            FlashMessage::danger('tipo de item não encontrado!');
+            $this->redirectBack();
         }
-
-      } else {
-        FlashMessage::danger('tipo de item não encontrado!');
-        $this->redirectBack();
-      }
     }
 
     public function destroy(Request $request): void
     {
-      $id = intval($request->getParam('id', 0));
-      $type = BathroomItemType::findById($id);
+        $id = intval($request->getParam('id', 0));
+        $type = BathroomItemType::findById($id);
 
-      if (isset($type) && $type->destroy()) {
-          FlashMessage::success('Tipo de item excluido com sucesso!');
-          $this->redirectTo(route('admin.bathroom_item_types.index'));
-      } else {
-          FlashMessage::danger('Falha ao excluir tipo de item!');
-          $this->redirectTo(route('admin.bathroom_item_types.index'));
-      }
+        if (isset($type) && $type->destroy()) {
+            FlashMessage::success('Tipo de item excluido com sucesso!');
+            $this->redirectTo(route('admin.bathroom_item_types.index'));
+        } else {
+            FlashMessage::danger('Falha ao excluir tipo de item!');
+            $this->redirectTo(route('admin.bathroom_item_types.index'));
+        }
     }
 }

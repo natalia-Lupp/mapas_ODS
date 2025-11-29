@@ -81,15 +81,12 @@ class BathroomItemService
             // if a quantidade for diferente de zero, e o item n existe, cria. [ ]
 
             if (isset($type)) {
-
                 $item = $this->bathroom->items()
                     ->findBy([
                         'bathroom_item_type_id' => $item_id,
                     ]);
 
                 if (isset($item)) {
-
-
                     if ($quantity <= 0) {
                         $item->destroy();
                         continue;
@@ -98,9 +95,7 @@ class BathroomItemService
 
                     return $item->save();
                 } else {
-
                     if ($quantity > 0) {
-
                         $item = $this->bathroom->items()
                             ->new([
                                 'bathroom_item_type_id' => $item_id,
