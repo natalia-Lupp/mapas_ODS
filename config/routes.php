@@ -9,8 +9,6 @@ use App\Controllers\Users\HomeController as UserHomeController;
 use App\Controllers\Admins\BuildingsController;
 use App\Controllers\Admins\BathroomsController;
 use App\Controllers\Admins\ItemsBathroomController;
-use App\Controllers\Admins\MaintenanceController;
-use Codeception\Command\Run;
 use Core\Router\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -67,6 +65,12 @@ Route::middleware('auth')->group(function () {
         )->name('admin.buildings.bathrooms.items.destroy');
 
       // Bathroom Item Types
+
+        Route::get(
+            '/admin/bathroom_item_types/new',
+            [BathroomItemTypeController::class, 'new']
+        )->name('admin.bathroom_item_types.new');
+
         Route::get(
             '/admin/bathroom_item_types',
             [BathroomItemTypeController::class, 'index']
@@ -81,11 +85,6 @@ Route::middleware('auth')->group(function () {
             '/admin/bathroom_item_types/{id}/edit',
             [BathroomItemTypeController::class, 'edit']
         )->name('admin.bathroom_item_types.edit');
-
-        Route::get(
-            '/admin/bathroom_item_types/new',
-            [BathroomItemTypeController::class, 'new']
-        )->name('admin.bathroom_item_types.new');
 
         Route::post(
             '/admin/bathroom_item_types',
