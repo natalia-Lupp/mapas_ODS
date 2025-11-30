@@ -2,12 +2,7 @@
 
 namespace Tests\Acceptance\Admin;
 
-use App\Models\Bathroom;
-use Database\Populate\AccountRulePopulate;
-use Database\Populate\BathroomPopulate;
-use Database\Populate\BuildingPopulate;
-use Database\Populate\UserPopulate;
-use Database\Populate\UserRulePopulate;
+use Core\Database\Database;
 use Tests\Acceptance\BaseAcceptanceCest;
 use Tests\Support\AcceptanceTester;
 
@@ -21,11 +16,7 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
     public function _before(AcceptanceTester $page): void
     {
         parent::_before($page);
-        UserPopulate::populate();
-        UserRulePopulate::populate();
-        AccountRulePopulate::populate();
-        BuildingPopulate::populate();
-        BathroomPopulate::populate();
+        Database::populate();
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
