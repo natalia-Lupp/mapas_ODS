@@ -101,9 +101,9 @@ class BathroomsController extends Controller
         }
 
         $title = "Cadastrar Banheiros - {$building->name}";
-        $items = BathroomItemType::all();
+        $types = BathroomItemType::all();
         $bathroom = new Bathroom();
-        $this->render('admin/bathrooms/new', compact('title', 'building', 'items', 'bathroom'));
+        $this->render('admin/bathrooms/new', compact('title', 'building', 'types', 'bathroom'));
     }
 
     public function create(Request $request): void

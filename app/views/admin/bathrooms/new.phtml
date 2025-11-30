@@ -23,13 +23,12 @@
             </select>
         </div>
 
-        <?php foreach ($items as $item): ?>
+        <?php foreach ($types as $type): ?>
             <div class="mb-3">
-                <label class="form-label fw-semibold"><?= $item->name ?></label>
-                <select class="form-select" name="items[<?= $item->id ?>]" required>
+                <label class="form-label fw-semibold"><?= $type->name ?></label>
+                <select class="form-select" name="items[<?= $type->id ?>]" required>
                     <?php for ($i = 0; $i <= 50; $i++): ?>
-                        <option value="<?= $i ?>"
-                            <?= $bathroom->lengthOfItem($item) == $i ? 'selected' : '' ?>>
+                        <option value="<?= $i ?>">
                             <?= $i ?>
                         </option>
                     <?php endfor; ?>
