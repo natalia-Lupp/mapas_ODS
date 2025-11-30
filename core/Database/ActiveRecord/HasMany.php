@@ -51,8 +51,8 @@ class HasMany
     }
 
     /**
-     * @return R
-     * @param array<string, mixed>
+     * @return ?R
+     * @param array<string, mixed> $params
      */
     public function findBy(array $params): ?Model
     {
