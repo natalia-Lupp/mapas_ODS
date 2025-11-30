@@ -23,6 +23,5 @@ class UserPopulate
           $user->save();
         }
 
-        echo "users populate with $numberOfResgisters\n";
     }
 }

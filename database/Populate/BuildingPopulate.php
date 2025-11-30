@@ -9,7 +9,6 @@ class BuildingPopulate
     public static function populate(): void
     {
 
-        $numberOfResgisters = 7;
 
         (new Building([
           'n_floors' => 2,
@@ -39,7 +38,5 @@ class BuildingPopulate
           'n_floors' => 4,
           'name' => 'Bloco R'
         ]))->save();
-        $table = Building::table();
-        echo "$table populate with $numberOfResgisters\n";
     }
 }

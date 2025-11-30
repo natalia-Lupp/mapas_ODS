@@ -9,7 +9,6 @@ class BathroomItemPopulate
     public static function populate(): void
     {
 
-        $numberOfResgisters = 3;
 
         (new BathroomItem([
           'bathroom_item_type_id' => 1,
@@ -26,7 +25,5 @@ class BathroomItemPopulate
           'bathroom_id' => 1,
           'quantity' => 0
         ]))->save();
-        $table = BathroomItem::table();
-        echo "$table populate with $numberOfResgisters\n";
     }
 }
