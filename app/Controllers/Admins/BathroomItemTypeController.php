@@ -35,9 +35,10 @@ class BathroomItemTypeController extends Controller
         $type = BathroomItemType::findById($id);
 
         if (isset($type)) {
+            $bathrooms = $type->bathrooms()->get();
             $this->render(
                 'admin/itemTypes/show',
-                compact('title', 'type')
+                compact('title', 'type', 'bathrooms')
             );
         } else {
             FlashMessage::danger('tipo de item não encontrado!');

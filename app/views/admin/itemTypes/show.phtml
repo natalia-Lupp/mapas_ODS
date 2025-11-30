@@ -37,4 +37,19 @@
         </div>
     </div>
 </div>
-<script src="/assets/js/admin/bathroom/show.js"></script>
+<div class="row mt-4 mb-5">
+    <?if (isset($bathrooms) && !empty($bathrooms)):?>
+    <h5>Disponivel nos banheiros de</h5>
+    <ul>
+        <?foreach ($bathrooms as $bathroom):?>
+            <li>
+                <?= $bathroom->building()->get()->name?> andar <?= $bathroom->floor + 1?>
+                <a href="<?=route("admin.buildings.bathrooms.show", [
+                    'id' => $bathroom->id
+                ])?>">detalhes</a>
+            </li>
+        <? endForeach;  ?>
+    </ul>
+    <?endif;?>
+</div>
+<!--<script src="/assets/js/admin/bathroom/show.js"></script>-->
