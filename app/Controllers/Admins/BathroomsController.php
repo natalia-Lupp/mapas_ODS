@@ -159,13 +159,13 @@ class BathroomsController extends Controller
         // $items = $bathroom->itemService()->getItems();
         // $taps = $items[0];
         // $toilets = $items[1];
-        $items = BathroomItemType::all();
+        $types = BathroomItemType::all();
 
         $this->render('admin/bathrooms/edit', compact(
             'title',
             'building',
             'bathroom',
-            'items'
+            'types'
             // 'taps',
             // 'toilets'
         ));
