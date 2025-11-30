@@ -6,7 +6,6 @@ use App\Models\Bathroom;
 use App\Models\BathroomItem;
 use App\Models\BathroomItemType;
 use Core\Database\Database;
-use Core\Database\ActiveRecord\BelongsToMany;
 
 /**
  * @property Bathroom $bathroom
@@ -20,18 +19,10 @@ class BathroomItemService
 
     public function __construct(private Bathroom $bathroom)
     {
-        /**
-         * @var array<int, BathroomItem> $items
-         */
-        $items =   $bathroom->items()->get();
-        $this->items = $items;
     }
 
     public function initItems(): void
     {
-        if (empty($this->items)) {
-            $this->create();
-        }
     }
 
     /**
@@ -40,19 +31,7 @@ class BathroomItemService
      */
     public function create(array $params = []): bool
     {
-        foreach ($params as $item_id => $quantity) {
-            if ($quantity <= 0) {
-                continue;
-            }
-            $item = $this->bathroom->items()
-                ->new([
-                    'bathroom_item_type_id' => $item_id,
-                    'quantity' => $quantity,
-                ]);
-            $item->save();
-            $this->items[] = $item;
-        }
-        return true;
+        return $this->update($params);
     }
 
     /**
@@ -60,10 +39,7 @@ class BathroomItemService
      */
     public function getItems(): array
     {
-        if (empty($this->items)) {
-            $this->initItems();
-        }
-        return $this->items;
+        return $this->bathroom->items()->get();
     }
 
     /**
@@ -72,13 +48,10 @@ class BathroomItemService
      */
     public function update(array $params): bool
     {
+
+        Database::startTansaction();
         foreach ($params as $item_id => $quantity) {
             $type = BathroomItemType::findById((int)$item_id);
-
-
-            // if a quantity is zero, e o item existe, deleta. [X]
-            // if a quantity for diferente de zero, e o item existe, atualiza. [X]
-            // if a quantidade for diferente de zero, e o item n existe, cria. [ ]
 
             if (isset($type)) {
                 $item = $this->bathroom->items()
@@ -93,40 +66,26 @@ class BathroomItemService
                     }
                     $item->quantity = $quantity;
 
-                    return $item->save();
+                    if (!$item->save()) {
+                        Database::rollBack();
+                        return false;
+                    }
                 } else {
                     if ($quantity > 0) {
                         $item = $this->bathroom->items()
                             ->new([
                                 'bathroom_item_type_id' => $item_id,
                                 'quantity' => $quantity,
-                            ]);
-
-
-
-                        return $item->save();
-                        $this->items[] = $item;
+                        ]);
+                        if (!$item->save()) {
+                            Database::rollBack();
+                            return false;
+                        }
                     }
                 }
             }
         }
+        Database::commit();
         return true;
-
-        $this->initItems();
-        $toilets = $this->items[1];
-        $taps = $this->items[0];
-
-        Database::startTansaction();
-
-        $toilets->quantity = $params['toilets'];
-        $taps->quantity = $params['taps'];
-
-        if ($taps->save() && $toilets->save()) {
-            Database::commit();
-            return true;
-        }
-
-        Database::rollBack();
-        return false;
     }
 }
