@@ -42,11 +42,11 @@ class BathroomItemType extends IdCacheableModel
     /**
      * @return BeLongsToMany<BathroomItemType, Bathroom>
      */
-    public function consumptions(): BelongsToMany
+    public function bathrooms(): BelongsToMany
     {
         return $this->belongsToMany(
             Bathroom::class,
-            'bathroom_item_id',
+            'bathroom_items',
             'bathroom_item_type_id',
             'bathroom_id'
         );
