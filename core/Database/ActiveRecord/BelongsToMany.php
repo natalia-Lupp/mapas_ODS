@@ -92,8 +92,9 @@ class BelongsToMany
 
     /**
      * @return array<R>
+     * @param array<string, mixed> $conditions
      */
-    public function findBy(array $conditions): ?array
+    public function findBy(array $conditions = []): array
     {
         $fromTable = $this->model::table();
         $toTable   = $this->related::table();

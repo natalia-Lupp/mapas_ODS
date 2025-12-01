@@ -91,13 +91,13 @@ class Bathroom extends IdCacheableModel
     public function deleteCascade(): void
     {
         //Excluir itens
-        $items = $this->items();
+        $items = $this->items()->get();
         foreach ($items as $item) {
             $item->destroy();
         }
 
         //Excluir imagens
-        $images = $this->images();
+        $images = $this->images()->get();
 
         $tempImage = new BathroomImage(['bathroom_id' => $this->id]);
         $imageService = $tempImage->imageService(); //rasteia os itens na pasta
@@ -115,7 +115,8 @@ class Bathroom extends IdCacheableModel
 
     public function lengthOfItem(BathroomItemType $itemType): int
     {
-        foreach ($this->items as $item) {
+        $items = $this->items()->get();
+        foreach ($items as $item) {
             if ($item->bathroom_item_type_id === $itemType->id) {
                 return $item->quantity;
             }

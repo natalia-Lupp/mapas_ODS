@@ -101,9 +101,9 @@ class BathroomItemTypeController extends Controller
                 foreach ($errors as $prop => $error) {
                     FlashMessage::danger("$prop: $error");
                 }
-                $this->redirectTo(route('admin.bathroom_item_types.edit'), [
-                'id' => $id
-                ]);
+                $this->redirectTo(route('admin.bathroom_item_types.edit', [
+                  'id' => $id
+                ]));
             }
         } else {
             FlashMessage::danger('tipo de item não encontrado!');
