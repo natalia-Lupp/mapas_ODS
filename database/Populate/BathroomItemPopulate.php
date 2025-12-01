@@ -23,7 +23,7 @@ class BathroomItemPopulate
         (new BathroomItem([
           'bathroom_item_type_id' => 3,
           'bathroom_id' => 1,
-          'quantity' => 0
+          'quantity' => 3
         ]))->save();
     }
 }
