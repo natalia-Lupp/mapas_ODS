@@ -3,6 +3,7 @@
 namespace Core\Database\ActiveRecord;
 
 use Lib\Paginator;
+
 /**
  * @template-covariant M of Model
  * @template-covariant R of Model
@@ -16,11 +17,10 @@ class HasMany
         private Model $model,
         private string $related,
         private string $foreignKey
-    ) {
-    }
+    ) {}
 
     /**
-     * @return array<M>
+     * @return array<R>
      */
     public function get(): array
     {
@@ -29,6 +29,7 @@ class HasMany
 
     /**
      * @param array<string, mixed> $params
+     * @return R
      */
     public function new(array $params = []): Model
     {
@@ -37,7 +38,7 @@ class HasMany
         return new $this->related($params);
     }
     /**
-     * @return M
+     * @return R
      */
     public function findById(int $id): ?Model
     {
@@ -49,6 +50,16 @@ class HasMany
         );
     }
 
+    /**
+     * @return ?R
+     * @param array<string, mixed> $params
+     */
+    public function findBy(array $params): ?Model
+    {
+        return $this->related::findBy(
+            array_merge([$this->foreignKey => $this->model->id], $params)
+        );
+    }
     public function paginate(int $page = 1, int $per_page = 10, string $route = null): Paginator
     {
         return new Paginator(

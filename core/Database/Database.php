@@ -3,10 +3,13 @@
 namespace Core\Database;
 
 use Core\Constants\Constants;
+use Database\Populate\PopulateTrait;
 use PDO;
 
 class Database
 {
+    use PopulateTrait;
+    public static ?PDO $pdo = null;
     public static function getDatabaseConn(): PDO
     {
         $user = $_ENV['DB_USERNAME'];
@@ -15,10 +18,14 @@ class Database
         $port = $_ENV['DB_PORT'];
         $db   = $_ENV['DB_DATABASE'];
 
-        $pdo = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $db, $user, $pwd);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (isset(self::$pdo)) {
+          return self::$pdo;
+        }
 
-        return $pdo;
+        self::$pdo = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $db, $user, $pwd);
+        self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        return self::$pdo;
     }
 
     public static function getConn(): PDO
@@ -58,8 +65,32 @@ class Database
         self::getDatabaseConn()->exec($sql);
     }
 
-    public static function populate(): void
+    public static function startTansaction(): void
     {
-      static::migrate();
+        if (!isset(self::$pdo)) {
+          self::getDatabaseConn();
+        }
+        if (!self::$pdo->inTransaction()) {
+          self::$pdo->beginTransaction();
+        }
+    }
+
+    public static function commit(): void
+    {
+        if (!isset(self::$pdo)) {
+          self::getDatabaseConn();
+        }
+        if (self::$pdo->inTransaction()) {
+          self::$pdo->commit();
+        }
+    }
+    public static function rollBack(): void
+    {
+        if (!isset(self::$pdo)) {
+          self::getDatabaseConn();
+        }
+        if (self::$pdo->inTransaction()) {
+          self::$pdo->rollBack();
+        }
     }
 }

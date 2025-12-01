@@ -13,4 +13,4 @@ extensions:
 modules:
     config:
         WebDriver:
-            window_size: 1366x768
+            window_size: 2560x1440

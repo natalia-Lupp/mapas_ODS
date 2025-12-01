@@ -9,7 +9,6 @@ class UserRulePopulate
     public static function populate(): void
     {
 
-        $numberOfResgisters = 3;
 
         $client = new UserRule(['rule_type' => 'client']);
         $client->save();
@@ -17,7 +16,6 @@ class UserRulePopulate
         $admin->save();
         $employer = new UserRule(['rule_type' => 'admin']);
         $employer->save();
-        echo "user rules populate with $numberOfResgisters\n";
     }
 }
 

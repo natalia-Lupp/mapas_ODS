@@ -3,6 +3,8 @@
 namespace App\Controllers\Admins;
 
 use App\Models\Bathroom;
+use App\Models\BathroomItem;
+use App\Models\BathroomItemType;
 use App\Models\Building;
 use Core\Http\Controllers\Controller;
 use Core\Http\Request;
@@ -42,7 +44,6 @@ class BathroomsController extends Controller
     }
 
     // SHOW
-
     public function show(Request $request): void
     {
         $params = $request->getParams();
@@ -57,13 +58,21 @@ class BathroomsController extends Controller
 
         $building = Building::findById($bathroom->building_id);
 
-        // Ajustando para que o andar 0 seja o 1º Andar, etc.
         $floor = $bathroom->floor + 1;
 
         $titleNome = "Informações do Banheiro do Andar {$floor} do {$building->name}";
         $title = "Banheiro";
 
-        $this->render('admin/bathrooms/show', compact('bathroom', 'title', 'titleNome', 'building'));
+        //Carregar itens do banheiro mais itens! eeeeeh! preciso de cafe! ouvir Ado
+        $items = $bathroom->itemService()->getItems();
+
+        $this->render('admin/bathrooms/show', compact(
+            'bathroom',
+            'title',
+            'titleNome',
+            'building',
+            'items'
+        ));
     }
 
     // CREATE
@@ -86,19 +95,26 @@ class BathroomsController extends Controller
         }
 
         $title = "Cadastrar Banheiros - {$building->name}";
-        $this->render('admin/bathrooms/new', compact('title', 'building'));
+        $types = BathroomItemType::all();
+        $bathroom = new Bathroom();
+        $this->render('admin/bathrooms/new', compact('title', 'building', 'types', 'bathroom'));
     }
 
     public function create(Request $request): void
     {
         $params = $request->getParams();
         $bathroomParams = $params['bathroom'] ?? [];
+        $itemParams = $params['items'] ?? [];
+
         $bathroom = new Bathroom([
             'floor' => $bathroomParams['floor'] ?? -1,
             'building_id' => $bathroomParams['building_id'] ?? 0
         ]);
 
         if ($bathroom->save()) {
+            //Criar os itens do banheiro usando o service de itens (controller est vazia)
+            $bathroom->itemService()->create($itemParams);
+
             FlashMessage::success('Banheiro registrado com sucesso!!');
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
                 'building_id' => $bathroom->building_id
@@ -123,7 +139,6 @@ class BathroomsController extends Controller
         }
 
         $bathroom = Bathroom::findById($id);
-
         if (!$bathroom) {
             FlashMessage::danger('Banheiro não encontrado!');
             $this->redirectTo(route('admin.buildings.index'));
@@ -131,18 +146,22 @@ class BathroomsController extends Controller
         }
 
         $building = Building::findById($bathroom->building_id);
-        if (!$building) {
-            FlashMessage::danger('Prédio vinculado não encontrado!');
-            $this->redirectTo(route('admin.buildings.index'));
-            return;
-        }
 
         $title = "Editar Banheiro - {$building->name}";
+
+        // o os itens vindo aqui agora! eeeeeeeh! Mano to com sono!
+        // $items = $bathroom->itemService()->getItems();
+        // $taps = $items[0];
+        // $toilets = $items[1];
+        $types = BathroomItemType::all();
 
         $this->render('admin/bathrooms/edit', compact(
             'title',
             'building',
-            'bathroom'
+            'bathroom',
+            'types'
+            // 'taps',
+            // 'toilets'
         ));
     }
 
@@ -151,6 +170,7 @@ class BathroomsController extends Controller
     {
         $params = $request->getParams();
         $bathroomParams = $request->getParam('bathroom', []);
+        $itemParams = $params['items'] ?? [];
 
         $bathroom = Bathroom::findById(intval($params['id']));
 
@@ -162,13 +182,18 @@ class BathroomsController extends Controller
 
         $oldBuildingId = $bathroom->building_id;
 
+        // Atualizar banheiro
         $bathroom->floor = $bathroomParams['floor'] ?? -1;
         $bathroom->building_id = $bathroomParams['building_id'] ?? 0;
 
         if ($bathroom->save()) {
+            //Atualizar itens aqui tbm! o os itens.
+            $bathroom->itemService()->update($itemParams);
+
             FlashMessage::success('Banheiro atualizado com sucesso!!');
+
             $this->redirectTo(route('admin.buildings.bathrooms.index', [
-                'building_id' => $oldBuildingId // Redireciona para o prédio original.
+                'building_id' => $oldBuildingId
             ]));
         } else {
             FlashMessage::danger('Por favor verifique novamente os dados enviados! Atualização não realizada.');
@@ -193,29 +218,8 @@ class BathroomsController extends Controller
 
         $buildingId = $bathroom->building_id;
 
-        // Buscar todas as imagens do banheiro
-        $images = \App\Models\BathroomImage::where(['bathroom_id' => $bathroom->id]);
-
-        // Pega o caminho do diretório lógico (ex: 'bathrooms/1/5')
-        // Cria uma instância temporária de BathroomImage para acessar o
-        //imageService e o getStoreDir()
-        $tempImage = new \App\Models\BathroomImage(['bathroom_id' => $bathroom->id]);
-        $imageService = $tempImage->imageService();
-        $storeDir = $imageService->getStoreDir();
-
-        foreach ($images as $image) {
-            // O deleteImage() apaga o arquivo, remove o registro do DB e
-            // TENTA REMOVER a pasta se estiver vazia.
-            $image->imageService()->deleteImage();
-        }
-
-        // garante que o diretório seja removido se estiver vazio,
-        // mesmo que não houvesse imagens registradas no banco.
-        $imageService->deleteStoreDirIfEmpty($storeDir);
-
-
-        // Exclui banheiro
-        $bathroom->destroy();
+        //chama o metodo de deletar em cascata (img e e itens) pra deixar o metodo aqui mais limpo
+        $bathroom->deleteCascade();
 
         FlashMessage::success('Banheiro removido com sucesso!');
 

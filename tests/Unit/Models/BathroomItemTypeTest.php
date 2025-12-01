@@ -2,7 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Bathroom;
+use App\Models\BathroomItem;
 use App\Models\BathroomItemType;
+use Database\Populate\BathroomItemPopulate;
+use Database\Populate\BathroomItemTypePopulate;
+use Database\Populate\BathroomPopulate;
+use Database\Populate\BuildingPopulate;
 use Tests\TestCase;
 
 class BathroomItemTypeTest extends TestCase
@@ -45,5 +51,27 @@ class BathroomItemTypeTest extends TestCase
             $bathroomItemType->errors('name')
         );
         $this->assertEquals(0, count(BathroomItemType::all()));
+    }
+
+    public function test_should_find_all_associated_items(): void
+    {
+        BathroomItemTypePopulate::populate();
+        BuildingPopulate::populate();
+        BathroomPopulate::populate();
+        BathroomItemPopulate::populate();
+        $type = BathroomItemType::findById(1);
+        $items = $type->items()->get();
+        $this->assertEquals(1, count($items));
+        $this->assertEquals($type->id, $items[0]->bathroom_item_type_id);
+    }
+    public function test_should_find_all_associated_bathroms(): void
+    {
+        BathroomItemTypePopulate::populate();
+        BuildingPopulate::populate();
+        BathroomPopulate::populate();
+        BathroomItemPopulate::populate();
+        $type = BathroomItemType::findById(1);
+        $bathrooms = $type->bathrooms()->get();
+        $this->assertEquals(1, count($bathrooms));
     }
 }

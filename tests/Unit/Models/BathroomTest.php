@@ -48,7 +48,7 @@ class BathroomTest extends TestCase
     {
         $this->assertEquals(0, count(Bathroom::all()));
         $bathroom = new Bathroom([
-        'building_id' => 2,
+        'building_id' => 12,
         'floor' => 2
         ]);
         $bathroom->save();

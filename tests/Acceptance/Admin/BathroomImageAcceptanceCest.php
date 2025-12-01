@@ -3,11 +3,7 @@
 namespace Tests\Acceptance\Admin;
 
 use App\Models\BathroomImage;
-use Database\Populate\AccountRulePopulate;
-use Database\Populate\BathroomPopulate;
-use Database\Populate\BuildingPopulate;
-use Database\Populate\UserPopulate;
-use Database\Populate\UserRulePopulate;
+use Core\Database\Database;
 use Tests\Acceptance\BaseAcceptanceCest;
 use Tests\Support\AcceptanceTester;
 
@@ -21,11 +17,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
     public function _before(AcceptanceTester $page): void
     {
         parent::_before($page);
-        UserPopulate::populate();
-        UserRulePopulate::populate();
-        AccountRulePopulate::populate();
-        BuildingPopulate::populate();
-        BathroomPopulate::populate();
+        Database::populate();
         $page->amOnPage('/logout');
         $page->login('user1@email.com', 'SenhaSenha1');
         $page->click('Ver todos');
@@ -107,6 +99,7 @@ class BathroomImageAcceptanceCest extends BaseAcceptanceCest
 
         $page->see('Excluir');
 
+        $page->waitForElementClickable('.link-delete-image-1.btn-delete-image');
         $page->click('.link-delete-image-1');
         $page->wait(2);
 

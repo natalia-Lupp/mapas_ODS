@@ -8,7 +8,6 @@ class AccountRulePopulate
     public static function populate(): void
     {
 
-        $numberOfResgisters = 3;
 
         $admin = new AccountRule([
           'user_rule_id' => 3,
@@ -33,7 +32,6 @@ class AccountRulePopulate
         ]);
         $client->save();
 
-        echo "account rules populate with $numberOfResgisters\n";
     }
 }
 

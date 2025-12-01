@@ -38,7 +38,8 @@ CREATE TABLE `bathroom_items` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `bathroom_item_type_id` INT NOT NULL,
 	`bathroom_id` INT NOT NULL,
-	FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
+  `quantity` INT NOT NULL DEFAULT 0,
+	FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`bathroom_item_type_id`) REFERENCES `bathroom_item_types` (`id`)
 );
 
@@ -77,6 +78,6 @@ CREATE TABLE `consumptions` (
   `date` DATE NOT NULL,
   FOREIGN KEY (`bathroom_id`) REFERENCES `bathrooms` (`id`),
   FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  FOREIGN KEY (`bathroom_item_id`) REFERENCES `bathroom_items` (`id`)
+  FOREIGN KEY (`bathroom_item_id`) REFERENCES `bathroom_items` (`id`) ON DELETE CASCADE
 );
 

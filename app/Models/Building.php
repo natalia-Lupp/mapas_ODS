@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Core\Database\ActiveRecord\HasMany;
 use Lib\Validations;
-use Core\Database\ActiveRecord\Model;
+use App\Models\IdCacheableModel;
 use Core\Database\Database;
 use Core\Exceptions\ReferentialIntegrityException;
 use Lib\Paginator;
@@ -15,17 +15,13 @@ use PDOException;
  * @property int $n_floors
  * @property string $name
  */
-class Building extends Model
+class Building extends IdCacheableModel
 {
     protected static string $table = 'buildings';
     protected static array $columns = [
         'n_floors',
         'name'
     ];
-    /**
-     * @var array<int, static |null> $cache
-     */
-    protected static array $cache = [];
 
     public function validates(): void
     {
@@ -67,12 +63,6 @@ class Building extends Model
         );
     }
 
-    public static function findById(int $id): static|null
-    {
-        return isset(self::$cache[$id])
-            ? self::$cache[$id]
-            : (self::$cache[$id] = parent::findById($id));
-    }
     public function destroy(): bool
     {
         $table = static::$table;

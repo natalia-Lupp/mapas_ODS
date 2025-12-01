@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use Lib\Validations;
-use Core\Database\ActiveRecord\Model;
+use App\Models\IdCacheableModel;
+use App\Models\BathroomItem;
+use Core\Database\ActiveRecord\BelongsToMany;
+use Core\Database\ActiveRecord\HasMany;
 
 /**
  * @property int $id
  * @property int $vendor_consumption_expenditure
  * @property string $name
  */
-class BathroomItemType extends Model
+class BathroomItemType extends IdCacheableModel
 {
     protected static string $table = 'bathroom_item_types';
     protected static array $columns = [
@@ -27,5 +30,25 @@ class BathroomItemType extends Model
         Validations::notEmpty('name', $this);
         Validations::isString('name', $this);
         Validations::inRangeLength('name', 1, 100, $this);
+    }
+    /**
+     * @return HasMany<BathroomItemType, BathroomItem>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(BathroomItem::class, 'bathroom_item_type_id');
+    }
+
+    /**
+     * @return BeLongsToMany<BathroomItemType, Bathroom>
+     */
+    public function bathrooms(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Bathroom::class,
+            'bathroom_items',
+            'bathroom_item_type_id',
+            'bathroom_id'
+        );
     }
 }

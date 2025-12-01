@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use App\Services\Image;
-use Core\Constants\Constants;
+use App\Models\BathroomImage;
+use App\Models\BathroomItem;
 use Core\Database\ActiveRecord\BelongsTo;
 use Core\Database\ActiveRecord\HasMany;
+use Core\Database\ActiveRecord\BelongsToMany;
 use Lib\Validations;
-use Core\Database\ActiveRecord\Model;
-use Lib\FileSystemHelper;
-use Lib\Paginator;
+use App\Models\IdCacheableModel;
+use App\Services\BathroomItemService;
 
 /**
  * @property int $id
  * @property int $floor
  * @property int $building_id
  */
-class Bathroom extends Model
+class Bathroom extends IdCacheableModel
 {
     protected static string $table = 'bathrooms';
     protected static array $columns = [
@@ -52,5 +52,75 @@ class Bathroom extends Model
     public function building(): BelongsTo
     {
         return $this->belongsTo(Building::class, 'building_id');
+    }
+
+    /**
+     * @return BelongsToMany<Bathroom, BathroomItemType>
+     */
+    public function itemsType(): BelongsToMany
+    {
+        return $this->BelongsToMany(
+            BathroomItemType::class,
+            'bathroom_items',
+            'bathroom_id',
+            'bathroom_item_type_id'
+        );
+    }
+
+    /**
+     * @return HasMany<Bathroom, BathroomItem>
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(BathroomItem::class, 'bathroom_id');
+    }
+
+    /**
+     * @return HasMany<Bathroom, Consumption>
+     */
+    public function consumptions(): HasMany
+    {
+        return $this->hasMany(Consumption::class, 'bathroom_id');
+    }
+
+    public function itemService(): BathroomItemService
+    {
+        return new BathroomItemService($this);
+    }
+
+    public function deleteCascade(): void
+    {
+        //Excluir itens
+        $items = $this->items()->get();
+        foreach ($items as $item) {
+            $item->destroy();
+        }
+
+        //Excluir imagens
+        $images = $this->images()->get();
+
+        $tempImage = new BathroomImage(['bathroom_id' => $this->id]);
+        $imageService = $tempImage->imageService(); //rasteia os itens na pasta
+        $storeDir = $imageService->getStoreDir();
+
+        foreach ($images as $img) {
+            $img->imageService()->deleteImage();
+        }
+
+        $imageService->deleteStoreDirIfEmpty($storeDir);
+
+        //Excluir o banheiro
+        $this->destroy();
+    }
+
+    public function lengthOfItem(BathroomItemType $itemType): int
+    {
+        $items = $this->items()->get();
+        foreach ($items as $item) {
+            if ($item->bathroom_item_type_id === $itemType->id) {
+                return $item->quantity;
+            }
+        }
+        return 0;
     }
 }

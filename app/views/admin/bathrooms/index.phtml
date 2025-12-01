@@ -19,17 +19,29 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
             <tr>
                 <th>Prédio</th>
                 <th>Andar</th>
-                <th>Ações</th>
+                <th>Total de Itens</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($bathrooms)): ?>
                 <?php foreach ($bathrooms as $bathroom):
                     $building = $bathroom->building;
+                    $items = $bathroom->itemService()->getItems();
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($building->name ?? '—') ?></td>
-                        <td class="text-secondary"><?= $bathroom->floor ?></td>
+                        <td class="text-secondary"><?= $bathroom->floor + 1 ?></td>
+                        <td> <!-- trecho pra não quebrar quando não tiver nenhum item -->
+                            <?php
+                            $total = 0;
+                            foreach ($items as $it) {
+                                $total += $it->quantity;
+                            }
+                            echo $total;
+                            ?>
+                        </td> <!-- trecho pra não quebrar quando não tiver nenhum item -->
+
                         <td>
                             <div class="d-flex justify-content-center gap-2">
 
@@ -49,6 +61,15 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
                                     Editar
                                 </a>
 
+                                <a href="<?= route('admin.buildings.bathrooms.items.index', [
+                                                'building_id' => $bathroom->building_id,
+                                                'bathroom_id' => $bathroom->id
+                                            ]) ?>"
+                                    class="btn btn-link text-primary p-0 link-items-<?= $bathroom->id ?>">
+                                    Itens
+                                </a>
+
+
                                 <form method="POST"
                                     action="<?= route('admin.buildings.bathrooms.destroy', [
                                                 'building_id' => $bathroom->building_id,
@@ -66,6 +87,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
 
                             </div>
                         </td>
+
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -93,7 +115,7 @@ $buildingIdForRoute = isset($building) ? $building->id : 0;
             </div>
             <div class="modal-body">
                 Tem certeza que deseja excluir este banheiro?
-                <br>A outros itens e imagens vinculados a ele.
+                <br>Pode outros itens e imagens vinculados a ele.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
