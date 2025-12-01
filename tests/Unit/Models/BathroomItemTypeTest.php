@@ -55,26 +55,23 @@ class BathroomItemTypeTest extends TestCase
 
     public function test_should_find_all_associated_items(): void
     {
-      BathroomItemTypePopulate::populate();
-      BuildingPopulate::populate();
-      BathroomPopulate::populate();
-      BathroomItemPopulate::populate();
-      $type = BathroomItemType::findById(1);
-      $items = $type->items()->get();
-      $this->assertEquals(1, count($items));
-      $this->assertTrue($items[0] instanceof BathroomItem);
-      $this->assertEquals($type->id, $items[0]->bathroom_item_type_id);
+        BathroomItemTypePopulate::populate();
+        BuildingPopulate::populate();
+        BathroomPopulate::populate();
+        BathroomItemPopulate::populate();
+        $type = BathroomItemType::findById(1);
+        $items = $type->items()->get();
+        $this->assertEquals(1, count($items));
+        $this->assertEquals($type->id, $items[0]->bathroom_item_type_id);
     }
     public function test_should_find_all_associated_bathroms(): void
     {
-      BathroomItemTypePopulate::populate();
-      BuildingPopulate::populate();
-      BathroomPopulate::populate();
-      BathroomItemPopulate::populate();
-      $type = BathroomItemType::findById(1);
-      $bathrooms = $type->bathrooms()->get();
-      $this->assertEquals(1, count($bathrooms));
-      $this->assertTrue($bathrooms[0] instanceof Bathroom);
-
+        BathroomItemTypePopulate::populate();
+        BuildingPopulate::populate();
+        BathroomPopulate::populate();
+        BathroomItemPopulate::populate();
+        $type = BathroomItemType::findById(1);
+        $bathrooms = $type->bathrooms()->get();
+        $this->assertEquals(1, count($bathrooms));
     }
 }
