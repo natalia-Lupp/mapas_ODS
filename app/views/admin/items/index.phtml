@@ -26,7 +26,11 @@ $items = $items ?? [];
                         </td>
 
                         <td class="text-secondary">
-                            <?= htmlspecialchars($item->type()->get()->name ?? 'Sem tipo') ?>
+                        <a href="<?= route('admin.bathroom_item_types.show', [
+                            'id' => $item->type()->get()->id
+                        ])?>">
+                                <?= htmlspecialchars($item->type()->get()->name ?? 'Sem tipo') ?>
+                            </a>
                         </td>
 
                         <td class="text-secondary">
