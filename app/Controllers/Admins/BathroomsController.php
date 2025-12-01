@@ -65,18 +65,12 @@ class BathroomsController extends Controller
 
         //Carregar itens do banheiro mais itens! eeeeeh! preciso de cafe! ouvir Ado
         $items = $bathroom->itemService()->getItems();
-        $taps = $items[0];
-        $toilets = $items[1];
-        $totalItems = $taps->quantity + $toilets->quantity;
 
         $this->render('admin/bathrooms/show', compact(
             'bathroom',
             'title',
             'titleNome',
             'building',
-            'taps',
-            'toilets',
-            'totalItems',
             'items'
         ));
     }
