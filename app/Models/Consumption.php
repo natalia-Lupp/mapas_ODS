@@ -19,13 +19,12 @@ use Lib\Validations;
 class Consumption extends Model
 {
     protected static string $table = 'consumptions';
-    /** @var array<int, string> */
     protected static array $columns = [
-      `user_id`,
-      `quantity`,
-      `bathroom_id`,
-      `bathroom_item_id`,
-      `date`
+      'user_id',
+      'quantity',
+      'bathroom_id',
+      'bathroom_item_id',
+      'date'
     ];
 
     public function validates(): void
@@ -46,10 +45,11 @@ class Consumption extends Model
         Validations::notEmpty('date', $this);
         Validations::isString('date', $this);
         Validations::isDate('date', $this);
+        Validations::inRangeDate('date', '1970-01-01', date('Y-m-d'), $this);
 
-        Validations::notEmpty('quantiry', $this);
-        Validations::isInt('quantiry', $this);
-        Validations::inRange('quantiry', 1, PHP_INT_MAX, $this);
+        Validations::notEmpty('quantity', $this);
+        Validations::isFloat('quantity', $this);
+        Validations::inRange('quantity', 0, PHP_INT_MAX, $this);
     }
 
     /**
