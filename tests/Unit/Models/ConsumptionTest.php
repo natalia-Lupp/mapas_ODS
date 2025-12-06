@@ -2,8 +2,11 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Bathroom;
+use App\Models\BathroomItem;
 use App\Models\Consumption;
 use App\Models\Building;
+use App\Models\User;
 use Core\Database\Database;
 use Tests\TestCase;
 
@@ -69,6 +72,7 @@ class ConsumptionTest extends TestCase
     {
         $count =  count(Consumption::all());
         $curentDate =  date('Y-m-d');
+
         $consumption = new Consumption([
           'bathroom_id' => 1,
           'user_id' => 1,
@@ -81,6 +85,20 @@ class ConsumptionTest extends TestCase
             "date deve ser anterior a $curentDate!",
             $consumption->errors('date')
         );
+
+        $consumption = new Consumption([
+          'bathroom_id' => 1,
+          'user_id' => 1,
+          'bathroom_item_id' => 1,
+          'quantity' => 350.0,
+          'date' => '1963-07-09'
+        ]);
+        $consumption->save();
+        $this->assertEquals(
+            'date deve ser posterior a 1970-01-01!',
+            $consumption->errors('date')
+        );
+
         $this->assertEquals($count, count(Consumption::all()));
     }
 
@@ -137,5 +155,32 @@ class ConsumptionTest extends TestCase
             $consumption->errors('bathroom_item_id')
         );
         $this->assertEquals($count, count(Consumption::all()));
+    }
+
+    public function test_should_find_bathroom(): void
+    {
+      $consumption = Consumption::findById(1);
+      $obj = $consumption->bathroom()->get();
+      $this->assertNotNull($obj);
+      $this->assertEquals(1, $obj->id);
+      $this->assertEquals(get_class($obj), Bathroom::class);
+    }
+
+    public function test_should_find_item(): void
+    {
+      $consumption = Consumption::findById(1);
+      $obj = $consumption->bathroomItem()->get();
+      $this->assertNotNull($obj);
+      $this->assertEquals(1, $obj->id);
+      $this->assertEquals(get_class($obj), BathroomItem::class);
+    }
+
+    public function test_should_find_user(): void
+    {
+      $consumption = Consumption::findById(1);
+      $obj = $consumption->user()->get();
+      $this->assertNotNull($obj);
+      $this->assertEquals(1, $obj->id);
+      $this->assertEquals(get_class($obj), User::class);
     }
 }
