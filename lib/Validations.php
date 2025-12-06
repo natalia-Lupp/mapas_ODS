@@ -115,9 +115,35 @@ class Validations
     }
     public static function isDate(string $field, Model $obj): bool
     {
+        $datePatern = '/^([0-9]{4}-[0-9]{2}-[0-9]{2})$/';
+        if (!preg_match($datePatern, $obj->$field)) {
+            $obj->addError($field, "$field deve ser uma data!");
+            return false;
+        }
+        return true;
+    }
+
+    public static function isDateTime(string $field, Model $obj): bool
+    {
         $datePatern = '/^([0-9]{4}-[0-9]{2}-[0-9]{2}|[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})$/';
         if (!preg_match($datePatern, $obj->$field)) {
             $obj->addError($field, "$field deve ser uma data!");
+            return false;
+        }
+        return true;
+    }
+
+
+    public static function inRangeDate(string $field, string $min = '1970-01-01', string $max, Model $obj): bool
+    {
+        $minTime = strtotime($min);
+        $maxTime = strtotime($max);
+        $time = strtotime($obj->$field);
+        if ($time < $minTime) {
+            $obj->addError($field, "$field deve ser posterior a $min!");
+            return false;
+        } elseif ($time > $maxTime) {
+            $obj->addError($field, "$field deve ser anterior a $max!");
             return false;
         }
         return true;
