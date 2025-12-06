@@ -1,11 +1,11 @@
 <h2 class="mt-5 fw-semibold"><?= htmlspecialchars($title) ?></h2>
-<p class="text-muted">Informe os dados do tipo de item </p>
+<p class="text-muted">Edite os dados do item</p>
 
 <div class="form-background">
     <form id="formCadastroBanheiro" method="POST"
-    action="<?= route('admin.bathroom_item_types.update', [
-        'id' => $type->id
-    ]) ?>"
+        action="<?= route('admin.bathroom_item_types.update', [
+                    'id' => $type->id
+                ]) ?>"
         enctype="multipart/form-data">
         <input type="hidden" name="_method" value="PUT">
 
@@ -18,21 +18,19 @@
                 field-floor"
                 id="id_floor"
                 name="type[name]"
-                value="<?= $type->name?>"
-                required
-            />
+                value="<?= $type->name ?>"
+                required />
         </div>
 
         <!-- Consumo medio -->
         <div class="mb-3">
-            <label class="form-label fw-semibold">Consumo mestro em litros</label>
+            <label class="form-label fw-semibold">Consumo em litros</label>
             <input
-                type="number"
+                type="text"
                 class="form-select"
                 name="type[vendor_consumption_expenditure]"
-                value="<?= $type->vendor_consumption_expenditure?>"
-                required
-            />
+                value="<?= $type->vendor_consumption_expenditure ?>"
+                required />
         </div>
 
 
@@ -45,8 +43,7 @@
             <input
                 type="submit"
                 class="btn btn-primary rounded-pill px-4 d-flex align-items-center gap-2 link-submit"
-                value="Atualizar Typo De Banheiro"
-            />
+                value="Atualizar Typo De Banheiro" />
         </div>
 
     </form>

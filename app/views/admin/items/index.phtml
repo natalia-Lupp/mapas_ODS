@@ -12,7 +12,7 @@ $items = $items ?? [];
             <tr>
                 <th>QTD</th>
                 <th>Tipo</th>
-                <th>Consumo médio em litros por minuto / acionamento</th>
+                <th>Consumo em L/min por acionamento</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,9 +26,9 @@ $items = $items ?? [];
                         </td>
 
                         <td class="text-secondary">
-                        <a href="<?= route('admin.bathroom_item_types.show', [
-                            'id' => $item->type()->get()->id
-                        ])?>">
+                            <a href="<?= route('admin.bathroom_item_types.show', [
+                                            'id' => $item->type()->get()->id
+                                        ]) ?>">
                                 <?= htmlspecialchars($item->type()->get()->name ?? 'Sem tipo') ?>
                             </a>
                         </td>

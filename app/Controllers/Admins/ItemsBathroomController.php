@@ -29,7 +29,7 @@ class ItemsBathroomController extends Controller
 
         // se existir o banheiro, monta o título certo
         $title = $bathroom
-            ? "Itens do Banheiro {$bathroom->floor}º Andar"
+            ? "Itens do Banheiro " . ($bathroom->floor + 1) . "º Andar"
             : "Itens do Banheiro";
 
         // itens ou array vazio
@@ -58,39 +58,4 @@ class ItemsBathroomController extends Controller
             compact('bathroom', 'buildingId', 'title', 'items', 'paginator', 'building')
         );
     }
-
-    // logica temporariamente não utilizada devido a mudança de requisitos
-    /*
-    public function destroy(Request $request): void
-    {
-        $buildingId = intval($request->getParam('building_id'));
-        $bathroomId = intval($request->getParam('bathroom_id'));
-        $itemId = intval($request->getParam('id'));
-
-        // Busca o item
-        $item = \App\Models\BathroomItem::findById($itemId);
-
-        if (!$item) {
-            FlashMessage::danger('Item não encontrado.');
-            $this->redirectBack();
-            return;
-        }
-
-        // Confere se o item pertence ao banheiro correto
-        if ($item->bathroom_id != $bathroomId) {
-            FlashMessage::danger('Este item não pertence ao banheiro informado.');
-            $this->redirectBack();
-            return;
-        }
-
-        // Remove o item
-        $item->destroy();
-
-        FlashMessage::success('Item removido com sucesso!');
-
-        $this->redirectTo(route('admin.buildings.bathrooms.items.index', [
-            'building_id' => $buildingId,
-            'bathroom_id' => $bathroomId
-        ]));
-    } */
 }
