@@ -18,9 +18,9 @@ class BelongsTo
     ) {
     }
     /**
-     * @return R
+     * @return ?R
      */
-    public function get(): Model
+    public function get(): ?Model
     {
         $attribute = $this->foreignKey;
         return $this->related::findBy(['id' => $this->model->$attribute]);
