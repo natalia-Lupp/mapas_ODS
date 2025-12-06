@@ -21,5 +21,6 @@ trait PopulateTrait
       BathroomPopulate::populate();
       BathroomItemTypePopulate::populate();
       BathroomItemPopulate::populate();
+      ConsumptionPopulate::populate();
     }
 }
