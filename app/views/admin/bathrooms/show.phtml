@@ -21,7 +21,7 @@
                     <div class="mb-0">
                         <p>
                             Este banheiro possui
-                            <strong><?= array_sum(array_map(fn ($i) => ($i->quantity) ,$items)) ?></strong> itens no total,
+                            <strong><?= array_sum(array_map(fn($i) => ($i->quantity), $items)) ?></strong> itens no total,
                             sendo:
                         </p>
                         <ul>
@@ -32,7 +32,7 @@
                                     </strong>: <?= $item->quantity ?>
                                 </li>
                             <?php endforeach; ?>
-                        <ul>
+                            <ul>
                     </div>
                 <?php else: ?>
                     <p class="text-muted mb-0">Nenhum item cadastrado neste banheiro.</p>
@@ -154,14 +154,14 @@
 </div>
 
 
-<table  class="table align-middle text-center">
+<table class="table align-middle text-center">
     <thead class="table-primary">
         <tr>
-            <th>Prédio</th>
-            <th>Andar</th>
-            <th>Total de Itens</th>
+            <th>Item</th>
+            <th>Consumo</th>
+            <th>Cadastro</th>
         </tr>
     </thead>
-    <tbody id="consumptions" bathroom="<?= $bathroom->id?>" building="<?= $bathroom->building_id?>"></tbody>
+    <tbody id="consumptions" bathroom="<?= $bathroom->id ?>" building="<?= $bathroom->building_id ?>"></tbody>
 </table>
 <script src="/assets/js/admin/bathroom/show.js"></script>
