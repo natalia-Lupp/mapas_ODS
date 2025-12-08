@@ -134,7 +134,7 @@ class Validations
     }
 
 
-    public static function inRangeDate(string $field, string $min = '1970-01-01', string $max, Model $obj): bool
+    public static function inRangeDate(string $field, string $min, string $max, Model $obj): bool
     {
         $minTime = strtotime($min);
         $maxTime = strtotime($max);
