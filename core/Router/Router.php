@@ -128,4 +128,10 @@ class Router
             Router::getInstance()->dispatch();
         }
     }
+    public static function loadRoutes(): void
+    {
+        if (empty(self::getInstance()->routes)) {
+            require Constants::rootPath()->join('config/routes.php');
+        }
+    }
 }
