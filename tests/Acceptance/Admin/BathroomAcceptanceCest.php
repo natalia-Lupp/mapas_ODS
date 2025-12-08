@@ -104,6 +104,8 @@ class BathroomAcceptanceCest extends BaseAcceptanceCest
         $page->see('torneira de lavado : 3');
         $page->see('Vaso sanitário : 3');
         $page->see('Mictório : 3');
+        $page->see('350L');
+        $page->see('250L');
 
         $page->click('a.link-comeback');
 
