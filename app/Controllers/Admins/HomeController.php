@@ -22,12 +22,15 @@ class HomeController extends Controller
         $averageBathroomsPerBuilding = $totalBuildings > 0  // comentario pra eu lembrar que aqui é pra não dividir por zero
             ? ceil($totalBathrooms / $totalBuildings)
             : 0;
+        //somar consumo total
+        $totalConsumption = \App\Models\Consumption::sum('quantity');
 
         $this->render('admin/home/dashboard', compact(
             'title',
             'totalBuildings',
             'totalBathrooms',
-            'averageBathroomsPerBuilding'
+            'averageBathroomsPerBuilding',
+            'totalConsumption'
         ));
     }
 }
