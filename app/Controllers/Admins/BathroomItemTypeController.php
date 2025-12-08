@@ -17,7 +17,7 @@ class BathroomItemTypeController extends Controller
         $page = $request->getParam('page', 1);
         $per_page = $request->getParam('per_page', 10);
 
-        $title = "Lista de Itens Disponiveis Para o Banheiro";
+        $title = "tipos de itens de banheiro monitorados";
 
         $paginator = BathroomItemType::paginate($page, $per_page, 'admin.bathroom_item_types.index');
 
@@ -31,7 +31,7 @@ class BathroomItemTypeController extends Controller
     {
         $id = intval($request->getParam('id', 0));
 
-        $title = "Itens Listado No Banheiro";
+        $title = "tipo de iten de banheiro monitorado";
         $type = BathroomItemType::findById($id);
 
         if (isset($type)) {
@@ -48,7 +48,7 @@ class BathroomItemTypeController extends Controller
 
     public function new(Request $request): void
     {
-        $title = "Criar Novo Iten Do Banheiro";
+        $title = "Criar novo tipo de iten de banheiro monitorado";
         $type = new BathroomItemType();
         $this->render('admin/itemTypes/new', compact('title', 'type'));
     }
@@ -57,7 +57,7 @@ class BathroomItemTypeController extends Controller
     {
         $id = intval($request->getParam('id', 0));
         $type = BathroomItemType::findById($id);
-        $title = "Editar Item do Banheiro";
+        $title = "Editar tipo de iten de banheiro monitorado";
         if (isset($type)) {
             $this->render(
                 'admin/itemTypes/edit',
@@ -102,7 +102,7 @@ class BathroomItemTypeController extends Controller
                     FlashMessage::danger("$prop: $error");
                 }
                 $this->redirectTo(route('admin.bathroom_item_types.edit', [
-                    'id' => $id
+                  'id' => $id
                 ]));
             }
         } else {

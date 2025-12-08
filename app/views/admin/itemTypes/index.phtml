@@ -1,39 +1,34 @@
 <h2 class="mt-5 fw-semibold"><?= $title ?></h2>
-<p class="text-muted">Gerencie os itens disponíveis no banheiro.</p>
 
 <?php
 $types = $paginator->registers() ?? [];
 ?>
 
 <div>
-    <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
-        href="<?= route('admin.bathroom_item_types.new') ?>">
-        Novo Tipo de item
-    </a>
+        <a class="btn btn-primary fw-semibold px-4 rounded-pill mb-3"
+            href="<?= route('admin.bathroom_item_types.new') ?>">
+            Novo Typo de item
+        </a>
 
     <table id="tableBuildingsDashboard" class="table align-middle text-center">
         <thead class="table-primary">
             <tr>
-                <th>Nome</th>
-                <th>Consumo médio informado</th>
+                <th>nome</th>
+                <th>Consumo medio informado</th>
                 <th>Total de Itens</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-
             <?php if (!empty($types)): ?>
                 <?php foreach ($types as $type):
-                    $items = $type->items()->get();
+                        $items = $type->items()->get();
+
                 ?>
                     <tr>
                         <td class="text-secondary"><?= htmlspecialchars($type->name ?? '—') ?></td>
                         <td class="text-secondary"><?= $type->vendor_consumption_expenditure ?? 0 ?></td>
-
-                        <td>
-                            <?= array_sum(array_map(fn($i) => ($i->quantity), $items)) ?>
-                        </td>
-
+                        <td><?= array_sum(array_map(fn ($i) => ($i->quantity), $items)) ?></td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
 
@@ -58,7 +53,6 @@ $types = $paginator->registers() ?? [];
                                     class="delete-form delete-form-<?= $type->id ?>"
                                     style="display:inline-block">
                                     <input type="hidden" name="_method" value="DELETE">
-
                                     <button type="button"
                                         class="btn btn-link text-danger p-0 btn-delete link-delete-<?= $type->id ?>"
                                         data-id="<?= $type->id ?>">
@@ -68,49 +62,38 @@ $types = $paginator->registers() ?? [];
 
                             </div>
                         </td>
+
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-
                 <tr>
-                    <td colspan="4" class="text-muted">Nenhum tipo de item cadastrado.</td>
+                    <td colspan="3" class="text-muted">Nenhum typo de itetypo de itemm cadastrado.</td>
                 </tr>
-
             <?php endif; ?>
-
         </tbody>
     </table>
 
     <?php $paginator->renderPagesNavigation(); ?>
 
-    <div class="d-flex justify-content-between mt-4 mb-5">
-        <a href="<?= route('admin.bathroom_item_types.index') ?>"
-            class="btn btn-voltar rounded-pill px-4 link-comeback">
-            Voltar
-        </a>
     </div>
 </div>
 
-<!-- Modal de confirmação de exclusão -->
+<!--modal com confirmação de exclusão -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteConfirmLabel">Confirmar exclusão</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
-
             <div class="modal-body">
-                Tem certeza que deseja excluir este item?
-                <br>Itens vinculados a banheiros também podem ser afetados.
+                Tem certeza que deseja excluir este banheiro?
+                <br>Pode outros itens e imagens vinculados a ele.
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmDeleteBtn">Excluir</button>
             </div>
-
         </div>
     </div>
 </div>
