@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\IdCacheableModel;
 use Core\Database\Database;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 
@@ -13,6 +14,7 @@ class TestCase extends FrameworkTestCase
         Database::drop();
         Database::create();
         Database::migrate();
+        IdCacheableModel::cleanCache();
     }
 
     public function tearDown(): void
