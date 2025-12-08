@@ -8,6 +8,7 @@ use App\Controllers\Admins\HomeController as AdminHomeController;
 use App\Controllers\Users\HomeController as UserHomeController;
 use App\Controllers\Admins\BuildingsController;
 use App\Controllers\Admins\BathroomsController;
+use App\Controllers\Api\ConsumptionsApiController;
 use App\Controllers\Admins\ItemsBathroomController;
 use Core\Router\Route;
 
@@ -121,3 +122,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/client', [UserHomeController::class, 'dashboard'])->name('client.dashboard');
   });
 });
+Route::middleware('basic')->group(
+    function () {
+
+        Route::get(
+            '/api/buildings/{building_id}/bathrooms/{bathroom_id}/consumptions',
+            [ConsumptionsApiController::class, 'index']
+        )->name('api.admin.buildings.bathrooms.consumptions.index');
+    }
+);
