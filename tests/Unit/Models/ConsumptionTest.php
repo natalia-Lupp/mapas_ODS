@@ -159,28 +159,28 @@ class ConsumptionTest extends TestCase
 
     public function test_should_find_bathroom(): void
     {
-      $consumption = Consumption::findById(1);
-      $obj = $consumption->bathroom()->get();
-      $this->assertNotNull($obj);
-      $this->assertEquals(1, $obj->id);
-      $this->assertEquals(get_class($obj), Bathroom::class);
+        $consumption = Consumption::findById(1);
+        $obj = $consumption->bathroom()->get();
+        $this->assertNotNull($obj);
+        $this->assertEquals(1, $obj->id);
+        $this->assertEquals(get_class($obj), Bathroom::class);
     }
 
     public function test_should_find_item(): void
     {
-      $consumption = Consumption::findById(1);
-      $obj = $consumption->bathroomItem()->get();
-      $this->assertNotNull($obj);
-      $this->assertEquals(1, $obj->id);
-      $this->assertEquals(get_class($obj), BathroomItem::class);
+        $consumption = Consumption::findById(1);
+        $obj = $consumption->bathroomItem()->get();
+        $this->assertNotNull($obj);
+        $this->assertEquals(1, $obj->id);
+        $this->assertEquals(get_class($obj), BathroomItem::class);
     }
 
     public function test_should_find_user(): void
     {
-      $consumption = Consumption::findById(1);
-      $obj = $consumption->user()->get();
-      $this->assertNotNull($obj);
-      $this->assertEquals(1, $obj->id);
-      $this->assertEquals(get_class($obj), User::class);
+        $consumption = Consumption::findById(1);
+        $obj = $consumption->user()->get();
+        $this->assertNotNull($obj);
+        $this->assertEquals(1, $obj->id);
+        $this->assertEquals(get_class($obj), User::class);
     }
 }
