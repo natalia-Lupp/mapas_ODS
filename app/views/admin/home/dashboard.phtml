@@ -1,73 +1,61 @@
 <div class="container mt-5">
     <div class="row justify-content-center g-4">
-
         <!-- Card de Prédios -->
-        <div class="col-md-3">
-            <div class="card border border-2 border-primary shadow-sm text-center h-100">
-                <div class="card-body py-4 d-flex flex-column align-items-center justify-content-between">
-                    <div class="rounded-circle bg-primary bg-opacity-10 p-3 mb-3">
-                        <i class="bi bi-building text-primary" style="font-size: 2.5rem;"></i>
+        <div class="col-md-4">
+            <div class="card border border-2 border-primary shadow-sm text-center">
+                <div class="card-body py-4">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-3 mb-3">
+                            <i class="bi bi-building text-primary" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-semibold text-dark mb-1">Total de Prédios</h5>
+                        <p class="card-text display-5 fw-bold text-primary mb-3">
+                            <?= $totalBuildings ?>
+                        </p>
+                        <a href="<?= route('admin.buildings.index') ?>" class="btn btn-outline-primary rounded-pill px-4">
+                            <i class="bi bi-list me-2"></i> Ver todos
+                        </a>
                     </div>
-                    <h5 class="card-title fw-semibold text-dark mb-1">Total de Prédios</h5>
-                    <p class="card-text display-6 fw-bold text-primary mb-2">
-                        <?= $totalBuildings ?>
-                    </p>
-                    <a href="<?= route('admin.buildings.index') ?>" class="btn btn-outline-primary rounded-pill px-4">
-                        <i class="bi bi-list me-2"></i> Ver todos
-                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Card de Banheiros -->
-        <div class="col-md-3">
-            <div class="card border border-2 border-success shadow-sm text-center h-100">
-                <div class="card-body py-4 d-flex flex-column align-items-center justify-content-between">
-                    <div class="rounded-circle bg-success bg-opacity-10 p-3 mb-3">
-                        <i class="bi bi-droplet-half text-success" style="font-size: 2.5rem;"></i>
+        <div class="col-md-4">
+            <div class="card border border-2 border-success shadow-sm text-center">
+                <div class="card-body py-4">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="rounded-circle bg-success bg-opacity-10 p-3 mb-3">
+                            <i class="bi bi-droplet-half text-success" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-semibold text-dark mb-1">Total de Banheiros</h5>
+                        <p class="card-text display-5 fw-bold text-success mb-3">
+                            <?= $totalBathrooms ?>
+                        </p>
+                        <a href="<?= route('admin.buildings.bathrooms.index') ?>" class="btn btn-outline-success rounded-pill px-4">
+                            <i class="bi bi-list me-2"></i> Ver todos
+                        </a>
                     </div>
-                    <h5 class="card-title fw-semibold text-dark mb-1">Total de Banheiros</h5>
-                    <p class="card-text display-6 fw-bold text-success mb-2">
-                        <?= $totalBathrooms ?>
-                    </p>
-                    <a href="<?= route('admin.buildings.bathrooms.index') ?>" class="btn btn-outline-success rounded-pill px-4">
-                        <i class="bi bi-list me-2"></i> Ver todos
-                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Card de Média de Banheiros por Prédio -->
-        <div class="col-md-3">
-            <div class="card border border-2 border-warning shadow-sm text-center h-100">
-                <div class="card-body py-4 d-flex flex-column align-items-center justify-content-between">
-                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 mb-3">
-                        <i class="bi bi-calculator text-warning" style="font-size: 2.5rem;"></i>
+        <div class="col-md-4">
+            <div class="card border border-2 border-warning shadow-sm text-center">
+                <div class="card-body py-4">
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-3 mb-3">
+                            <i class="bi bi-calculator text-warning" style="font-size: 2.5rem;"></i>
+                        </div>
+                        <h5 class="card-title fw-semibold text-dark mb-1">Média de Banheiros por Prédio</h5>
+                        <p class="card-text display-5 fw-bold text-warning mb-3">
+                            <?= $averageBathroomsPerBuilding ?>
+                        </p>
+                        <span class="text-muted small">Dados com base na tabela atual</span>
                     </div>
-                    <h5 class="card-title fw-semibold text-dark mb-1">Média por Prédio</h5>
-                    <p class="card-text display-6 fw-bold text-warning mb-2">
-                        <?= $averageBathroomsPerBuilding ?>
-                    </p>
-                    <span class="text-muted small">Baseado na tabela atual</span>
                 </div>
             </div>
         </div>
-
-        <!-- Card de Consumo Total -->
-        <div class="col-md-3">
-            <div class="card border border-2 border-danger shadow-sm text-center h-100">
-                <div class="card-body py-4 d-flex flex-column align-items-center justify-content-between">
-                    <div class="rounded-circle bg-danger bg-opacity-10 p-3 mb-3">
-                        <i class="bi bi-fire text-danger" style="font-size: 2.5rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-semibold text-dark mb-1">Consumo Total</h5>
-                    <p class="card-text display-6 fw-bold text-danger mb-2">
-                        <?= $totalConsumption ?> L
-                    </p>
-                    <span class="text-muted small">Somatório geral registrado</span>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>

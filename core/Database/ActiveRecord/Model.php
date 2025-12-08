@@ -367,41 +367,21 @@ abstract class Model
         return !empty($resp);
     }
 
-    public static function count(): int
-    {
-        $table = static::$table;
-        $sql = <<<SQL
+        public static function count(): int
+        {
+            $table = static::$table;
+            $sql = <<<SQL
                 SELECT COUNT(*) as total_rows FROM {$table};
             SQL;
 
-        $pdo = Database::getDatabaseConn();
-        $stmt = $pdo->prepare($sql);
+            $pdo = Database::getDatabaseConn();
+            $stmt = $pdo->prepare($sql);
 
-        $stmt->execute();
-        $rows = $stmt->fetch();
+            $stmt->execute();
+            $rows = $stmt->fetch();
 
-        return $rows['total_rows'];
-    }
-
-    public static function sum(string $column): int|float
-    {
-        $table = static::$table;
-
-        $sql = <<<SQL
-        SELECT SUM({$column}) as total_sum FROM {$table};
-    SQL;
-
-        $pdo = Database::getDatabaseConn();
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row['total_sum'] ?? 0;
-    }
-
-
-        
+            return $rows['total_rows'];
+        }
 
     /* ------------------- RELATIONSHIPS METHODS ------------------- */
 
@@ -423,11 +403,11 @@ abstract class Model
      */
     public function hasMany(string $related, string $foreignKey): HasMany
     {
-        /**
-         * @var HasMany<static, R> $has_many
-         */
-        $has_many =  new HasMany($this, $related, $foreignKey);
-        return $has_many;
+      /**
+       * @var HasMany<static, R> $has_many
+       */
+      $has_many =  new HasMany($this, $related, $foreignKey);
+      return $has_many;
     }
 
     /**
