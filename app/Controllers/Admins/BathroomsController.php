@@ -218,7 +218,7 @@ class BathroomsController extends Controller
 
         $buildingId = $bathroom->building_id;
 
-        //chama o metodo de deletar em cascata (img e e itens) pra deixar o metodo aqui mais limpo
+        //chama o metodo de deletar em cascata (img) pra deixar o metodo aqui mais limpo
         $bathroom->deleteCascade();
 
         FlashMessage::success('Banheiro removido com sucesso!');
