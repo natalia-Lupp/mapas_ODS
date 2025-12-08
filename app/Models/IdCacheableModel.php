@@ -24,4 +24,8 @@ abstract class IdCacheableModel extends Model
             ? static::$cache[static::class][$id]
             : (static::$cache[static::class][$id] = parent::findById($id));
     }
+    public static function cleanCache(): void
+    {
+        static::$cache = [];
+    }
 }
